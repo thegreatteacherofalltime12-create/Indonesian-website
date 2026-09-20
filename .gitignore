@@ -1,0 +1,12 @@
+# Company documents: profile, price lists, contact details. Never commit.
+client-docs/*
+!client-docs/README.md
+*.pdf
+*.xlsx
+*.xls
+
+# Local
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,84 @@
+<title>Lemongrass US Site Intake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>:root{--bg:#F6F8F5;--surface:#FFFFFF;--ink:#1C2620;--muted:#5C6962;--rule:#D5DCD6;--accent:#2F6F4E;--accent-soft:#E3EFE7;--flag:#A63D2F;--flag-soft:#F7E7E3;--code-bg:#EAEFEB;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#131A16;--surface:#1B2420;--ink:#E4EAE5;--muted:#9AA8A0;--rule:#2C3831;--accent:#7CC39A;--accent-soft:#1F3328;--flag:#E48C7B;--flag-soft:#3A2521;--code-bg:#243029;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#131A16;--surface:#1B2420;--ink:#E4EAE5;--muted:#9AA8A0;--rule:#2C3831;--accent:#7CC39A;--accent-soft:#1F3328;--flag:#E48C7B;--flag-soft:#3A2521;--code-bg:#243029;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;padding-inline:clamp(16px,5vw,48px);padding-block:40px 96px}
+.wrap{max-width:70ch;margin-inline:auto}
+h1,h2,h3{font-family:"Newsreader",Georgia,"Times New Roman",serif;text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(34px,6vw,48px);font-weight:500;letter-spacing:-.01em}
+h2{font-size:28px;font-weight:500;margin-block:0 20px;padding-top:8px}
+h3{font-size:21px;font-weight:600;margin-block:36px 12px;scroll-margin-top:20px}
+h3.sub{font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--accent);margin-block:26px 8px}
+p{margin:0}
+header{border-bottom:1px solid var(--rule);padding-bottom:24px;margin-bottom:36px;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--accent);font-weight:500}
+.lede{color:var(--muted);font-size:17px;max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.toc{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px 20px;margin-bottom:40px}
+nav.toc .eyebrow{display:block;margin-bottom:8px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+nav.toc li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dotted var(--rule);padding-block:4px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent);text-decoration:underline}
+nav.toc span{color:var(--muted);font-variant-numeric:tabular-nums;font-size:14px}
+section{margin-bottom:56px}
+section.flags h2{color:var(--flag)}
+ol.flags{list-style:none;margin:0;padding:0;counter-reset:f;display:flex;flex-direction:column;gap:14px}
+ol.flags li{counter-increment:f;background:var(--flag-soft);border-left:3px solid var(--flag);border-radius:0 6px 6px 0;padding:14px 18px 14px 52px;position:relative}
+ol.flags li::before{content:counter(f);position:absolute;left:18px;top:14px;font-family:"Newsreader",Georgia,serif;font-size:24px;line-height:1;color:var(--flag);font-weight:500}
+ol.flags strong{display:block;font-weight:600;margin-bottom:4px}
+ol.flags p{font-size:15px;line-height:1.5}
+ol.qs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ol.qs li{display:grid;grid-template-columns:44px 1fr;column-gap:8px;padding-block:14px;border-top:1px solid var(--rule)}
+ol.qs li::before{content:counter(list-item);font-family:"IBM Plex Mono",ui-monospace,monospace;color:var(--accent);font-size:14px;padding-top:3px;font-variant-numeric:tabular-nums}
+ol.qs li>*{grid-column:2}
+ol.qs .q{font-weight:500}
+ol.qs .why{color:var(--muted);font-size:14.5px;margin-top:6px;line-height:1.5}
+code{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:3px;white-space:nowrap}
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--rule)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:500;background:var(--accent-soft)}
+td:first-child{font-weight:500;width:36%}
+tbody tr:last-child td{border-bottom:0}
+section.facts ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:14.5px;line-height:1.5}
+section.facts>p{margin-top:28px;padding:14px 18px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;font-size:14.5px}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:520px){nav.toc ol{grid-template-columns:1fr}ol.qs li{grid-template-columns:34px 1fr}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+<div class="wrap">
+<header>
+<span class="eyebrow">Pre-build questionnaire</span>
+<h1>Lemongrass US Site Intake</h1>
+<p class="lede">What the website builder needs from PT Lemongrass Archipelagocraft Ekspor to build a wholesale catalog site for US trade buyers. Answer by number; a document, a name, or a yes/no is the expected reply for most.</p>
+<div class="meta"><span>14 questions in 4 groups</span><span>Research as of 15–20 Sep 2026; wholesale export model</span><span>US tariff rules change often; buyers should re-check before ordering</span></div>
+</header>
+<nav class="toc" aria-label="Question groups"><span class="eyebrow">Question groups</span><ol><li><a href="#business-and-scope">Business &amp; scope</a><span>5</span></li><li><a href="#product-data">Product data</a><span>3</span></li><li><a href="#export-facts-for-the-how-to-order-page">Export facts for the "How to order" page</a><span>3</span></li><li><a href="#brand-content-and-accounts">Brand, content &amp; accounts</a><span>3</span></li></ol></nav>
+<section id="start-here-the-three-answers-that-fix-the-build" class="flags"><h2>Start here: the three answers that fix the build</h2>
+<ol class="flags"><li><strong>Which product lines go on the US site.</strong><p>The outdoor line (LD: aluminium and synthetic rattan) is the simplest to sell into the US — no wood-species declaration, no Section 232 tariff, outdoor cushions exempt from US flammability rules. Indoor rattan (CH, LI, TBI) is fine too but carries more buyer paperwork. Crafts and ceramics are a different site.</p></li><li><strong>Who the buyers are and how prices are shown.</strong><p>US businesses only (retailers, designers, project buyers) or also consumers; prices public, behind a buyer login, or quote-only. Business-only with quote or gated pricing is the standard exporter site and the fastest to launch.</p></li><li><strong>Who at the company owns this project.</strong><p>A named contact, the contracting entity (PT Lemongrass Archipelagocraft Ekspor?), and who will own the domain and accounts. Everything else can be collected from the export and sales team as we go.</p></li></ol>
+</section><section id="questions-to-send" class="q"><h2>Questions to send</h2>
+<h3 id="business-and-scope">Business &amp; scope</h3>
+<ol class="qs" start="1"><li><p class="q">Who is my contact and decision-maker for the website, and which company contracts and pays for it</p><p class="why">PT Lemongrass Archipelagocraft Ekspor? — Goes on the contract, the site's legal pages and the proforma template; also settles who owns the finished site.</p></li><li><p class="q">Which product lines go on the US site: the outdoor line (LD) only, indoor rattan (CH/LI/TBI) too, or the whole catalog including crafts and ceramics?</p><p class="why">Sets catalog structure, photography needs and which US compliance notes belong on product pages.</p></li><li><p class="q">Do you sell to US businesses only (retailers, interior designers, hospitality and project buyers), or do you also want to sell to consumers?</p><p class="why">Business-only means a catalog + quote site with no checkout; consumers would mean a US importer, warehouse and a completely different build.</p></li><li><p class="q">Price basis for the US site</p><p class="why">Exwork Cirebon or FOB (which port)? Are prices shown publicly, behind a buyer login, or by quote only? — Three of the four price lists are Exwork and one is FOB; the site needs one basis. Public vs gated vs quote-only are three different builds.</p></li><li><p class="q">MOQ, payment terms (deposit and balance) and typical lead time as you would state them to a new US buyer.</p><p class="why">Goes on the "How to order" page and in the auto-reply to inquiries; US buyers expect these three answers before they email.</p></li></ol>
+<h3 id="product-data">Product data</h3>
+<ol class="qs" start="6"><li><p class="q">The original Excel price lists with photos, product names and colours.</p><p class="why">The PDFs have codes only and "TBA" for most colours; the spreadsheets become the catalog dataset directly.</p></li><li><p class="q">Per SKU: gross weight, carton or packed dimensions, and whether shipped knocked-down or assembled.</p><p class="why">Needed alongside the CBM and pieces-per-40HC you already list, for the container-load calculator and freight quotes.</p></li><li><p class="q">Wood and rattan species by scientific name wherever wood or rattan is used (mahogany, teak, bamboo, rattan cane), and confirmation that no sonokeling/rosewood is in the US range.</p><p class="why">US buyers' brokers must file a Lacey Act declaration with genus and species; putting it on the product page removes a buyer objection. Rosewood is CITES-listed and most US buyers refuse it.</p></li></ol>
+<h3 id="export-facts-for-the-how-to-order-page">Export facts for the "How to order" page</h3>
+<ol class="qs" start="9"><li><p class="q">Your V-Legal/SVLK certificate details (the price lists show VLHH-32-07-10</p><p class="why">certifying body, expiry, scope), and the document set you provide per shipment (commercial invoice, packing list, bill of lading, certificate of origin, V-Legal document, fumigation certificate). — Listed on the site so buyers' brokers know what they will receive; the V-Legal mark itself is worth showing on the site.</p></li><li><p class="q">Packing standard for sea freight</p><p class="why">the price lists say "wrapped paper" for most items. What protection is used for a 30–40-day voyage, and are pallets/crates ISPM-15 stamped? — US buyers will ask before a first container; photos of a real packed container belong on the site.</p></li><li><p class="q">Do you welcome third-party pre-shipment inspection (SGS, QIMA, Intertek), and do you hold any audits or certifications (BSCI, SMETA, ISO)?</p><p class="why">Larger US retailers require it; a trust section on the site answers it up front.</p></li></ol>
+<h3 id="brand-content-and-accounts">Brand, content &amp; accounts</h3>
+<ol class="qs" start="12"><li><p class="q">Logo files, brand guidelines, existing product and factory photography or video, and any English copy already in use.</p><p class="why">The company profile's English will need editing; original assets decide whether photography must be commissioned.</p></li><li><p class="q">Domain preference, and who in the company will own the domain, hosting, Google (Analytics, Search Console, Ads) and social accounts. A company email domain instead of Gmail.</p><p class="why">Ownership decides who can access everything later; a branded email address matters to US buyers.</p></li><li><p class="q">Who answers US buyer inquiries, in what hours and by which channel (email is expected; a reply within one business day)?</p><p class="why">Sets the inquiry form, auto-reply and response-time promise.</p></li></ol>
+</section><section id="what-the-answers-change-about-the-build" class="table"><h2>What the answers change about the build</h2>
+<div class="tw"><table><thead><tr><th>Answer</th><th>What I build differently</th></tr></thead><tbody><tr><td>Outdoor line only</td><td>Focused catalog of 16 SKUs, strongest US compliance story, fastest launch</td></tr><tr><td>Indoor rattan included</td><td>Lacey species and cushion-flammability notes on product pages; larger catalog</td></tr><tr><td>Business buyers only</td><td>Catalog + inquiry/quote site, no checkout, no payment gateway</td></tr><tr><td>Consumers wanted</td><td>Stop and re-plan: needs a US importer, warehouse and a domestic store</td></tr><tr><td>Prices public</td><td>Open catalog with price table; Google Shopping possible</td></tr><tr><td>Prices gated</td><td>Buyer registration and approval, login-only price list</td></tr><tr><td>Quote only</td><td>Inquiry form with item selector; proforma by email</td></tr><tr><td>Exwork basis</td><td>Prices labelled Exwork Cirebon with a note on trucking and export clearance</td></tr><tr><td>FOB basis</td><td>Prices labelled FOB (port) — the basis US buyers expect</td></tr><tr><td>Excel + photos supplied</td><td>Catalog imported directly; container-load calculator from CBM and pieces-per-40HC</td></tr><tr><td>No original photos</td><td>Photography commissioned before launch</td></tr><tr><td>Company owns accounts</td><td>Accounts created under the company's domain and handed over; developer gets delegated access</td></tr></tbody></table></div>
+</section><section id="key-facts-verified-that-back-this-up" class="facts"><h2>Key facts (verified) that back this up</h2>
+<h3 class="sub">What US buyers face with these products</h3>
+<ul><li>Aluminium-frame outdoor seating with synthetic rattan is metal furniture for US customs: main codes are MFN duty-free plus the 10% Section 301 tariff in force since 2026-07-24; the 25% Section 232 tariff applies only to upholstered wooden seats. Outdoor-only cushions are exempt from the <code>16 CFR 1640</code> flammability rule. — hts.usitc.gov (2026-09-16); USTR (2026-07-23/28); CBP CSMS (2025-10-10); cpsc.gov.</li><li>Natural rattan and bamboo seating and furniture (<code>9401.52/.53/.59</code>, <code>9403.82/.83/.89</code>) require a Lacey Act declaration with genus and species per component on formal entries (Phase VII, 2024-12-01). — aphis.usda.gov/plant-imports/file-lacey-act-declaration (2026-01-06).</li><li>Sonokeling/rosewood (Dalbergia spp.) is CITES Appendix II with only a 10 kg-per-shipment finished-product exemption; commercial import needs a USDA permit. — CITES CoP20 documents; aphis.usda.gov/plant-imports/cites (2026-09-09).</li><li>Wood packaging without the ISPM-15 mark is refused, re-exported or destroyed at the importer's cost. — aphis.usda.gov/plant-imports/wood-packaging-material/import (2026-07-27).</li><li>Indonesia–US ocean transit: FCL 27–39 days, LCL 30–42 days (indicative). — freightos.com (Sept 2026).</li></ul>
+<h3 class="sub">Indonesian export side</h3>
+<ul><li>A V-Legal document (SVLK) is required for wood-furniture export customs clearance; whether rattan-only products are carved out is unresolved. — mongabay.com (2020-05-27), timbertradeportal.com (2020-06-09). <strong>Not independently re-verified.</strong></li></ul>
+<h3 class="sub">From the company's own documents</h3>
+<ul><li>Lemongrass Homecraft (Lemongrass Group, Yogyakarta) operating since 1999; new export entity PT Lemongrass Archipelagocraft Ekspor; prior sales into the US, UK, Canada and Australia; workshops in Bantul, Ngawi, Ambarawa, Cirebon and Lombok. — company profile.</li><li>Four price lists issued under the PT Lemongrass Archipelagocraft Ekspor name with a V-Legal Wood mark (VLHH-32-07-10), 130 SKUs: LD outdoor (16, Exwork US$194–2,075), CH indoor chairs (71, Exwork US$33–258), LI indoor living (29, Exwork US$91–244), TBI indoor tables (14, FOB US$33–132); every row carries dimensions, CBM and pieces per 40HC; office Bogor, workshop Plumbon, Cirebon. — price lists 1–4.</li></ul></section>
+<footer>Compiled from USDA APHIS (Lacey Act), CBP, USITC HTS, USTR, Federal Register, CITES, Shopify, Stripe, PayPal, Xendit and Midtrans documentation, with each critical claim independently re-checked. Items marked "not independently re-verified" or "unresolved" should be confirmed with a customs broker or the platform directly.</footer>
+</div>

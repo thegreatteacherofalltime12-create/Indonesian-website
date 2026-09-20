@@ -1,0 +1,36 @@
+# Lemongrass US Site
+
+Website project for PT Lemongrass Archipelagocraft Ekspor (Lemongrass Homecraft, Yogyakarta) — a wholesale catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture.
+
+Status: **discovery**. The intake questionnaire has been sent to the company; the site build starts once the scope answers come back (product lines, buyer type, price basis).
+
+## Layout
+
+| Path | What it is |
+|---|---|
+| `docs/intake/` | The pre-build questionnaire for the company, in English (`intake-en.*`) and Indonesian (`intake-id.*`). The `.md` files are the source; the `.html` files are the styled pages published as Claude artifacts. |
+| `docs/research/` | Earlier versions of the research that led to the current questionnaire. Kept for reference — the assumptions in them (consumer sales, live plants) no longer apply. |
+| `tools/` | Node scripts that render the `.md` questionnaires to the `.html` pages, plus the shared stylesheet. |
+| `client-docs/` | Company documents (profile, price lists). **Excluded from git** — see `.gitignore`. |
+| `site/` | The website source. Empty until scope is confirmed. |
+
+## Rebuilding the intake pages
+
+```bash
+cd tools
+node build-en.js
+node build-id.js
+```
+
+Both scripts read the `.md` file, render it into a styled single-file HTML page, and write it next to the source. Question numbering is identical in both languages so answers can be matched by number.
+
+## Decisions so far
+
+- **Model:** wholesale export to US businesses (Exwork/FOB), not consumer sales. Confirmed by the company's own price lists, which are quoted per container load.
+- **Platform:** not decided. A catalog + quote site needs no checkout, so Shopify is optional; a static site or WordPress behind Cloudflare is a candidate.
+- **Analytics:** GA4 + Google Tag Manager + Search Console. Ads (if any) via Google Search on wholesale terms and LinkedIn, owned by the company's accounts.
+- **Scope:** to be confirmed by the company — outdoor line (LD) only, indoor rattan (CH/LI/TBI) too, or full catalog.
+
+## Research notes
+
+US-side facts cited in the questionnaire (tariffs, Lacey Act, ISPM-15, CITES) were checked against primary sources in September 2026. US tariff policy changes frequently; re-verify before quoting duty rates to buyers.
