@@ -10,3 +10,8 @@ compatibility_date = "2026-09-01"
 binding = "DB"
 database_name = "buitenzorg-orders"
 database_id = "87013e7c-9c98-471c-aa36-ba25cb1ec7dd"
+
+[vars]
+# Cloudflare Access application protecting /admin and /api/admin (not secret: the AUD is public in every Access JWT)
+ACCESS_TEAM = "argamatt"
+ACCESS_AUD = "4bc9dbea59dea6391da634fa25e4dd2ddf16696ba53414232ebd4e6df5734aaf"
