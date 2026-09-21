@@ -31,6 +31,16 @@ Both scripts read the `.md` file, render it into a styled single-file HTML page,
 - **Analytics:** GA4 + Google Tag Manager + Search Console. Ads (if any) via Google Search on wholesale terms and LinkedIn, owned by the company's accounts.
 - **Scope:** to be confirmed by the company — outdoor line (LD) only, indoor rattan (CH/LI/TBI) too, or full catalog.
 
+## Answers received from the company (20 Sep 2026)
+
+- Legal entity: a registered CV, used on proforma invoices; not to be displayed on the site (`showLegalEntity: false`).
+- Buyers: retailers and hotels; markets: United States and Europe.
+- Price basis: **FOB Jakarta (Tanjung Priok)**; a price list per product will be supplied (currently PDF only).
+- Shipments in 20 ft or 40 ft containers by volume; goods fully assembled; payment to the CV's account.
+- Production about 3–4 weeks per shipment.
+- Contact: argasurentu@gmail.com (a branded address is recommended before launch), WhatsApp as on the site, 08:00–17:00 WIB, English; buyer visits welcome.
+- Still open: deposit/balance schedule, whether prices are shown publicly, exporter of record for documents, species names per item, packing/ISPM-15, inspection service scope, logo, invoices and loading photos (promised).
+
 ## Research notes
 
 US-side facts cited in the questionnaire (tariffs, Lacey Act, ISPM-15, CITES) were checked against primary sources in September 2026. US tariff policy changes frequently; re-verify before quoting duty rates to buyers.

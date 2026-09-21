@@ -78,7 +78,8 @@
    "price": 194,
    "per40hc": 94,
    "image": "ld-001.jpg",
-   "notes": "Adjustable backrest."
+   "notes": "Adjustable backrest.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-002",
@@ -98,7 +99,8 @@
    "price": 244,
    "per40hc": 94,
    "image": "ld-002.jpg",
-   "notes": "Adjustable backrest, cushion included."
+   "notes": "Adjustable backrest, cushion included.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-003",
@@ -118,7 +120,8 @@
    "price": 1017,
    "per40hc": 38,
    "image": "ld-003.jpg",
-   "notes": "Square daybed with retractable canopy."
+   "notes": "Square daybed with retractable canopy.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-004",
@@ -138,7 +141,8 @@
    "price": 272,
    "per40hc": 119,
    "image": "ld-004.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-005",
@@ -158,7 +162,8 @@
    "price": 680,
    "per40hc": 40,
    "image": "ld-005.jpg",
-   "notes": "Standing egg chair on a fixed base."
+   "notes": "Standing egg chair on a fixed base.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-006",
@@ -178,7 +183,8 @@
    "price": 790,
    "per40hc": 11,
    "image": "ld-006.jpg",
-   "notes": "Curved backrest, two-piece base."
+   "notes": "Curved backrest, two-piece base.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-007",
@@ -198,7 +204,8 @@
    "price": 1216,
    "per40hc": 6,
    "image": "ld-007.jpg",
-   "notes": "Round daybed with full woven canopy."
+   "notes": "Round daybed with full woven canopy.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-008",
@@ -218,7 +225,8 @@
    "price": 786,
    "per40hc": 18,
    "image": "ld-008.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-009",
@@ -238,7 +246,8 @@
    "price": 680,
    "per40hc": 37,
    "image": "ld-009.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-010",
@@ -258,7 +267,8 @@
    "price": 2075,
    "per40hc": 9,
    "image": "ld-010.jpg",
-   "notes": "Four-post cabana with slatted roof and curtains. Wood species to be confirmed."
+   "notes": "Four-post cabana with slatted roof and curtains. Wood species to be confirmed.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-011",
@@ -278,7 +288,8 @@
    "price": 445,
    "per40hc": 98,
    "image": "ld-011.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-012",
@@ -298,7 +309,8 @@
    "price": 435,
    "per40hc": 122,
    "image": "ld-012.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-013",
@@ -318,7 +330,8 @@
    "price": 281,
    "per40hc": 94,
    "image": "ld-013.jpg",
-   "notes": "Teak (Tectona grandis) armrests."
+   "notes": "Teak (Tectona grandis) armrests.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-014",
@@ -338,7 +351,8 @@
    "price": 245,
    "per40hc": 68,
    "image": "ld-014.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-015",
@@ -358,7 +372,8 @@
    "price": 299,
    "per40hc": 111,
    "image": "ld-015.jpg",
-   "notes": null
+   "notes": null,
+   "assembly": "Fully assembled"
   },
   {
    "sku": "LD-016",
@@ -378,7 +393,8 @@
    "price": 320,
    "per40hc": 129,
    "image": "ld-016.jpg",
-   "notes": "Plantation teak; V-Legal documented."
+   "notes": "Plantation teak; V-Legal documented.",
+   "assembly": "Fully assembled"
   },
   {
    "sku": "WD-SET4",

@@ -60,7 +60,7 @@ ${extraHead}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-${preview ? `<div class="preview-banner">Preview build — contact details, prices and terms are placeholders until confirmed by ${esc(site.brand)}.</div>` : ''}
+${preview ? `<div class="preview-banner">Preview build — items marked “to be confirmed” are awaiting confirmation from ${esc(site.brand)}.</div>` : ''}
 <header class="site-header">
   <div class="wrap nav">
     <a class="brand" href="/" aria-label="${esc(site.brand)} home">${mark}<span>${esc(site.shortBrand)}<small>Homecraft · Bogor, Indonesia</small></span></a>
@@ -81,9 +81,9 @@ ${body}
     <nav class="footer-grid" aria-label="Footer">
       <div>
         <h4>${esc(site.brand)}</h4>
-        <p>Export sourcing for Indonesian outdoor furniture, rattan and natural-fibre craft. Based in Bogor, West Java; workshops in Cirebon, Yogyakarta and Ngawi.</p>
+        <p>Export sourcing for Indonesian outdoor furniture, rattan and natural-fibre craft, FOB Jakarta. Based in Bogor, West Java; workshops in Cirebon, Yogyakarta and Ngawi.</p>
         <p style="margin-top:10px">${site.address.lines.map(esc).join('<br>')}</p>
-        <p style="margin-top:10px">${site.legalEntity ? `${esc(site.legalEntity)}${site.legalEntityConfirmed ? '' : ' <span class="muted">(entity details to be confirmed)</span>'}` : ''}</p>
+        <p style="margin-top:10px">${site.showLegalEntity && site.legalEntity ? esc(site.legalEntity) : 'A registered Indonesian company (CV). Company details appear on every proforma invoice and are available on request.'}</p>
       </div>
       <div>
         <h4>Browse</h4>
@@ -110,6 +110,7 @@ ${body}
           <li>${site.contact.emailConfirmed ? `<a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>` : '<span class="muted">Email address to be confirmed</span>'}</li>
           <li><a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">WhatsApp ${esc(site.contact.whatsapp)}</a></li>
           <li><a href="${esc(site.contact.instagram)}" rel="noopener">Instagram ${esc(site.contact.instagramHandle)}</a></li>
+          <li class="muted">${esc(site.contact.hours)}</li>
         </ul>
       </div>
     </nav>
@@ -153,15 +154,16 @@ function home({ site, manifest, catalog }) {
   ${picture(manifest, 'hero', 'Weavers finishing rattan chair frames in the Cirebon workshop', { sizes: '100vw', loading: 'eager', fetchpriority: 'high' })}
   <div class="wrap hero-inner">
     <span class="eyebrow" style="color:#D9C58E">Bogor, West Java · Export sourcing</span>
-    <h1 style="margin-top:10px">Indonesian outdoor furniture and rattan craft, sourced and shipped for trade buyers.</h1>
-    <p class="lede">We source from established workshops in Cirebon, Yogyakarta and Ngawi, arrange inspection before loading, consolidate mixed containers and coordinate the export paperwork. You place one order and clear one container.</p>
+    <h1 style="margin-top:10px">Indonesian outdoor furniture and rattan craft, sourced and shipped for retailers and hotels.</h1>
+    <p class="lede">We source from established workshops in Cirebon, Yogyakarta and Ngawi, arrange inspection before loading, consolidate mixed containers and coordinate the export paperwork. Prices are FOB Jakarta; you place one order and clear one container in the United States or Europe.</p>
     <div class="actions">
       <a class="btn btn-primary" href="/products/">Browse the catalog</a>
       <a class="btn btn-secondary" href="/how-to-order/">How ordering works</a>
     </div>
     <div class="hero-facts">
+      <div><b>3–4 wks</b>Production per shipment</div>
       <div><b>1999</b>Partner workshops producing since</div>
-      <div><b>US · CA · UK · AU</b>Markets our partner workshops have supplied</div>
+      <div><b>US · EU</b>Markets we serve; partner workshops have shipped to US, UK, CA and AU</div>
       <div><b>SVLK</b>V-Legal certified export partner</div>
       <div><b>BSCI</b>amfori-audited manufacturing partner</div>
     </div>
@@ -172,7 +174,7 @@ function home({ site, manifest, catalog }) {
   <div class="wrap">
     <div class="section-head">
       <div><span class="eyebrow">What we do</span><h2 style="margin-top:8px">One contact between your buying team and the workshops</h2></div>
-      <p>A retailer or designer in the United States cannot fill a container from one small workshop, inspect it in person or chase export documents across three provinces. That is the work we do.</p>
+      <p>A retailer or hotel group in the United States or Europe cannot fill a container from one small workshop, inspect it in person or chase export documents across three provinces. That is the work we do.</p>
     </div>
     <div class="grid grid-4">
       <div class="service"><span class="icon">${icons.source}</span><h3>Sourcing</h3><p>Outdoor, indoor rattan, lighting and natural-fibre decor from workshops we have worked with directly, with one price list and one spec-sheet format.</p></div>
@@ -198,9 +200,9 @@ function home({ site, manifest, catalog }) {
     <div class="section-head"><div><span class="eyebrow">How it works</span><h2 style="margin-top:8px">From inquiry to a container on the water</h2></div></div>
     <div class="steps">
       <div class="step"><h3>Inquiry</h3><p>Send the pieces and quantities you are considering. We aim to reply within one business day with availability, lead time and a proforma invoice.</p></div>
-      <div class="step"><h3>Sample or visit</h3><p>Order samples, ask for production photos, or visit the workshops with us in Cirebon and Yogyakarta.</p></div>
-      <div class="step"><h3>Production and inspection</h3><p>Deposit against the proforma; production lead time is quoted per order <span class="tbc">(typically 6–12 weeks, to be confirmed)</span>. Progress photos and a pre-loading check can be arranged.</p></div>
-      <div class="step"><h3>Loading and documents</h3><p>Container stuffed, balance paid, document set sent to your customs broker. You clear the goods in your country.</p></div>
+      <div class="step"><h3>Sample or visit</h3><p>Order samples, ask for production photos, or visit the production facility with us — buyer visits are welcome.</p></div>
+      <div class="step"><h3>Production and inspection</h3><p>Deposit against the proforma; production takes about 3–4 weeks per shipment. Progress photos and a pre-loading check can be arranged.</p></div>
+      <div class="step"><h3>Loading and documents</h3><p>20 ft or 40 ft container loaded and delivered FOB Jakarta, balance paid to our company account, document set sent to your customs broker. You clear the goods in your country.</p></div>
     </div>
   </div>
 </section>
@@ -232,7 +234,7 @@ function home({ site, manifest, catalog }) {
 
 <section class="section deep">
   <div class="wrap" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px">
-    <div><h2>Planning a container for next season?</h2><p style="margin-top:8px;max-width:56ch">Tell us what you are looking at and where it is going. We will come back with lead times, a load plan and a proforma.</p></div>
+    <div><h2>Planning a container for next season?</h2><p style="margin-top:8px;max-width:56ch">Tell us what you are looking at and where it is going. We will come back with a load plan and an FOB Jakarta proforma.</p></div>
     <a class="btn btn-primary" href="/contact/">Request a quote</a>
   </div>
 </section>`;
@@ -240,10 +242,10 @@ function home({ site, manifest, catalog }) {
     '@context': 'https://schema.org', '@type': 'Organization', name: site.brand, url: site.url,
     address: { '@type': 'PostalAddress', addressLocality: 'Bogor', addressRegion: 'West Java', addressCountry: 'ID' },
     sameAs: [site.contact.instagram], description: site.tagline, logo: site.url + '/favicon.svg',
-    contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.contact.whatsapp.replace(/\s/g, ''), areaServed: ['US', 'CA', 'GB', 'AU'], availableLanguage: ['en', 'id'] },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.contact.whatsapp.replace(/\s/g, ''), areaServed: ['United States', 'Europe'], availableLanguage: ['en', 'id'], email: site.contact.email, hoursAvailable: '08:00-17:00 UTC+7' },
   };
   ld.address = { '@type': 'PostalAddress', streetAddress: site.address.lines[0], addressLocality: 'Bogor', addressRegion: 'West Java', postalCode: '16136', addressCountry: 'ID' };
-  return layout({ site, manifest, title: 'Home', description: `Indonesian outdoor furniture, rattan lighting and natural-fibre decor sourced from established workshops and shipped to trade buyers in the US, Canada, UK and Australia.`, path: '/', body, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
+  return layout({ site, manifest, title: 'Home', description: `Indonesian outdoor furniture, rattan lighting and natural-fibre decor from established workshops, quoted FOB Jakarta for retailers and hotels in the United States and Europe.`, path: '/', body, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
 }
 
 function catalogPage({ site, manifest, catalog }) {
@@ -300,7 +302,7 @@ function productPage(p, { site, manifest, catalog }) {
     ['Dimensions (W × D × H)', fmtDims(p) ? `<span class="mono">${fmtDims(p)}</span><br><span class="mono muted">${fmtDimsIn(p)}</span>` : null],
     ['Volume', p.cbm ? `<span class="mono">${p.cbm.toFixed(3)} m³</span>` : null],
     ['Pieces per 40HC', p.per40hc ? `<span class="mono">${p.per40hc}</span> <span class="muted">(workshop estimate)</span>` : null],
-    ['Packaging', p.packaging], ['Made in', ws ? `${ws.name}, ${ws.region}` : 'Indonesia'],
+    ['Packaging', p.packaging], ['Shipped', p.assembly], ['Made in', ws ? `${ws.name}, ${ws.region}` : 'Indonesia'],
   ].filter(r => r[1]);
   const price = site.commerce.showPrices && p.price ? `<p class="price" style="font-size:24px;margin-top:12px">${money(p.price)} <span class="price-note">${esc(site.commerce.priceBasis)}</span></p>` : `<p class="muted" style="margin-top:12px">Price on request — quoted ${esc(site.commerce.priceBasis)}.</p>`;
   const body = `
@@ -341,7 +343,7 @@ function howToOrder({ site, manifest }) {
   <span class="eyebrow">Buying</span>
   <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">How to order</h1>
   <div class="prose" style="margin-top:20px">
-    <p>We sell to businesses: retailers, interior designers, hospitality and project buyers, and importers. Goods are sold ${esc(c.priceBasis)}; you or your freight forwarder arrange ocean freight and customs clearance in your country, and we coordinate the documents your broker needs with the exporter of record.</p>
+    <p>We sell to businesses — mainly retailers and hotels, also designers, project buyers and importers — in the United States and Europe. Goods are sold ${esc(c.priceBasis)}: you or your freight forwarder arrange ocean freight from Jakarta and customs clearance in your country, and we coordinate the documents your broker needs with the exporter of record. Payment is made to our company account.</p>
     <div class="callout">Export documents for furniture made by our manufacturing partner are issued in the name of PT Lemongrass Archipelagocraft Ekspor as exporter of record; ${esc(site.brand)} arranges the order. <span class="tbc">(Arrangement to be confirmed.)</span></div>
 
     <h2 id="terms">Terms at a glance</h2>
@@ -351,16 +353,18 @@ function howToOrder({ site, manifest }) {
       <tr><th>Minimum order</th><td>${tbc(c.moq)}</td></tr>
       <tr><th>Payment</th><td>${tbc(c.paymentTerms)}</td></tr>
       <tr><th>Lead time</th><td>${tbc(c.leadTime)}</td></tr>
+      <tr><th>Container</th><td>20 ft or 40 ft, depending on order volume; mixed loads across workshops <span class="tbc">(to be confirmed)</span></td></tr>
       <tr><th>Markets served</th><td>${site.markets.map(esc).join(', ')}</td></tr>
+      <tr><th>Communication</th><td>Email or WhatsApp, in English; ${esc(site.contact.hours)}</td></tr>
     </table>
 
     <h2>Step by step</h2>
     <ol>
       <li><strong>Inquiry.</strong> Use the <a href="/products/">catalog</a> to build a load plan, or email a list of pieces and quantities. We confirm availability, lead time and a proforma invoice within one business day.</li>
-      <li><strong>Samples and production photos.</strong> Samples can be made and couriered at cost <span class="tbc">(credit against a container order to be confirmed)</span>. Workshop visits in Cirebon and Yogyakarta can be arranged.</li>
-      <li><strong>Deposit and production.</strong> Production starts on receipt of the deposit against the proforma. Progress photos and the loading date are confirmed during production.</li>
+      <li><strong>Samples and production photos.</strong> Samples can be made and couriered at cost <span class="tbc">(credit against a container order to be confirmed)</span>. Buyer visits to the production facility are welcome — tell us your dates.</li>
+      <li><strong>Deposit and production.</strong> Production starts on receipt of the deposit against the proforma and takes about 3–4 weeks per shipment. Progress photos and the loading date are confirmed during production.</li>
       <li><strong>Inspection.</strong> A pre-shipment check at the workshop can be arranged <span class="tbc">(to be confirmed)</span>. Third-party inspection (SGS, QIMA, Intertek) or your own agent is welcome; book it for the week before loading.</li>
-      <li><strong>Loading and documents.</strong> The container is stuffed at the workshop or consolidation point with loading photos. On receipt of the balance, the document set is released to your customs broker.</li>
+      <li><strong>Loading and documents.</strong> The container is loaded with photos and delivered to the port of Jakarta (Tanjung Priok). On receipt of the balance, the document set is released to your customs broker.</li>
     </ol>
 
     <h2 id="documents">Export documents supplied</h2>
@@ -371,12 +375,12 @@ function howToOrder({ site, manifest }) {
       <li>Certificate of origin</li>
       <li>V-Legal document (SVLK) for wood furniture <span class="tbc">(coverage of rattan-only items to be confirmed)</span></li>
       <li>Fumigation certificate on request <span class="tbc">(to be confirmed)</span>; any wood packaging is ISPM-15 marked</li>
-      <li>Wood and rattan species by scientific name and country of harvest, for the buyer's Lacey Act declaration (United States) <span class="tbc">(per item, to be confirmed)</span></li>
+      <li>Wood and rattan species by scientific name and country of harvest, for the buyer's Lacey Act declaration (United States) or EUDR due diligence (European Union) <span class="tbc">(per item, to be confirmed)</span></li>
     </ul>
     <div class="callout">The buyer is the importer of record. Import duties, taxes and clearance in the destination country are the buyer's responsibility; your freight forwarder or customs broker can quote these from the documents above.</div>
 
     <h2 id="packing">Packing and loading</h2>
-    <p>Rattan and aluminium pieces are wrapped in paper and stacked to the container profile, as shown below; small items ship in cartons. Any wood pallets or crates used are ISPM-15 heat-treated and marked, as required by the US, Canada, UK and Australia. <span class="tbc">Packing specification and consolidation point to be confirmed.</span></p>
+    <p>Goods ship fully assembled. Rattan and aluminium pieces are wrapped in paper and stacked to the container profile, as shown below; small items ship in cartons. Any wood pallets or crates used are ISPM-15 heat-treated and marked, as required by the US, Canada, UK and Australia. <span class="tbc">Packing specification and consolidation point to be confirmed.</span></p>
     <div class="gallery" style="margin-top:14px">
       <figure>${picture(manifest, 'ws-wrapping', 'Chairs being wrapped in kraft paper', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Wrapping at the workshop</figcaption></figure>
       <figure class="tall">${picture(manifest, 'ws-packed', 'Wrapped chairs stacked ready for loading', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Stacked for loading</figcaption></figure>
@@ -416,7 +420,7 @@ function workshops({ site, manifest, catalog }) {
   </div>
   <div class="prose" style="margin-top:36px">
     <h2>Visiting</h2>
-    <p>Buyers are welcome at the workshops. Cirebon is three hours from Jakarta by train; Yogyakarta is an hour's flight. Tell us your dates and we will arrange the visits and a driver. <a href="/contact/">Contact us</a>.</p>
+    <p>Buyer visits to the production facility are welcome. Cirebon is three hours from Jakarta by train; Yogyakarta is an hour's flight. Tell us your dates and we will arrange the visits. <a href="/contact/">Contact us</a>.</p>
   </div>
 </div></section>`;
   return layout({ site, manifest, title: 'Workshops', description: 'The Indonesian workshops in Cirebon, Yogyakarta and Ngawi behind the Buitenzorg Lemongrass Homecraft catalog, and how to visit them.', path: '/workshops/', body });
@@ -427,7 +431,7 @@ function contact({ site, manifest }) {
 <section class="section-tight"><div class="wrap">
   <span class="eyebrow">Contact</span>
   <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">Request a quote</h1>
-  <p class="measure muted" style="margin-top:10px">Tell us what you are looking at, roughly how many, and where it ships to. Items you added from the catalog are attached below. We aim to reply within one business day (Western Indonesia time, UTC+7).</p>
+  <p class="measure muted" style="margin-top:10px">Tell us what you are looking at, roughly how many, and where it ships to. Items you added from the catalog are attached below. We aim to reply within one business day; office hours ${esc(site.contact.hours)}. We work in English.</p>
   <div class="grid grid-2" style="margin-top:28px;align-items:start">
     <form class="form" data-inquiry novalidate>
       <p class="form-note">Fields marked * are required.</p>
@@ -463,6 +467,7 @@ function contact({ site, manifest }) {
         <h3>Or reach us directly</h3>
         <ul style="list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:10px;font-size:15px">
           <li>Email: ${site.contact.emailConfirmed ? `<a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>` : '<span class="tbc">to be confirmed</span>'}</li>
+          <li>Hours: ${esc(site.contact.hours)}</li>
           <li>WhatsApp: <a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">${esc(site.contact.whatsapp)}</a></li>
           <li>Instagram: <a href="${esc(site.contact.instagram)}" rel="noopener">${esc(site.contact.instagramHandle)}</a></li>
           <li style="margin-top:6px" class="muted">${site.address.lines.map(esc).join('<br>')}</li>
@@ -490,25 +495,26 @@ function privacy({ site, manifest }) {
   const body = `<section class="section-tight"><div class="wrap prose">
   <h1 style="font-size:clamp(28px,3.6vw,40px)">Privacy policy</h1>
   <p class="muted">Last updated ${new Date().toISOString().slice(0, 10)}</p>
-  <h2>Who we are</h2><p>${esc(site.brand)}${site.legalEntity ? ` (${esc(site.legalEntity)}${site.legalEntityConfirmed ? '' : ' <span class="tbc">— entity to be confirmed</span>'})` : ''}, ${site.address.lines.map(esc).join(', ')}.</p>
+  <h2>Who we are</h2><p>${esc(site.brand)}, a registered Indonesian company (CV), ${site.address.lines.map(esc).join(', ')}.</p>
   <h2>What we collect</h2><p>When you send an inquiry we receive the details you type: name, company, email, destination and the items you are interested in. Our web host records standard server logs (IP address, browser, pages requested) for security and reliability.</p>
   <h2>Analytics</h2><p>${site.analytics.ga4 ? 'We use Google Analytics 4 to understand how the site is used. It sets cookies; you can decline them in the banner or block them in your browser.' : 'This site does not currently run analytics cookies. If that changes, this policy and a consent banner will be updated first.'}</p>
   <h2>How we use it</h2><p>To answer your inquiry, prepare quotations and ship orders. We do not sell or share your details with third parties other than freight forwarders, inspection agencies and banks involved in fulfilling an order you place.</p>
   <h2>Retention and your rights</h2><p>Inquiry details are kept for as long as needed to respond and for a reasonable period afterwards for follow-up, then deleted. You can ask us to correct or delete your information by emailing us.</p>
-  <h2>Contact</h2><p>${site.contact.emailConfirmed ? esc(site.contact.email) : 'Contact details to be confirmed'} · WhatsApp ${esc(site.contact.whatsapp)}</p>
+  <h2>Contact</h2><p>${esc(site.contact.email)} · WhatsApp ${esc(site.contact.whatsapp)}</p>
 </div></section>`;
   return layout({ site, manifest, title: 'Privacy policy', description: `Privacy policy for ${site.brand}.`, path: '/privacy/', body });
 }
 
 function terms({ site, manifest }) {
   const c = site.commerce;
+  const tbc = s => /to be confirmed/i.test(s) ? `${esc(s.replace(/\s*(—\s*|\()to be confirmed\)?/i, '').trim())} <span class="tbc">(to be confirmed)</span>` : esc(s);
   const body = `<section class="section-tight"><div class="wrap prose">
   <h1 style="font-size:clamp(28px,3.6vw,40px)">Terms of sale</h1>
   <p class="muted">Draft — commercial terms marked <span class="tbc">(to be confirmed)</span> are placeholders pending confirmation by ${esc(site.brand)}.</p>
-  <h2>Parties and scope</h2><p>These terms apply to sales of goods arranged by ${esc(site.brand)}${site.legalEntity ? ` (${esc(site.legalEntity)}, Indonesia${site.legalEntityConfirmed ? '' : ' <span class="tbc">— entity to be confirmed</span>'})` : ''} (“Seller”) to business buyers (“Buyer”). Where goods are manufactured and exported by a partner workshop, that workshop is the exporter of record and is named on the export documents <span class="tbc">(to be confirmed)</span>. Sales are to businesses only; consumer-protection rules for retail purchases do not apply.</p>
+  <h2>Parties and scope</h2><p>These terms apply to sales of goods by ${esc(site.brand)}, a registered Indonesian company (CV) whose full legal name, registration and bank details appear on every proforma invoice (“Seller”), to business buyers (“Buyer”). Where goods are manufactured and exported by a partner workshop, that workshop is the exporter of record and is named on the export documents <span class="tbc">(to be confirmed)</span>. Sales are to businesses only; consumer-protection rules for retail purchases do not apply.</p>
   <h2>Quotations and orders</h2><p>Quotations are valid for 30 days <span class="tbc">(to be confirmed)</span> and are subject to material and exchange-rate movements after that. An order is confirmed when the Buyer accepts a proforma invoice and the deposit is received.</p>
-  <h2>Prices and delivery terms</h2><p>Prices are in ${esc(c.currency)} and quoted ${esc(c.priceBasis)} under Incoterms® 2020. Risk passes to the Buyer when the goods are loaded on board the vessel at the named port. Ocean freight, insurance, import duties, taxes and customs clearance in the destination country are the Buyer's responsibility.</p>
-  <h2>Payment</h2><p>${esc(c.paymentTerms)}. Goods and documents are released on receipt of cleared funds. Bank charges outside Indonesia are for the Buyer's account.</p>
+  <h2>Prices and delivery terms</h2><p>Prices are in ${esc(c.currency)} and quoted ${esc(c.priceBasis)} under Incoterms® 2020. Risk passes to the Buyer when the goods are loaded on board the vessel at Tanjung Priok, Jakarta. Ocean freight, insurance, import duties, taxes and customs clearance in the destination country are the Buyer's responsibility.</p>
+  <h2>Payment</h2><p>${tbc(c.paymentTerms)}. Payments are made to the Seller's company bank account only, as stated on the proforma invoice; the Seller will never ask for payment to a personal account. Goods and documents are released on receipt of cleared funds. Bank charges outside Indonesia are for the Buyer's account.</p>
   <h2>Lead time</h2><p>${esc(c.leadTime)}. Dates are estimates; the Seller will notify the Buyer of any material delay.</p>
   <h2>Quality and inspection</h2><p>Goods are handmade from natural materials; variation in colour, grain and weave is normal and not a defect. The Buyer may inspect or appoint an inspection agency before loading at the Buyer's cost. Claims for manufacturing defects must be notified with photographs within 7 days of devanning <span class="tbc">(to be confirmed)</span>; the Seller's liability is limited to replacement or credit of the affected pieces.</p>
   <h2>Compliance documents</h2><p>The Seller will arrange commercial invoice, packing list, bill of lading, certificate of origin, V-Legal document where applicable and material/species information, issued by the exporter of record. Regulatory compliance in the destination country is the Buyer's responsibility.</p>

@@ -1,7 +1,7 @@
 {
   "brand": "Buitenzorg Lemongrass Homecraft",
   "shortBrand": "Buitenzorg Lemongrass",
-  "tagline": "Indonesian outdoor and rattan furniture, sourced and shipped for trade buyers",
+  "tagline": "Indonesian outdoor and rattan furniture, sourced and shipped FOB Jakarta for retailers and hotels in the United States and Europe",
   "legalEntity": "CV. Handaya Arga Taraka",
   "legalEntityConfirmed": false,
   "address": {
@@ -14,30 +14,31 @@
     "country": "Indonesia"
   },
   "contact": {
-    "email": "PLACEHOLDER@example.com",
-    "emailConfirmed": false,
+    "email": "argasurentu@gmail.com",
+    "emailConfirmed": true,
     "whatsapp": "+62 815 1147 9652",
     "instagram": "https://www.instagram.com/buitenzorg_lemongrass",
-    "instagramHandle": "@buitenzorg_lemongrass"
+    "instagramHandle": "@buitenzorg_lemongrass",
+    "hours": "08:00–17:00 Western Indonesia Time (UTC+7)",
+    "languages": "English and Indonesian"
   },
   "commerce": {
     "showPrices": false,
-    "priceBasis": "FOB Indonesian port (to be confirmed)",
+    "priceBasis": "FOB Jakarta (Tanjung Priok)",
     "currency": "USD",
-    "moq": "One 40HC container or mixed LCL — to be confirmed",
-    "paymentTerms": "Deposit against proforma invoice, balance before shipment — to be confirmed",
-    "leadTime": "Typically 6–12 weeks production plus 4–6 weeks sea freight — to be confirmed",
+    "moq": "Orders ship in 20 ft or 40 ft containers, depending on volume",
+    "paymentTerms": "Bank transfer to our company account against a proforma invoice; deposit and balance schedule stated on the proforma — to be confirmed",
+    "leadTime": "Production about 3–4 weeks per shipment, plus ocean transit (roughly 4–6 weeks to US ports)",
     "container": {
       "cbm20": 26,
       "cbm40": 53,
       "cbm40hc": 60
-    }
+    },
+    "priceBasisConfirmed": true
   },
   "markets": [
     "United States",
-    "Canada",
-    "United Kingdom",
-    "Australia"
+    "Europe"
   ],
   "credentials": [
     {
@@ -60,5 +61,8 @@
     "ga4": ""
   },
   "url": "https://buitenzorg-lemongrass.pages.dev",
-  "preview": true
+  "preview": true,
+  "showLegalEntity": false,
+  "buyers": "retailers and hotels",
+  "visitsWelcome": true
 }
