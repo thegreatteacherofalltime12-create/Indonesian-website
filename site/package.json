@@ -5,15 +5,16 @@
   "scripts": {
     "build": "node build.js",
     "images": "node tools/images.js",
-    "dev": "node build.js && npx wrangler pages dev dist",
-    "deploy": "node build.js && npx wrangler pages deploy dist --project-name buitenzorg-lemongrass"
+    "dev": "node build.js && wrangler pages dev dist --port 8788 --ip 127.0.0.1",
+    "deploy": "node build.js && wrangler pages deploy dist --project-name buitenzorg-lemongrass --branch main --commit-dirty=true"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "sharp": "^0.35.4"
+    "sharp": "^0.35.4",
+    "wrangler": "^4.135.0"
   },
   "private": true
 }

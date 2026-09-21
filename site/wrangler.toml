@@ -1,4 +1,5 @@
 name = "buitenzorg-lemongrass"
+# Deploys go to the "Arga and Matt" Cloudflare account. Its id is set as CLOUDFLARE_ACCOUNT_ID in site/.env (not committed).
 pages_build_output_dir = "dist"
 compatibility_date = "2026-09-01"
 # Set in the Cloudflare dashboard (Pages project → Settings → Variables), not here:

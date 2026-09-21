@@ -2,6 +2,8 @@
 
 Website project for **Buitenzorg Lemongrass Homecraft** (Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
 
+Preview: **https://buitenzorg-lemongrass.pages.dev** (Cloudflare Pages, account "Arga and Matt"; deploy with `npm run deploy` in `site/` after `npx wrangler login`).
+
 Status: **preview build**. The site is built from the Lemongrass outdoor price list and the photos received so far; commercial facts are placeholders labelled "to be confirmed" until the company answers the intake questionnaire. Preview builds carry noindex; set `"preview": false` in `site/data/site.json` at launch. Prices stay hidden (`showPrices`) and the build refuses to publish them while the catalog list basis (EXW) differs from the quoted basis (FOB).
 
 ## Layout
