@@ -79,7 +79,7 @@ ${preview ? `<div class="preview-banner">${L.previewBanner(esc(site.brand))}</di
     <a class="brand" href="${base}/" aria-label="${esc(site.brand)}">${mark}<span>${esc(site.shortBrand)}<small>${esc(L.brandSub)}</small></span></a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="${L.nav.menu}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav aria-label="${L.nav.primary}"><ul class="nav-links" id="nav-links">
-      ${nav.map(([href, label], i) => `<li><a href="${base}${href}"${path.startsWith(href) ? ' aria-current="page"' : ''}>${label}</a></li>${i === 0 ? langMenu : ''}`).join('')}
+      ${langMenu}${nav.map(([href, label]) => `<li><a href="${base}${href}"${path.startsWith(href) ? ' aria-current="page"' : ''}>${label}</a></li>`).join('')}
     </ul></nav>
     <div class="nav-cta">
       <a class="btn btn-primary btn-sm quote-pill" href="${base}/contact/"><span class="long">${L.nav.quote}</span><span class="short">${L.nav.quoteShort}</span> <span class="count" data-n="0" data-quote-count>0</span></a>
