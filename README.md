@@ -2,7 +2,7 @@
 
 Website project for **Buitenzorg Lemongrass Homecraft** (Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
 
-Status: **discovery**. The intake questionnaire has been sent to the company; the site build starts once the scope answers come back (product lines, buyer type, price basis).
+Status: **preview build**. The site is built from the Lemongrass outdoor price list and the photos received so far; commercial facts are placeholders labelled "to be confirmed" until the company answers the intake questionnaire. Preview builds carry noindex; set `"preview": false` in `site/data/site.json` at launch. Prices stay hidden (`showPrices`) and the build refuses to publish them while the catalog list basis (EXW) differs from the quoted basis (FOB).
 
 ## Layout
 
@@ -12,7 +12,7 @@ Status: **discovery**. The intake questionnaire has been sent to the company; th
 | `docs/research/` | Earlier versions of the research that led to the current questionnaire. Kept for reference — the assumptions in them (consumer sales, live plants) no longer apply. |
 | `tools/` | Node scripts that render the `.md` questionnaires to the `.html` pages, plus the shared stylesheet. |
 | `client-docs/` | Company documents (profile, price lists). **Excluded from git** — see `.gitignore`. |
-| `site/` | The website source. Empty until scope is confirmed. |
+| `site/` | The website: `build.js` (static generator, no framework) → `dist/`; `src/` templates, CSS, client script; `functions/api/inquiry.js` (Cloudflare Pages Function for the quote form); `data/site.json` and `data/catalog.json` hold every fact the pages render. `npm run build`, `npm run deploy`. |
 
 ## Rebuilding the intake pages
 

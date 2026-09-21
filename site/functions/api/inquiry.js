@@ -4,6 +4,7 @@
 export async function onRequestPost({ request, env }) {
   let data;
   try { data = await request.json(); } catch { return json({ error: 'Invalid JSON' }, 400); }
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return json({ error: 'Invalid JSON' }, 400);
   const s = v => String(v ?? '').trim().slice(0, 2000);
   const name = s(data.name), company = s(data.company), email = s(data.email), country = s(data.country);
   if (!name || !company || !email || !country) return json({ error: 'Missing required fields' }, 400);
@@ -25,16 +26,22 @@ export async function onRequestPost({ request, env }) {
     console.log('inquiry (undelivered, preview mode)\n' + text);
     return json({ ok: true, delivered: false });
   }
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: env.INQUIRY_FROM, to: env.INQUIRY_TO.split(',').map(x => x.trim()), reply_to: email,
-      subject: `Quote request — ${company} (${country})`, text,
-    }),
-  });
-  if (!res.ok) { console.log('resend error', res.status, await res.text()); return json({ error: 'Mail provider error' }, 502); }
-  return json({ ok: true, delivered: true });
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: env.INQUIRY_FROM, to: env.INQUIRY_TO.split(',').map(x => x.trim()), reply_to: email,
+        subject: `Quote request — ${company} (${country})`, text,
+      }),
+    });
+    if (!res.ok) throw new Error(`resend ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    return json({ ok: true, delivered: true });
+  } catch (err) {
+    // Never lose the lead: the full inquiry is logged (and in KV when bound) even when mail fails.
+    console.log('inquiry (delivery FAILED: ' + (err && err.message) + ')\n' + text);
+    return json({ error: 'Mail provider error' }, 502);
+  }
 }
 export function onRequestGet() { return json({ error: 'POST only' }, 405); }
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });

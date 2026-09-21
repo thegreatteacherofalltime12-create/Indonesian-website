@@ -12,17 +12,17 @@ const PDF = (list, n) => path.join(SRC, 'pdf-images', String(list), `p${list}-${
 // name -> { src, widths, crop? }
 const photos = {
   // hero + workshops (large)
-  'hero': { src: WA('07.49.34'), widths: [640, 1200, 1920] },
-  'ws-weaving': { src: WA('07.49'), widths: [480, 960, 1600] },
-  'ws-teak-tops': { src: WA('07.49.3'), widths: [480, 960, 1600] },
-  'ws-qc-papasan': { src: WA('07.49.35'), widths: [480, 960, 1400] },
-  'ws-assembly': { src: WA('07.49.36'), widths: [480, 960, 1400] },
-  'ws-wrapping': { src: WA('07.49.334'), widths: [480, 960, 1600] },
-  'ws-packed': { src: WA('07.49.37'), widths: [480, 960, 1400] },
+  'hero': { src: WA('07.49.34'), widths: [640, 1200, 1600] },
+  'ws-weaving': { src: WA('07.49'), widths: [480, 960, 1200] },
+  'ws-teak-tops': { src: WA('07.49.3'), widths: [480, 960, 1200] },
+  'ws-qc-papasan': { src: WA('07.49.35'), widths: [480, 960, 1200] },
+  'ws-assembly': { src: WA('07.49.36'), widths: [480, 960, 1200] },
+  'ws-wrapping': { src: WA('07.49.334'), widths: [480, 960, 1200] },
+  'ws-packed': { src: WA('07.49.37'), widths: [480, 960, 1200] },
   'ws-packed-2': { src: WA('07.49.32'), widths: [480, 960] },
   'ws-lamp-frames': { src: WA('07.49.321'), widths: [480, 960] },
   // own product photos
-  'wall-plates-sunburst': { src: path.join(SRC, 'photos', '5.jpeg'), widths: [480, 960, 1400] },
+  'wall-plates-sunburst': { src: path.join(SRC, 'photos', '5.jpeg'), widths: [480, 960, 1200] },
   'wall-plates-ray': { src: WA('07.49.29855'), widths: [480, 720] },
   'wall-plates-ray-2': { src: WA('07.49.27'), widths: [480, 720] },
   'wall-plates-star': { src: WA('07.49.285555'), widths: [480, 720] },
@@ -56,11 +56,11 @@ async function run() {
     } else {
       for (const w of spec.widths) {
         if (w > meta.width * 1.05) continue;
-        await img.clone().resize({ width: w, withoutEnlargement: true }).webp({ quality: 80 }).toFile(path.join(OUT, `${name}-${w}.webp`));
+        await img.clone().resize({ width: w, withoutEnlargement: true }).webp({ quality: 72, effort: 6 }).toFile(path.join(OUT, `${name}-${w}.webp`));
         entry.widths.push(w);
       }
       const fallbackW = entry.widths.includes(960) ? 960 : entry.widths[entry.widths.length - 1] || meta.width;
-      await img.clone().resize({ width: fallbackW, withoutEnlargement: true }).jpeg({ quality: 82, mozjpeg: true }).toFile(path.join(OUT, `${name}.jpg`));
+      await img.clone().resize({ width: fallbackW, withoutEnlargement: true }).jpeg({ quality: 78, mozjpeg: true }).toFile(path.join(OUT, `${name}.jpg`));
       entry.fallbackW = fallbackW;
     }
     manifest[name] = entry;

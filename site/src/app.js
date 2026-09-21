@@ -34,29 +34,35 @@
 
   function renderPanels() {
     var lists = document.querySelectorAll('[data-quote-list]');
-    if (!lists.length) return;
+    if (!lists.length && !document.querySelector('[data-plan-bar]')) return;
     loadProducts().then(function (P) {
       var q = quote(); var skus = Object.keys(q).filter(function (s) { return q[s] > 0; });
       var total = 0, unknown = 0;
-      skus.forEach(function (s) { var p = P[s]; if (p && p.cbm) total += p.cbm * q[s]; else unknown++; });
+      function vol(p, qty) { if (p && p.per40hc) return qty * (caps.cbm40hc / p.per40hc); if (p && p.cbm) return qty * p.cbm; return 0; }
+      skus.forEach(function (s) { var p = P[s]; if (p && (p.per40hc || p.cbm)) total += vol(p, q[s]); else unknown++; });
       lists.forEach(function (list) {
         list.innerHTML = skus.map(function (s) {
           var p = P[s] || { name: s, sku: s };
-          return '<li><span><span class="sku">' + esc(p.sku) + '</span><br>' + esc(p.name) + (p.cbm ? '<br><span class="sku">' + fmt(p.cbm * q[s], 2) + ' m³</span>' : '') + '</span>' +
+          return '<li><span><span class="sku">' + esc(p.sku) + '</span><br>' + esc(p.name) + ((p.per40hc || p.cbm) ? '<br><span class="sku">' + fmt(vol(p, q[s]), 1) + ' m³ nested</span>' : '') + '</span>' +
             '<input type="number" min="0" step="1" value="' + q[s] + '" aria-label="Quantity of ' + esc(p.name) + '" data-qty="' + esc(s) + '">' +
             '<button type="button" aria-label="Remove ' + esc(p.name) + '" data-remove="' + esc(s) + '">×</button></li>';
         }).join('');
       });
       document.querySelectorAll('[data-quote-empty]').forEach(function (el) { el.style.display = skus.length ? 'none' : ''; });
-      document.querySelectorAll('[data-total-cbm]').forEach(function (el) { el.textContent = fmt(total) + ' m³' + (unknown ? ' + ' + unknown + ' item' + (unknown > 1 ? 's' : '') + ' on request' : ''); });
+      document.querySelectorAll('[data-total-cbm]').forEach(function (el) { el.textContent = fmt(total, 1) + ' m³' + (unknown ? ' + ' + unknown + ' item' + (unknown > 1 ? 's' : '') + ' on request' : ''); });
       Object.keys(caps).forEach(function (k) {
         var pct = caps[k] ? total / caps[k] * 100 : 0;
-        document.querySelectorAll('[data-bar="' + k + '"]').forEach(function (b) { b.style.width = Math.min(100, pct) + '%'; b.classList.toggle('over', pct > 100); });
+        document.querySelectorAll('[data-bar="' + k + '"]').forEach(function (b) { b.style.width = Math.min(100, pct) + '%'; b.classList.toggle('over', pct > 103); b.classList.toggle('full', pct >= 97 && pct <= 103); });
         document.querySelectorAll('[data-pct="' + k + '"]').forEach(function (b) { b.textContent = Math.round(pct) + '%'; });
       });
+      var n40 = Math.round(total / caps.cbm40hc * 100);
+      var summary = skus.length ? skus.length + ' item' + (skus.length > 1 ? 's' : '') + ' · ' + fmt(total, 1) + ' m³ · ' + n40 + '% of a 40HC' : '';
+      document.querySelectorAll('[data-plan-announce]').forEach(function (el) { el.textContent = summary ? 'Load plan: ' + summary : 'Load plan is empty'; });
+      var bar = document.querySelector('[data-plan-bar]');
+      if (bar) { bar.hidden = !skus.length; document.body.classList.toggle('has-plan-bar', !!skus.length); var sm = bar.querySelector('[data-plan-summary]'); if (sm) sm.textContent = summary; }
       var ta = document.getElementById('f-items');
       if (ta && !ta.dataset.userEdited) {
-        ta.value = skus.map(function (s) { var p = P[s] || { name: s }; return (P[s] ? p.sku + ' — ' : '') + p.name + ' × ' + q[s]; }).join('\n') + (total ? '\n\nEstimated volume ' + fmt(total, 2) + ' m³ (' + Math.round(total / caps.cbm40hc * 100) + '% of a 40HC)' : '');
+        ta.value = skus.map(function (s) { var p = P[s] || { name: s }; return (P[s] ? p.sku + ' — ' : '') + p.name + ' × ' + q[s]; }).join('\n') + (total ? '\n\nEstimated load ' + fmt(total, 1) + ' m³ nested (' + n40 + '% of a 40HC)' : '');
       }
     });
   }
@@ -100,28 +106,42 @@
       var status = form.querySelector('[data-status]');
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
-      if (!data.name || !data.company || !data.email || !data.country) { status.className = 'status err'; status.textContent = 'Please fill in your name, company, email and destination.'; return; }
+      var problems = [];
+      form.querySelectorAll('[aria-invalid]').forEach(function (el) { el.removeAttribute('aria-invalid'); });
+      form.querySelectorAll('.field-error').forEach(function (el) { el.remove(); });
+      function bad(id, msg) { var el = document.getElementById(id); if (!el) return; el.setAttribute('aria-invalid', 'true'); var p = document.createElement('p'); p.className = 'field-error'; p.id = id + '-error'; p.textContent = msg; el.insertAdjacentElement('afterend', p); el.setAttribute('aria-describedby', p.id); problems.push(el); }
+      if (!String(data.name || '').trim()) bad('f-name', 'Please enter your name.');
+      if (!String(data.company || '').trim()) bad('f-company', 'Please enter your company.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email || '').trim())) bad('f-email', 'Please enter a valid email address.');
+      if (!String(data.country || '').trim()) bad('f-country', 'Please tell us the destination country or port.');
+      if (problems.length) { status.className = 'status err'; status.textContent = 'Please check the highlighted field' + (problems.length > 1 ? 's' : '') + '.'; problems[0].focus(); return; }
       if (data.website) { status.className = 'status ok'; status.textContent = 'Thanks — received.'; return; } // honeypot
       var q = quote(); data.quote = Object.keys(q).map(function (s) { return { sku: s, qty: q[s] }; });
       data.page = location.href;
       var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
       fetch('/api/inquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
         .then(function (res) {
           if (res.ok && res.j.delivered) { status.className = 'status ok'; status.textContent = 'Thank you — your request has been sent. We reply within one business day.'; form.reset(); writeQuote({}); updateCount(); renderPanels(); }
           else if (res.ok) { status.className = 'status ok'; status.textContent = 'Received. This is a preview build: email delivery is not connected yet, so please also send your request by WhatsApp or email for now.'; }
-          else { throw new Error(res.j.error || 'failed'); }
+          else { var e = new Error(res.j.error || 'failed'); e.client = res.status >= 400 && res.status < 500; throw e; }
         })
-        .catch(function () { status.className = 'status err'; status.textContent = 'Could not send just now. Please try again or contact us on WhatsApp.'; })
+        .catch(function (err) {
+          status.className = 'status err';
+          status.textContent = err && err.client ? ({ 'Invalid email': 'Please check your email address.', 'Missing required fields': 'Please fill in every required field.' }[err.message] || err.message) : 'Could not send just now. Please try again or contact us on WhatsApp.';
+        })
         .then(function () { btn.disabled = false; });
     });
   }
 
   updateCount();
   renderPanels();
-  // Deep link hash → filter chip
-  if (location.pathname.indexOf('/products') === 0 && location.hash) {
-    var chip = document.querySelector('[data-filter="' + location.hash.slice(1) + '"]');
-    if (chip) chip.click();
+  // Deep link hash → filter chip (also on same-document hash changes)
+  function applyHash() {
+    if (location.pathname.indexOf('/products') !== 0) return;
+    var chip = document.querySelector('[data-filter="' + (location.hash ? location.hash.slice(1) : 'all') + '"]');
+    if (chip) { chip.click(); var sec = location.hash && document.getElementById(location.hash.slice(1)); if (sec) sec.scrollIntoView(); }
   }
+  applyHash();
+  window.addEventListener('hashchange', applyHash);
 })();

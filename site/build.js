@@ -9,6 +9,7 @@ const site = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/site.json'), 'utf8
 const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/catalog.json'), 'utf8'));
 const manifestPath = path.join(ROOT, 'public/images/manifest.json');
 const manifest = fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, 'utf8')) : {};
+const preview = site.preview !== false;
 
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
@@ -39,6 +40,9 @@ write('terms/index.html', T.terms(ctx));
 write('404.html', T.notFound(ctx));
 
 // Public data for the client script — never includes prices unless showPrices is on
+if (site.commerce.showPrices && catalog.listBasis !== site.commerce.priceBasis) {
+  throw new Error(`Refusing to publish prices: catalog list basis is "${catalog.listBasis}" but site priceBasis is "${site.commerce.priceBasis}". Re-price the catalog or align the basis first.`);
+}
 const pub = {
   container: site.commerce.container,
   products: catalog.products.map(p => ({ sku: p.sku, name: p.name, category: p.category, cbm: p.cbm, per40hc: p.per40hc, ...(site.commerce.showPrices ? { price: p.price } : {}) })),
@@ -54,7 +58,7 @@ fs.rmSync(path.join(DIST, 'images/manifest.json'), { force: true });
 // robots + sitemap
 const urls = ['/', '/products/', '/how-to-order/', '/workshops/', '/contact/', '/privacy/', '/terms/', ...catalog.products.map(p => `/products/${p.sku.toLowerCase()}/`)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${site.url}${u}</loc></url>`).join('\n')}\n</urlset>\n`);
-write('robots.txt', `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`);
-write('_headers', `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n/images/*\n  Cache-Control: public, max-age=31536000, immutable\n`);
+write('robots.txt', preview ? 'User-agent: *\nDisallow: /\n' : `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`);
+write('_headers', `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY${preview ? '\n  X-Robots-Tag: noindex' : ''}\n/images/*\n  Cache-Control: public, max-age=86400, stale-while-revalidate=604800\n`);
 
 console.log(`built ${urls.length} pages -> dist/`);
