@@ -5,3 +5,8 @@ compatibility_date = "2026-09-01"
 # Set in the Cloudflare dashboard (Pages project → Settings → Variables), not here:
 #   RESEND_API_KEY, INQUIRY_TO, INQUIRY_FROM
 # Optional KV binding for a durable copy of inquiries: INQUIRIES
+
+[[d1_databases]]
+binding = "DB"
+database_name = "buitenzorg-orders"
+database_id = "87013e7c-9c98-471c-aa36-ba25cb1ec7dd"

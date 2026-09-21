@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Order book — ArgaMatt_Buitenzorg</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  body { padding-bottom: 40px; }
+  .adm-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding-block: 18px; border-bottom: 1px solid var(--rule); }
+  .adm-head h1 { font-size: 24px; }
+  .adm-head .me { font-size: 13px; color: var(--muted); }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-block: 16px; }
+  .toolbar input[type=search] { flex: 1 1 220px; min-width: 0; padding: 9px 12px; border: 1px solid var(--field-border); border-radius: var(--radius); font: inherit; background: var(--surface); }
+  .stages { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .stages .chip { display: inline-flex; gap: 6px; align-items: center; }
+  .stages .chip b { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--muted); }
+  .stages .chip[aria-pressed="true"] b { color: rgba(255,255,255,.75); }
+  .list { display: flex; flex-direction: column; gap: 8px; }
+  .row { display: grid; grid-template-columns: 96px 1fr auto; gap: 10px 14px; align-items: center; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 12px 14px; text-align: left; cursor: pointer; font: inherit; color: inherit; width: 100%; }
+  .row:hover { border-color: var(--field-border); }
+  .row .ref { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+  .row .ref small { display: block; font-size: 11px; }
+  .row .who b { display: block; }
+  .row .who span { font-size: 14px; color: var(--muted); }
+  .badge-status { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .03em; padding: 4px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-hover); white-space: nowrap; }
+  .badge-status[data-s="new"] { background: #FFF1D6; color: #7A4E00; }
+  .badge-status[data-s="lost"], .badge-status[data-s="closed"] { background: var(--surface-2); color: var(--muted); }
+  .badge-status[data-s="shipped"] { background: #DDEBD2; color: #2C4A12; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr auto; } .row .ref { grid-column: 1 / -1; } }
+  .drawer { position: fixed; inset: 0; background: rgba(27,31,26,.35); display: none; z-index: 70; }
+  .drawer[open] { display: block; }
+  .drawer .pane { position: absolute; right: 0; top: 0; bottom: 0; width: min(640px, 100%); background: var(--bg); overflow: auto; padding: 20px var(--gutter) 40px; box-shadow: -8px 0 30px -12px rgba(0,0,0,.4); }
+  .pane h2 { font-size: 22px; }
+  .kv { display: grid; grid-template-columns: 140px 1fr; gap: 6px 12px; font-size: 15px; margin-top: 14px; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; overflow-wrap: anywhere; }
+  .pane textarea, .pane select { width: 100%; font: inherit; padding: 10px; border: 1px solid var(--field-border); border-radius: var(--radius); background: var(--surface); }
+  .pane textarea { min-height: 90px; }
+  .pane label { margin-top: 16px; }
+  .events { list-style: none; padding: 0; margin: 10px 0 0; font-size: 14px; display: flex; flex-direction: column; gap: 6px; }
+  .events li { border-top: 1px solid var(--rule); padding-top: 6px; }
+  .events time { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .pane .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .items { font-family: var(--font-mono); font-size: 13px; white-space: pre-wrap; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 10px; }
+  .msg { padding: 10px 12px; border-radius: var(--radius); font-size: 14px; margin-top: 12px; display: none; }
+  .msg.ok { display: block; background: var(--accent-soft); color: var(--accent-hover); }
+  .msg.err { display: block; background: #F6E3DF; color: var(--danger); }
+  .empty-state { padding: 40px 0; color: var(--muted); text-align: center; }
+  .lang-toggle button { font: inherit; background: none; border: 1px solid var(--rule); padding: 6px 10px; border-radius: 999px; cursor: pointer; color: var(--ink-2); }
+  .lang-toggle button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .dialog { position: fixed; inset: 0; background: rgba(27,31,26,.35); display: none; z-index: 80; align-items: center; justify-content: center; padding: 16px; }
+  .dialog[open] { display: flex; }
+  .dialog form { background: var(--bg); border-radius: var(--radius-lg); padding: 20px; width: min(560px, 100%); max-height: 90vh; overflow: auto; display: grid; gap: 10px; }
+  .dialog input, .dialog select, .dialog textarea { width: 100%; font: inherit; padding: 9px 10px; border: 1px solid var(--field-border); border-radius: var(--radius); background: var(--surface); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="adm-head">
+    <div>
+      <span class="eyebrow" data-t="eyebrow">Order book</span>
+      <h1 style="margin-top:4px">ArgaMatt_Buitenzorg</h1>
+      <div class="me" data-me></div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="id" aria-pressed="false">ID</button>
+      </div>
+      <button class="btn btn-primary btn-sm" type="button" data-new data-t="addManual">+ Add inquiry</button>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <input type="search" data-search data-t-ph="search" placeholder="Search name, company, email, country, ref">
+    <button class="btn btn-secondary btn-sm" type="button" data-refresh data-t="refresh">Refresh</button>
+  </div>
+  <div class="stages" data-stages></div>
+  <div class="msg" data-msg></div>
+  <div class="list" data-list></div>
+</div>
+
+<div class="drawer" data-drawer>
+  <div class="pane" role="dialog" aria-modal="true" aria-labelledby="d-title">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <span class="eyebrow" data-d-ref></span>
+      <button class="btn btn-secondary btn-sm" type="button" data-close data-t="close">Close</button>
+    </div>
+    <h2 id="d-title" data-d-title style="margin-top:8px"></h2>
+    <dl class="kv" data-d-kv></dl>
+    <label data-t="items">Items and quantities</label>
+    <div class="items" data-d-items></div>
+    <label data-t="message">Message</label>
+    <div class="items" data-d-message></div>
+    <label for="d-status" data-t="status">Status</label>
+    <select id="d-status" data-d-status></select>
+    <label for="d-notes" data-t="notes">Internal notes</label>
+    <textarea id="d-notes" data-d-notes></textarea>
+    <label for="d-note" data-t="note">Add a note to the history (optional)</label>
+    <textarea id="d-note" data-d-note style="min-height:60px"></textarea>
+    <div class="actions">
+      <button class="btn btn-primary" type="button" data-save data-t="save">Save</button>
+      <a class="btn btn-secondary" data-d-mail href="#" data-t="reply">Reply by email</a>
+    </div>
+    <div class="msg" data-d-msg></div>
+    <label data-t="history">History</label>
+    <ul class="events" data-d-events></ul>
+  </div>
+</div>
+
+<div class="dialog" data-dialog>
+  <form data-manual>
+    <h2 style="font-size:20px" data-t="addManual">+ Add inquiry</h2>
+    <div><label for="m-source" data-t="source">Source</label><select id="m-source" name="source"><option value="whatsapp">WhatsApp</option><option value="email">Email</option><option value="manual" data-t="other">Other</option></select></div>
+    <div><label for="m-name" data-t="name">Name *</label><input id="m-name" name="name" required></div>
+    <div><label for="m-company" data-t="company">Company *</label><input id="m-company" name="company" required></div>
+    <div><label for="m-email" data-t="email">Email</label><input id="m-email" name="email" type="email"></div>
+    <div><label for="m-country" data-t="country">Destination *</label><input id="m-country" name="country" required></div>
+    <div><label for="m-items" data-t="items">Items and quantities</label><textarea id="m-items" name="items_text"></textarea></div>
+    <div><label for="m-message" data-t="message">Message</label><textarea id="m-message" name="message"></textarea></div>
+    <div class="actions"><button class="btn btn-primary" type="submit" data-t="save">Save</button><button class="btn btn-secondary" type="button" data-cancel-manual data-t="cancel">Cancel</button></div>
+    <div class="msg" data-m-msg></div>
+  </form>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var T = {
+    en: { eyebrow: 'Order book', addManual: '+ Add inquiry', refresh: 'Refresh', search: 'Search name, company, email, country, ref', close: 'Close', items: 'Items and quantities', message: 'Message', status: 'Status', notes: 'Internal notes', note: 'Add a note to the history (optional)', save: 'Save', reply: 'Reply by email', history: 'History', source: 'Source', other: 'Other', name: 'Name *', company: 'Company *', email: 'Email', country: 'Destination *', cancel: 'Cancel', all: 'All', empty: 'No inquiries yet. Website quote requests appear here automatically.', saved: 'Saved.', failed: 'Could not save. Try again.', notConfigured: 'Sign-in (Cloudflare Access) is not configured yet, so the order book cannot be opened. Ask Matt.', signin: 'Sign in required.', loading: 'Loading…', created: 'Received', by: 'by', from: 'from', to: 'to', website: 'Website', whatsapp: 'WhatsApp', emailSrc: 'Email', manual: 'Manual', delivered: 'Email sent', notDelivered: 'Email not sent', loadPlan: 'Load plan', pcs: 'pcs', added: 'Added.',
+      stages: { new: 'New', quoted: 'Quoted', proforma_sent: 'Proforma sent', deposit_received: 'Deposit received', in_production: 'In production', inspected: 'Inspected', loaded: 'Loaded', documents_sent: 'Documents sent', balance_received: 'Balance received', shipped: 'Shipped', closed: 'Closed', lost: 'Lost' },
+      kv: { company: 'Company', email: 'Email', country: 'Destination', buyerType: 'Buyer type', source: 'Source', lang: 'Language', received: 'Received', updated: 'Updated', page: 'Page' } },
+    id: { eyebrow: 'Buku pesanan', addManual: '+ Tambah permintaan', refresh: 'Muat ulang', search: 'Cari nama, perusahaan, email, negara, ref', close: 'Tutup', items: 'Produk dan jumlah', message: 'Pesan', status: 'Status', notes: 'Catatan internal', note: 'Tambahkan catatan ke riwayat (opsional)', save: 'Simpan', reply: 'Balas lewat email', history: 'Riwayat', source: 'Sumber', other: 'Lainnya', name: 'Nama *', company: 'Perusahaan *', email: 'Email', country: 'Tujuan *', cancel: 'Batal', all: 'Semua', empty: 'Belum ada permintaan. Permintaan penawaran dari situs akan muncul di sini otomatis.', saved: 'Tersimpan.', failed: 'Gagal menyimpan. Coba lagi.', notConfigured: 'Login (Cloudflare Access) belum dikonfigurasi, jadi buku pesanan belum bisa dibuka. Hubungi Matt.', signin: 'Perlu login.', loading: 'Memuat…', created: 'Diterima', by: 'oleh', from: 'dari', to: 'ke', website: 'Situs web', whatsapp: 'WhatsApp', emailSrc: 'Email', manual: 'Manual', delivered: 'Email terkirim', notDelivered: 'Email belum terkirim', loadPlan: 'Rencana muatan', pcs: 'pcs', added: 'Ditambahkan.',
+      stages: { new: 'Baru', quoted: 'Sudah ditawar', proforma_sent: 'Proforma dikirim', deposit_received: 'DP diterima', in_production: 'Dalam produksi', inspected: 'Sudah diinspeksi', loaded: 'Sudah dimuat', documents_sent: 'Dokumen dikirim', balance_received: 'Pelunasan diterima', shipped: 'Sudah dikirim', closed: 'Selesai', lost: 'Batal' },
+      kv: { company: 'Perusahaan', email: 'Email', country: 'Tujuan', buyerType: 'Jenis pembeli', source: 'Sumber', lang: 'Bahasa', received: 'Diterima', updated: 'Diperbarui', page: 'Halaman' } }
+  };
+  var lang = 'en'; try { lang = localStorage.getItem('blh_admin_lang') || 'en'; } catch (e) {}
+  var t = function (k) { return T[lang][k] || T.en[k] || k; };
+  var STAGES = [], data = { inquiries: [], counts: {} }, filter = 'all', current = null;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var fmtDate = function (iso) { if (!iso) return ''; var d = new Date(iso); return d.toLocaleString(lang === 'id' ? 'id-ID' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' }); };
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-t]').forEach(function (el) { el.textContent = t(el.getAttribute('data-t')); });
+    document.querySelectorAll('[data-t-ph]').forEach(function (el) { el.placeholder = t(el.getAttribute('data-t-ph')); });
+    document.querySelectorAll('[data-lang]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false'); });
+    renderStages(); renderList(); if (current) renderDrawer(current);
+  }
+  document.querySelectorAll('[data-lang]').forEach(function (b) { b.addEventListener('click', function () { lang = b.getAttribute('data-lang'); try { localStorage.setItem('blh_admin_lang', lang); } catch (e) {} applyLang(); }); });
+
+  function api(path, opts) {
+    return fetch('/api/admin' + path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {})).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { var e = new Error(j.error || r.status); e.status = r.status; throw e; } return j; });
+    });
+  }
+  function showMsg(el, cls, text) { el.className = 'msg ' + cls; el.textContent = text; }
+
+  function load() {
+    var q = $('[data-search]').value.trim();
+    showMsg($('[data-msg]'), 'ok', t('loading'));
+    api('/inquiries?' + (filter !== 'all' ? 'status=' + filter + '&' : '') + (q ? 'q=' + encodeURIComponent(q) : '')).then(function (j) {
+      data = j; STAGES = j.stages; $('[data-me]').textContent = j.me || '';
+      $('[data-msg]').className = 'msg';
+      renderStages(); renderList();
+    }).catch(function (e) {
+      showMsg($('[data-msg]'), 'err', e.status === 503 ? t('notConfigured') : e.status === 401 ? t('signin') : (e.message || t('failed')));
+      $('[data-list]').innerHTML = '';
+    });
+  }
+  function renderStages() {
+    var el = $('[data-stages]');
+    var total = Object.keys(data.counts || {}).reduce(function (n, k) { return n + data.counts[k]; }, 0);
+    var chips = [['all', t('all'), total]].concat(STAGES.map(function (s) { return [s, t('stages')[s] || s, data.counts[s] || 0]; }));
+    el.innerHTML = chips.map(function (c) { return '<button class="chip" type="button" data-stage="' + c[0] + '" aria-pressed="' + (filter === c[0]) + '">' + esc(c[1]) + ' <b>' + c[2] + '</b></button>'; }).join('');
+    el.querySelectorAll('[data-stage]').forEach(function (b) { b.addEventListener('click', function () { filter = b.getAttribute('data-stage'); load(); }); });
+  }
+  function srcLabel(s) { return { website: t('website'), whatsapp: t('whatsapp'), email: t('emailSrc'), manual: t('manual') }[s] || s; }
+  function renderList() {
+    var el = $('[data-list]');
+    if (!data.inquiries || !data.inquiries.length) { el.innerHTML = '<p class="empty-state">' + esc(t('empty')) + '</p>'; return; }
+    el.innerHTML = data.inquiries.map(function (i) {
+      var plan = []; try { plan = JSON.parse(i.quote_json || '[]'); } catch (e) {}
+      return '<button class="row" type="button" data-open="' + i.id + '">' +
+        '<span class="ref">' + esc(i.ref) + '<small>' + esc(fmtDate(i.created_at)) + '</small></span>' +
+        '<span class="who"><b>' + esc(i.company) + '</b><span>' + esc(i.name) + ' · ' + esc(i.country) + (plan.length ? ' · ' + plan.length + ' SKU' : '') + ' · ' + esc(srcLabel(i.source)) + '</span></span>' +
+        '<span class="badge-status" data-s="' + esc(i.status) + '">' + esc(t('stages')[i.status] || i.status) + '</span></button>';
+    }).join('');
+    el.querySelectorAll('[data-open]').forEach(function (b) { b.addEventListener('click', function () { open(Number(b.getAttribute('data-open'))); }); });
+  }
+  function open(id) {
+    api('/inquiries/' + id).then(function (j) { current = j; renderDrawer(j); $('[data-drawer]').setAttribute('open', ''); document.body.style.overflow = 'hidden'; }).catch(function (e) { showMsg($('[data-msg]'), 'err', e.message); });
+  }
+  function closeDrawer() { $('[data-drawer]').removeAttribute('open'); document.body.style.overflow = ''; current = null; }
+  function renderDrawer(j) {
+    var i = j.inquiry, K = t('kv');
+    $('[data-d-ref]').textContent = i.ref + ' · ' + srcLabel(i.source) + (i.source === 'website' ? ' · ' + (i.delivered ? t('delivered') : t('notDelivered')) : '');
+    $('[data-d-title]').textContent = i.company + ' — ' + i.name;
+    var kv = [[K.email, i.email ? '<a href="mailto:' + esc(i.email) + '">' + esc(i.email) + '</a>' : '—'], [K.country, esc(i.country)], [K.buyerType, esc(i.buyer_type || '—')], [K.lang, esc((i.lang || '—').toUpperCase())], [K.received, esc(fmtDate(i.created_at))], [K.updated, esc(fmtDate(i.updated_at))]];
+    $('[data-d-kv]').innerHTML = kv.map(function (r) { return '<dt>' + esc(r[0]) + '</dt><dd>' + r[1] + '</dd>'; }).join('');
+    var plan = []; try { plan = JSON.parse(i.quote_json || '[]'); } catch (e) {}
+    $('[data-d-items]').textContent = (plan.length ? t('loadPlan') + ':\n' + plan.map(function (p) { return '  ' + p.sku + ' × ' + p.qty; }).join('\n') + '\n\n' : '') + (i.items_text || '—');
+    $('[data-d-message]').textContent = i.message || '—';
+    var sel = $('[data-d-status]'); sel.innerHTML = j.stages.map(function (s) { return '<option value="' + s + '"' + (s === i.status ? ' selected' : '') + '>' + esc(t('stages')[s] || s) + '</option>'; }).join('');
+    $('[data-d-notes]').value = i.notes || ''; $('[data-d-note]').value = '';
+    var mail = $('[data-d-mail]'); if (i.email && i.email !== '-') { mail.href = 'mailto:' + i.email + '?subject=' + encodeURIComponent('Re: ' + i.ref + ' — your quote request'); mail.style.display = ''; } else { mail.style.display = 'none'; }
+    $('[data-d-msg]').className = 'msg';
+    $('[data-d-events]').innerHTML = (j.events || []).map(function (e) {
+      var what = e.kind === 'created' ? t('created') : e.kind === 'status' ? (t('stages')[e.from_status] || e.from_status) + ' → ' + (t('stages')[e.to_status] || e.to_status) : '';
+      return '<li><time>' + esc(fmtDate(e.at)) + '</time> · ' + esc(what) + (e.actor ? ' · ' + esc(e.actor) : '') + (e.note ? '<br>' + esc(e.note) : '') + '</li>';
+    }).join('');
+  }
+  $('[data-close]').addEventListener('click', closeDrawer);
+  $('[data-drawer]').addEventListener('click', function (e) { if (e.target === e.currentTarget) closeDrawer(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeDrawer(); $('[data-dialog]').removeAttribute('open'); } });
+  $('[data-save]').addEventListener('click', function () {
+    if (!current) return;
+    var body = { status: $('[data-d-status]').value, notes: $('[data-d-notes]').value, note: $('[data-d-note]').value.trim() || undefined };
+    api('/inquiries/' + current.inquiry.id, { method: 'PATCH', body: JSON.stringify(body) }).then(function () {
+      showMsg($('[data-d-msg]'), 'ok', t('saved')); return api('/inquiries/' + current.inquiry.id);
+    }).then(function (j) { current = j; renderDrawer(j); showMsg($('[data-d-msg]'), 'ok', t('saved')); load(); }).catch(function (e) { showMsg($('[data-d-msg]'), 'err', e.message || t('failed')); });
+  });
+  $('[data-refresh]').addEventListener('click', load);
+  var st; $('[data-search]').addEventListener('input', function () { clearTimeout(st); st = setTimeout(load, 350); });
+  $('[data-new]').addEventListener('click', function () { $('[data-dialog]').setAttribute('open', ''); $('#m-name').focus(); });
+  $('[data-cancel-manual]').addEventListener('click', function () { $('[data-dialog]').removeAttribute('open'); });
+  $('[data-manual]').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, body = {}; new FormData(f).forEach(function (v, k) { body[k] = v; });
+    api('/inquiries', { method: 'POST', body: JSON.stringify(body) }).then(function () { f.reset(); $('[data-dialog]').removeAttribute('open'); showMsg($('[data-msg]'), 'ok', t('added')); load(); }).catch(function (err) { showMsg($('[data-m-msg]'), 'err', err.message || t('failed')); });
+  });
+  applyLang();
+  load();
+})();
+</script>
+</body>
+</html>

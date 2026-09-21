@@ -18,6 +18,19 @@ export async function onRequestPost({ request, env }) {
   ];
   const text = lines.join('\n');
 
+  // Order book: save every request in D1 before trying to email it, so nothing is lost.
+  let saved = null;
+  if (env.DB) {
+    try {
+      const year = new Date().getUTCFullYear();
+      const row = await env.DB.prepare('SELECT COUNT(*) AS n FROM inquiries WHERE ref LIKE ?').bind(`Q-${year}-%`).first();
+      const ref = `Q-${year}-${String((row?.n || 0) + 1).padStart(4, '0')}`;
+      const r = await env.DB.prepare(`INSERT INTO inquiries (ref, source, lang, name, company, email, country, buyer_type, items_text, message, quote_json, page, ip, cf_country) VALUES (?, 'website', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+        .bind(ref, s(data.page).includes('/id/') ? 'id' : 'en', name, company, email, country, s(data.buyerType) || null, s(data.items) || null, s(data.message) || null, JSON.stringify(Array.isArray(data.quote) ? data.quote.slice(0, 200) : []), s(data.page) || null, request.headers.get('cf-connecting-ip') || null, request.cf?.country || null).run();
+      saved = { id: r.meta.last_row_id, ref };
+      await env.DB.prepare(`INSERT INTO events (inquiry_id, actor, kind, to_status, note) VALUES (?, 'system', 'created', 'new', 'Website quote request')`).bind(saved.id).run();
+    } catch (e) { console.log('d1 insert failed', e && e.message); }
+  }
   if (env.INQUIRIES) { // optional KV namespace for a durable copy
     try { await env.INQUIRIES.put(`inq:${Date.now()}:${email}`, text, { expirationTtl: 60 * 60 * 24 * 365 }); } catch {}
   }
@@ -32,11 +45,12 @@ export async function onRequestPost({ request, env }) {
       headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: env.INQUIRY_FROM, to: env.INQUIRY_TO.split(',').map(x => x.trim()), reply_to: email,
-        subject: `Quote request — ${company} (${country})`, text,
+        subject: `${saved ? saved.ref + ' · ' : ''}Quote request — ${company} (${country})`, text,
       }),
     });
     if (!res.ok) throw new Error(`resend ${res.status}: ${(await res.text()).slice(0, 300)}`);
-    return json({ ok: true, delivered: true });
+    if (saved && env.DB) { try { await env.DB.prepare('UPDATE inquiries SET delivered = 1 WHERE id = ?').bind(saved.id).run(); } catch {} }
+    return json({ ok: true, delivered: true, ref: saved && saved.ref });
   } catch (err) {
     // Never lose the lead: the full inquiry is logged (and in KV when bound) even when mail fails.
     console.log('inquiry (delivery FAILED: ' + (err && err.message) + ')\n' + text);

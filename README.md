@@ -33,6 +33,10 @@ Both scripts read the `.md` file, render it into a styled single-file HTML page,
 - **Analytics:** GA4 + Google Tag Manager + Search Console. Ads (if any) via Google Search on wholesale terms and LinkedIn, owned by the company's accounts.
 - **Scope:** to be confirmed by the company — outdoor line (LD) only, indoor rattan (CH/LI/TBI) too, or full catalog.
 
+## Order book (admin)
+
+Every quote request is saved to Cloudflare D1 (`buitenzorg-orders`, schema in `site/db/schema.sql`) before the notification email is attempted. The admin page at `/admin/` (bilingual) lists inquiries, tracks them through the pipeline (new → quoted → proforma sent → deposit → in production → inspected → loaded → documents → balance → shipped) with a history, and lets you add inquiries that arrived by email or WhatsApp. It is protected by Cloudflare Access: the API verifies the Access JWT and needs `ACCESS_TEAM` and `ACCESS_AUD` set on the Pages project; until then it refuses with 503. Locally, `site/.dev.vars` sets `DEV_ADMIN_EMAIL` to bypass Access.
+
 ## Answers received from the company (20 Sep 2026)
 
 - Legal entity: a registered CV, used on proforma invoices; not to be displayed on the site (`showLegalEntity: false`).
