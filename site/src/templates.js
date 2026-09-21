@@ -1,9 +1,11 @@
 // Page templates. Plain functions returning HTML strings; no framework.
 // Every page is rendered once per locale: ctx.L is the language file (i18n/en.js or id.js), ctx.base is '' or '/id'.
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const fmtDims = p => (p.w && p.d && p.h) ? `${p.w} × ${p.d} × ${p.h} cm` : null;
+const num = (L, n, d) => { const s = d == null ? String(n) : Number(n).toFixed(d); return L && L.lang === 'id' ? s.replace('.', ',') : s; };
+const fmtDims = (p, L) => (p.w && p.d && p.h) ? `${num(L, p.w)} × ${num(L, p.d)} × ${num(L, p.h)} cm` : null;
 const inch = cm => Math.round(cm / 2.54 * 10) / 10;
-const fmtDimsIn = p => (p.w && p.d && p.h) ? `${inch(p.w)} × ${inch(p.d)} × ${inch(p.h)} in` : null;
+const fmtDimsIn = (p, L) => (p.w && p.d && p.h) ? `${num(L, inch(p.w))} × ${num(L, inch(p.d))} × ${num(L, inch(p.h))} ${L && L.lang === 'id' ? 'inci' : 'in'}` : null;
+const fmtDate = L => { const d = new Date(); return d.toLocaleDateString(L && L.lang === 'id' ? 'id-ID' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
 const money = n => n == null ? null : `US$${n.toLocaleString('en-US')}`;
 // Translate a data value (from site.json / catalog.json) if the locale has it; otherwise pass through.
 const tv = (L, s) => (s == null ? s : (L.values[s] ?? s));
@@ -95,7 +97,7 @@ ${body}
       <div>
         <h4>${esc(site.brand)}</h4>
         <p>${esc(L.footer.about)}</p>
-        <p style="margin-top:10px">${site.address.lines.map(esc).join('<br>')}</p>
+        <p style="margin-top:10px">${site.address.lines.map(l => esc(tv(L, l))).join('<br>')}</p>
         <p style="margin-top:10px">${site.showLegalEntity && site.legalEntity ? esc(site.legalEntity) : esc(L.footer.entity)}</p>
       </div>
       <div>
@@ -143,7 +145,7 @@ ${body}
 function productCard(p, { site, manifest, catalog, L, base }) {
   const isThumb = /^ld-/.test(p.image || '');
   const cat = catalog.categories.find(c => c.slug === p.category);
-  const dims = fmtDims(p);
+  const dims = fmtDims(p, L);
   const spec = [tv(L, p.frame), tv(L, p.weave)].filter(Boolean).join(' · ') || tv(L, cat?.name);
   const price = site.commerce.showPrices && p.price ? `<span class="price">${money(p.price)}</span>` : `<span class="price-note">${L.card.priceOnRequest}</span>`;
   const href = `${base}/products/${p.sku.toLowerCase()}/`;
@@ -156,7 +158,7 @@ function productCard(p, { site, manifest, catalog, L, base }) {
     <span class="sku">${esc(p.sku)}</span>
     <h3><a href="${href}">${esc(p.name)}</a></h3>
     <p class="spec">${esc(spec)}</p>
-    ${dims ? `<p class="dims">${esc(dims)} · ${p.cbm.toFixed(3)} m³ · ${p.per40hc}${L.card.per40}</p>` : ''}
+    ${dims ? `<p class="dims">${esc(dims)} · ${num(L, p.cbm, 3)} m³ · ${p.per40hc}${L.card.per40}</p>` : ''}
     <div class="foot">${price}<button class="btn btn-secondary btn-sm" type="button" data-add="${esc(p.sku)}">${L.card.add}</button></div>
   </div>
 </article>`;
@@ -168,11 +170,11 @@ function loadPlanPanel(L, base, { cta = true, hint = true } = {}) {
       <p class="sr-only" aria-live="polite" data-plan-announce></p>
       <ul class="quote-items" data-quote-list></ul>
       <p class="empty" data-quote-empty>${cta ? L.catalog.planEmpty : L.contact.planEmpty(base)}</p>
-      <div class="total-cbm"><span>${L.catalog.loadVolume}</span><b data-total-cbm>0.0 m³</b></div>
+      <div class="total-cbm"><span>${L.catalog.loadVolume}</span><b data-total-cbm>${num(L, 0, 1)} m³</b></div>
       <div class="fill" data-fill>
         <div class="row"><span>20 ft</span><div class="bar"><i data-bar="cbm20"></i></div><span class="pct" data-pct="cbm20">0%</span></div>
         <div class="row"><span>40 ft</span><div class="bar"><i data-bar="cbm40"></i></div><span class="pct" data-pct="cbm40">0%</span></div>
-        <div class="row"><span>40 HC</span><div class="bar"><i data-bar="cbm40hc"></i></div><span class="pct" data-pct="cbm40hc">0%</span></div>
+        <div class="row"><span>40HC</span><div class="bar"><i data-bar="cbm40hc"></i></div><span class="pct" data-pct="cbm40hc">0%</span></div>
       </div>
       ${cta ? `<a class="btn btn-primary" href="${base}/contact/">${L.catalog.planCta}</a>` : ''}`;
 }
@@ -307,8 +309,8 @@ function productPage(p, ctx) {
   const isThumb = /^ld-/.test(p.image || '');
   const rows = [
     [R.frame, esc(tv(L, p.frame))], [R.weave, esc(tv(L, p.weave))], [R.finish, esc(tv(L, p.finish))], [R.cushion, esc(tv(L, p.cushion))], [R.colour, esc(tv(L, p.colour))],
-    [R.dims, fmtDims(p) ? `<span class="mono">${fmtDims(p)}</span><br><span class="mono muted">${fmtDimsIn(p)}</span>` : null],
-    [R.volume, p.cbm ? `<span class="mono">${p.cbm.toFixed(3)} m³</span>` : null],
+    [R.dims, fmtDims(p, L) ? `<span class="mono">${fmtDims(p, L)}</span><br><span class="mono muted">${fmtDimsIn(p, L)}</span>` : null],
+    [R.volume, p.cbm ? `<span class="mono">${num(L, p.cbm, 3)} m³</span>` : null],
     [R.per40, p.per40hc ? `<span class="mono">${p.per40hc}</span> <span class="muted">${R.per40Note}</span>` : null],
     [R.packaging, esc(tv(L, p.packaging))], [R.shipped, esc(tv(L, p.assembly))], [R.madeIn, ws ? `${esc(tv(L, ws.name))}, ${esc(tv(L, ws.region))}` : R.indonesia],
   ].filter(r => r[1]);
@@ -340,7 +342,8 @@ function productPage(p, ctx) {
   </div>
 </section>`;
   const mats = [tv(L, p.frame), tv(L, p.weave)].filter(Boolean).join(', ');
-  const desc = P.metaDesc(p, fmtDims(p), p.per40hc, mats).slice(0, 155);
+  let desc = P.metaDesc(p, fmtDims(p, L), p.per40hc, mats);
+  if (desc.length > 155) desc = desc.slice(0, 155).replace(/[^.]*$/, '').trim() || desc.slice(0, 152) + '…';
   const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, sku: p.sku, description: desc, manufacturer: { '@type': 'Organization', name: P.manufacturer(ws && ws.name) }, material: [p.frame, p.weave].filter(Boolean).join('; ') || undefined, image: p.image ? `${site.url}/images/${p.image}` : undefined };
   return layout({ ...ctx, title: p.name, description: desc, path: `/products/${p.sku.toLowerCase()}/`, body, ogImage: p.image ? `/images/${p.image}` : undefined, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
 }
@@ -457,7 +460,7 @@ function contact(ctx) {
           <li>${C.hoursL}: ${esc(tv(L, site.contact.hours))}</li>
           <li>${C.whatsapp}: <a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">${esc(site.contact.whatsapp)}</a></li>
           <li>${C.instagram}: <a href="${esc(site.contact.instagram)}" rel="noopener">${esc(site.contact.instagramHandle)}</a></li>
-          <li style="margin-top:6px" class="muted">${site.address.lines.map(esc).join('<br>')}</li>
+          <li style="margin-top:6px" class="muted">${site.address.lines.map(l => esc(tv(L, l))).join('<br>')}</li>
         </ul>
       </div>
       <div class="panel" style="position:static;margin-top:16px">
@@ -474,8 +477,8 @@ function privacy(ctx) {
   const P = L.privacy;
   const body = `<section class="section-tight"><div class="wrap prose">
   <h1 style="font-size:clamp(28px,3.6vw,40px)">${esc(P.h1)}</h1>
-  <p class="muted">${P.updated} ${new Date().toISOString().slice(0, 10)}</p>
-  <h2>${P.who}</h2><p>${esc(P.whoP(site.brand, site.address.lines.join(', ')))}</p>
+  <p class="muted">${P.updated} ${fmtDate(L)}</p>
+  <h2>${P.who}</h2><p>${esc(P.whoP(site.brand, site.address.lines.map(l => tv(L, l)).join(', ')))}</p>
   <h2>${P.collect}</h2><p>${esc(P.collectP)}</p>
   <h2>${P.analytics}</h2><p>${esc(site.analytics.ga4 ? P.analyticsOn : P.analyticsOff)}</p>
   <h2>${P.use}</h2><p>${esc(P.useP)}</p>

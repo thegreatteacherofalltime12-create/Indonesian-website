@@ -6,7 +6,7 @@
   var BASE = document.body.getAttribute('data-base') || '';
   var STR = {
     en: { added: 'Added ✓', nested: 'm³ nested', onRequest: function (n) { return ' + ' + n + ' item' + (n > 1 ? 's' : '') + ' on request'; }, summary: function (n, v, p) { return n + ' item' + (n > 1 ? 's' : '') + ' · ' + v + ' m³ · ' + p + '% of a 40HC'; }, planPrefix: 'Load plan: ', planEmpty: 'Load plan is empty', estLoad: function (v, p) { return 'Estimated load ' + v + ' m³ nested (' + p + '% of a 40HC)'; }, qtyOf: 'Quantity of ', remove: 'Remove ', errName: 'Please enter your name.', errCompany: 'Please enter your company.', errEmail: 'Please enter a valid email address.', errCountry: 'Please tell us the destination country or port.', errCheck: function (n) { return 'Please check the highlighted field' + (n > 1 ? 's' : '') + '.'; }, sent: 'Thank you — your request has been sent. We reply within one business day.', preview: 'Received. This is a preview build: email delivery is not connected yet, so please also send your request by WhatsApp or email for now.', failed: 'Could not send just now. Please try again or contact us on WhatsApp.', cancelled: 'Form and load plan cleared.', serverErrors: { 'Invalid email': 'Please check your email address.', 'Missing required fields': 'Please fill in every required field.' } },
-    id: { added: 'Ditambahkan ✓', nested: 'm³ bersarang', onRequest: function (n) { return ' + ' + n + ' produk berdasarkan permintaan'; }, summary: function (n, v, p) { return n + ' produk · ' + v + ' m³ · ' + p + '% dari 40HC'; }, planPrefix: 'Rencana muatan: ', planEmpty: 'Rencana muatan kosong', estLoad: function (v, p) { return 'Perkiraan muatan ' + v + ' m³ bersarang (' + p + '% dari 40HC)'; }, qtyOf: 'Jumlah ', remove: 'Hapus ', errName: 'Masukkan nama Anda.', errCompany: 'Masukkan nama perusahaan.', errEmail: 'Masukkan alamat email yang valid.', errCountry: 'Sebutkan negara atau pelabuhan tujuan.', errCheck: function (n) { return 'Periksa kolom yang ditandai.'; }, sent: 'Terima kasih — permintaan Anda sudah terkirim. Kami membalas dalam satu hari kerja.', preview: 'Diterima. Ini versi pratinjau: pengiriman email belum terhubung, jadi untuk sementara kirim juga permintaan Anda lewat WhatsApp atau email.', failed: 'Tidak bisa mengirim saat ini. Coba lagi atau hubungi kami lewat WhatsApp.', cancelled: 'Formulir dan rencana muatan dikosongkan.', serverErrors: { 'Invalid email': 'Periksa alamat email Anda.', 'Missing required fields': 'Isi semua kolom wajib.' } }
+    id: { added: 'Ditambahkan ✓', nested: 'm³ nesting', onRequest: function (n) { return ' + ' + n + ' produk (volume atas permintaan)'; }, summary: function (n, v, p) { return n + ' produk · ' + v + ' m³ · ' + p + '% dari 40HC'; }, planPrefix: 'Rencana muatan: ', planEmpty: 'Rencana muatan kosong', estLoad: function (v, p) { return 'Perkiraan muatan ' + v + ' m³ nesting (' + p + '% dari 40HC)'; }, qtyOf: 'Jumlah ', remove: 'Hapus ', errName: 'Masukkan nama Anda.', errCompany: 'Masukkan nama perusahaan.', errEmail: 'Masukkan alamat email yang valid.', errCountry: 'Sebutkan negara atau pelabuhan tujuan.', errCheck: function (n) { return 'Periksa kolom yang ditandai.'; }, sent: 'Terima kasih — permintaan Anda sudah terkirim. Kami membalas dalam satu hari kerja.', preview: 'Diterima. Ini versi pratinjau: pengiriman email belum terhubung, jadi untuk sementara kirim juga permintaan Anda lewat WhatsApp atau email.', failed: 'Tidak bisa mengirim saat ini. Coba lagi atau hubungi kami lewat WhatsApp.', cancelled: 'Formulir dan rencana muatan dikosongkan.', serverErrors: { 'Invalid email': 'Periksa alamat email Anda.', 'Missing required fields': 'Isi semua kolom wajib.' } }
   }[LANG];
   var products = null; // loaded from /products.json on demand
   var caps = { cbm20: 26, cbm40: 53, cbm40hc: 60 };
@@ -36,7 +36,7 @@
   }
   function setQty(sku, qty) { var q = quote(); if (qty > 0) q[sku] = qty; else delete q[sku]; writeQuote(q); updateCount(); renderPanels(); }
 
-  function fmt(n, d) { return Number(n).toFixed(d == null ? 3 : d); }
+  function fmt(n, d) { var s = Number(n).toFixed(d == null ? 3 : d); return LANG === 'id' ? s.replace('.', ',') : s; }
 
   function renderPanels() {
     var lists = document.querySelectorAll('[data-quote-list]');
@@ -134,7 +134,7 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email || '').trim())) bad('f-email', STR.errEmail);
       if (!String(data.country || '').trim()) bad('f-country', STR.errCountry);
       if (problems.length) { status.className = 'status err'; status.textContent = STR.errCheck(problems.length); problems[0].focus(); return; }
-      if (data.website) { status.className = 'status ok'; status.textContent = 'Thanks — received.'; return; } // honeypot
+      if (data.website) { status.className = 'status ok'; status.textContent = STR.sent; return; } // honeypot
       var q = quote(); data.quote = Object.keys(q).map(function (s) { return { sku: s, qty: q[s] }; });
       data.page = location.href;
       var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
