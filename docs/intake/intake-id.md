@@ -1,53 +1,53 @@
 ## Mulai di sini: tiga jawaban yang menentukan bentuk situs
 
-1. **Lini produk mana yang masuk situs AS.** Lini luar ruangan (LD: aluminium dan rotan sintetis) paling mudah dijual ke AS — tanpa deklarasi spesies kayu, tanpa tarif Section 232, bantal luar ruangan dikecualikan dari aturan mudah terbakar AS. Rotan alami untuk dalam ruangan (CH, LI, TBI) juga bisa, tetapi dokumen pembelinya lebih banyak. Kerajinan dan keramik adalah situs yang berbeda.
-2. **Siapa pembelinya dan bagaimana harga ditampilkan.** Hanya pembeli bisnis di AS (peritel, desainer, pembeli proyek) atau juga konsumen; harga publik, di balik login pembeli, atau hanya lewat penawaran. Khusus bisnis dengan harga lewat penawaran atau login adalah situs eksportir standar dan paling cepat diluncurkan.
-3. **Siapa di perusahaan yang memiliki proyek ini.** Satu kontak yang ditunjuk, badan usaha yang berkontrak (PT Lemongrass Archipelagocraft Ekspor?), dan siapa yang akan memiliki domain dan akun. Sisanya bisa dikumpulkan dari tim ekspor dan penjualan sambil jalan.
+1. **Badan hukum di balik merek.** Situs ini untuk **Buitenzorg Lemongrass Homecraft**. Saya masih perlu nama badan usaha yang tercantum di footer dan proforma invoice (PT atau CV, atau nama Anda sendiri kalau beroperasi sebagai perorangan) dan alamat yang ditampilkan — kantor Bogor dari daftar harga, atau alamat lain.
+2. **Mengapa pembeli sebaiknya memesan lewat Anda.** Dengan kata-kata Anda sendiri: apa yang Anda lakukan yang tidak didapat pembeli AS kalau langsung mengirim email ke pabrik (kontainer campur dari beberapa bengkel, kontrol kualitas di lokasi, satu kontak berbahasa Inggris, dokumen ekspor diurus, kunjungan pabrik diatur). Ini menjadi halaman utama. Tanpa ini, situs hanya katalog milik orang lain.
+3. **Produk mana yang diluncurkan lebih dulu.** Bengkel dan lini produk mana yang masuk versi pertama katalog, dan apakah Anda sudah memegang daftar harga dan foto mereka dengan izin untuk dipublikasikan. Lini luar ruangan Lemongrass (16 SKU) siap dipakai kalau mereka setuju.
 
 ## Pertanyaan
 
 ### Bisnis & cakupan
 
-1. Siapa kontak dan pengambil keputusan saya untuk situs web ini, dan perusahaan mana yang berkontrak dan membayar — PT Lemongrass Archipelagocraft Ekspor? — Tercantum di kontrak, halaman legal situs, dan template proforma; juga menentukan siapa pemilik situs setelah selesai.
-2. Lini produk mana yang masuk situs AS: hanya lini luar ruangan (LD), ditambah rotan dalam ruangan (CH/LI/TBI), atau seluruh katalog termasuk kerajinan dan keramik? — Menentukan struktur katalog, kebutuhan foto, dan catatan kepatuhan AS mana yang perlu ada di halaman produk.
-3. Apakah Anda menjual hanya ke pembeli bisnis di AS (peritel, desainer interior, hotel, dan pembeli proyek), atau juga ingin menjual ke konsumen? — Khusus bisnis berarti situs katalog + penawaran tanpa *checkout*; konsumen berarti butuh importir dan gudang di AS serta bentuk situs yang sama sekali berbeda.
-4. Dasar harga untuk situs AS — Exwork Cirebon atau FOB (pelabuhan mana)? Apakah harga ditampilkan publik, di balik login pembeli, atau hanya lewat penawaran? — Tiga dari empat daftar harga memakai Exwork dan satu FOB; situs butuh satu dasar. Publik, terbatas, atau hanya penawaran adalah tiga bentuk situs yang berbeda.
-5. MOQ, syarat pembayaran (DP dan pelunasan), dan waktu produksi seperti yang Anda sampaikan kepada pembeli baru dari AS. — Masuk ke halaman "Cara Memesan" dan balasan otomatis; pembeli AS mengharapkan tiga jawaban ini sebelum mengirim email.
+1. Untuk Buitenzorg Lemongrass Homecraft: nama badan usaha (PT/CV, atau nama Anda sendiri kalau perorangan) dan alamat yang ditampilkan di situs dan syarat penjualan — kantor Bogor (Kayana Green Hills) atau alamat lain. — Footer, halaman Tentang, syarat, template proforma. Pembeli mengecek bahwa semuanya cocok.
+2. Layanan apa saja yang Anda tawarkan, dengan kata-kata Anda: sourcing dari beberapa bengkel, kontainer campur/konsolidasi, inspeksi kualitas sebelum muat, dokumen ekspor, pemesanan kapal, kunjungan pabrik untuk pembeli, produksi khusus/OEM? — Ini halaman utama dan halaman "Cara Kerja". Saya akan menulis teks bahasa Inggrisnya dari jawaban Anda.
+3. Target pembeli dan negara: peritel furnitur, desainer interior, pembeli hotel/proyek, importir; hanya AS, atau juga Inggris, Kanada, Australia? — Menentukan teks, mata uang, dan catatan kepatuhan mana yang muncul di halaman produk.
+4. Dasar dan tampilan harga: FOB pelabuhan mana? Harga tampil publik, di balik login pembeli, atau hanya lewat penawaran? Apakah harga yang tampil sudah termasuk komisi Anda atau terpisah? — Tiga bentuk situs berbeda (katalog terbuka, portal terbatas, hanya penawaran). Kebanyakan situs agen memakai hanya-penawaran; beri tahu kalau ingin berbeda.
+5. MOQ, syarat pembayaran (DP dan pelunasan), siapa yang dibayar pembeli (langsung ke pabrik, atau ke perusahaan Anda), dan waktu produksi umumnya. — Masuk ke halaman "Cara Memesan" dan balasan otomatis. Pembeli AS membacanya sebelum mengirim email; siapa yang menerima DP adalah hal pertama yang mereka cek.
 
-### Data produk
+### Data katalog
 
-6. File Excel asli daftar harga beserta foto, nama produk, dan warna. — PDF hanya berisi kode dan "TBA" untuk sebagian besar warna; spreadsheet langsung menjadi basis data katalog.
-7. Per SKU: berat kotor, dimensi karton/kemasan, dan apakah dikirim *knocked-down* atau rakitan jadi. — Dibutuhkan bersama CBM dan jumlah per 40HC yang sudah ada, untuk kalkulator muatan kontainer dan penawaran ongkos kirim.
-8. Nama ilmiah spesies kayu dan rotan di mana pun kayu atau rotan dipakai (mahoni, jati, bambu, rotan), dan konfirmasi tidak ada sonokeling di lini AS. — *Customs broker* pembeli AS wajib mengajukan deklarasi Lacey Act dengan genus dan spesies; mencantumkannya di halaman produk menghilangkan keberatan pembeli. Sonokeling masuk daftar CITES dan sebagian besar pembeli AS menolaknya.
+6. Untuk setiap bengkel di katalog pertama: file Excel asli daftar harga beserta foto, nama produk, dan warna, serta izin tertulis untuk mempublikasikan produk mereka di bawah merek Anda. — PDF Lemongrass berisi kode dan warna "TBA"; spreadsheet menjadi basis data katalog. Mempublikasikan foto pabrik tanpa izin bisa membuat situs diturunkan.
+7. Per SKU: berat kotor, dimensi karton, *knocked-down* atau rakitan jadi — melengkapi CBM dan jumlah per 40HC yang sudah ada di daftar. — Kalkulator muatan kontainer, alat utama situs agen kontainer campur.
+8. Nama ilmiah spesies kayu dan rotan yang dipakai (jati, mahoni, bambu, rotan), dan konfirmasi tidak ada sonokeling di lini AS. — *Broker* pembeli menanyakannya (deklarasi Lacey Act); mencantumkannya di lembar spesifikasi menandakan agen yang serius. Sonokeling masuk daftar CITES; sebagian besar pembeli AS menolaknya.
 
 ### Fakta ekspor untuk halaman "Cara Memesan"
 
-9. Detail sertifikat V-Legal/SVLK Anda (daftar harga menampilkan VLHH-32-07-10 — lembaga sertifikasi, masa berlaku, cakupan), dan set dokumen yang Anda sediakan per pengiriman (*commercial invoice*, *packing list*, *bill of lading*, *certificate of origin*, Dokumen V-Legal, sertifikat fumigasi). — Dicantumkan di situs agar *broker* pembeli tahu apa yang akan diterima; tanda V-Legal itu sendiri layak ditampilkan di situs.
-10. Standar pengepakan untuk pengiriman laut — daftar harga menyebut "wrapped paper" untuk sebagian besar produk. Perlindungan apa yang dipakai untuk pelayaran 30–40 hari, dan apakah palet/peti bercap ISPM-15? — Pembeli AS akan bertanya sebelum kontainer pertama; foto kontainer yang benar-benar dikemas layak ditampilkan di situs.
-11. Apakah Anda menerima inspeksi pihak ketiga sebelum pengiriman (SGS, QIMA, Intertek), dan apakah memiliki audit atau sertifikasi (BSCI, SMETA, ISO)? — Peritel besar AS mewajibkannya; bagian kepercayaan di situs menjawabnya di awal.
+9. Set dokumen yang diterima pembeli per pengiriman (*commercial invoice*, *packing list*, *bill of lading*, *certificate of origin*, Dokumen V-Legal, sertifikat fumigasi), dan atas nama siapa — pabrik atau perusahaan Anda. — Dipublikasikan agar *broker* pembeli tahu apa yang akan diterima. Saya hanya perlu daftarnya dan namanya; cara Anda mengaturnya adalah urusan Anda.
+10. Standar pengepakan untuk pengiriman laut dan palet/peti bercap ISPM-15; foto kontainer yang benar-benar dimuat. — Daftar Lemongrass menyebut "wrapped paper"; pembeli akan bertanya. Foto pemuatan layak ditampilkan di situs.
+11. Apakah Anda mengatur inspeksi sebelum pengiriman (sendiri atau SGS/QIMA/Intertek) dan kunjungan pabrik untuk pembeli? — Bagian kepercayaan di situs.
 
 ### Merek, konten & akun
 
-12. File logo, panduan merek, foto atau video produk dan pabrik yang sudah ada, dan teks bahasa Inggris yang sudah dipakai. — Bahasa Inggris di profil perusahaan perlu disunting; aset asli menentukan apakah pemotretan perlu dipesan.
-13. Preferensi domain, dan siapa di perusahaan yang akan memiliki domain, hosting, akun Google (Analytics, Search Console, Ads), dan media sosial. Domain email perusahaan sebagai pengganti Gmail. — Kepemilikan menentukan siapa yang bisa mengakses semuanya nanti; alamat email bermerek penting bagi pembeli AS.
-14. Siapa yang menjawab pertanyaan pembeli AS, pada jam berapa, dan lewat saluran apa (email diharapkan; balasan dalam satu hari kerja)? — Menentukan formulir permintaan, balasan otomatis, dan janji waktu respons.
+12. Logo dan aset merek kalau ada; foto Anda dan tim di bengkel-bengkel; teks bahasa Inggris yang sudah ditulis. — Situs agen dijual lewat orangnya. Pembeli ingin melihat dengan siapa mereka berurusan dan bahwa Anda benar-benar ada di pabrik.
+13. Preferensi domain (.com), dan konfirmasi bahwa domain, hosting, akun Google (Analytics, Search Console), dan email akan dibuat di bawah akun Anda sendiri dengan saya sebagai administrator. Alamat email perusahaan sebagai pengganti Gmail. — Kepemilikan tetap di tangan Anda; alamat email bermerek penting bagi pembeli AS.
+14. Siapa yang menjawab pertanyaan pembeli, pada jam berapa, dalam bahasa apa, dan lewat saluran apa (email wajib; WhatsApp sebagai pilihan kedua tidak masalah untuk pasar ini). — Formulir permintaan, balasan otomatis, janji waktu respons.
 
 ## Apa yang berubah pada situs tergantung jawabannya
 
 | Jawaban | Yang akan dibangun berbeda |
 |---|---|
-| Hanya lini luar ruangan | Katalog terfokus 16 SKU, cerita kepatuhan AS paling kuat, peluncuran tercepat |
-| Rotan dalam ruangan ikut | Catatan spesies Lacey dan mudah terbakar bantal di halaman produk; katalog lebih besar |
-| Hanya pembeli bisnis | Situs katalog + permintaan/penawaran, tanpa *checkout*, tanpa *payment gateway* |
-| Ingin konsumen | Berhenti dan rencanakan ulang: butuh importir, gudang di AS, dan toko domestik |
-| Harga publik | Katalog terbuka dengan tabel harga; Google Shopping dimungkinkan |
-| Harga terbatas | Pendaftaran dan persetujuan pembeli, daftar harga hanya untuk yang login |
-| Hanya penawaran | Formulir permintaan dengan pemilih produk; proforma lewat email |
-| Dasar Exwork | Harga berlabel Exwork Cirebon dengan catatan trucking dan bea cukai ekspor |
-| Dasar FOB | Harga berlabel FOB (pelabuhan) — dasar yang diharapkan pembeli AS |
-| Excel + foto tersedia | Katalog diimpor langsung; kalkulator muatan kontainer dari CBM dan jumlah per 40HC |
-| Tidak ada foto asli | Pemotretan dipesan sebelum peluncuran |
-| Perusahaan memiliki akun | Akun dibuat di bawah domain perusahaan lalu diserahkan; pembuat situs mendapat akses delegasi |
+| Harga hanya lewat penawaran | Katalog tanpa harga, formulir permintaan dengan pemilih produk dan jumlah, indikator isi kontainer; proforma lewat email |
+| Harga publik | Katalog terbuka dengan harga FOB; catatan "termasuk komisi" bila berlaku |
+| Harga terbatas | Pendaftaran pembeli, persetujuan, daftar harga hanya untuk yang login |
+| Menawarkan kontainer campur | Penyusun kontainer lintas bengkel: tambah produk dari pabrik mana pun, lihat CBM dan persentase isi |
+| Pembeli membayar langsung ke pabrik | Halaman "Cara Memesan" menjelaskan alurnya; peran Anda dibingkai sebagai agen; tekanan lebih kecil pada bagian kepercayaan |
+| Pembeli membayar ke perusahaan Anda | Bagian kepercayaan lebih kuat: badan usaha, alamat, referensi, inspeksi, tahapan pembayaran |
+| Beberapa bengkel saat peluncuran | Katalog dikelompokkan per bengkel dengan keterangan "disediakan oleh"; format lembar spesifikasi seragam |
+| Hanya lini luar ruangan Lemongrass saat peluncuran | Katalog terfokus 16 SKU; peluncuran tercepat; bengkel lain ditambahkan kemudian |
+| Tidak ada izin foto pabrik | Pemotretan dipesan sebelum peluncuran |
+| Menawarkan produk khusus/OEM | Formulir proyek khusus dengan unggah berkas |
+| Menawarkan kunjungan pabrik | Halaman "Kunjungi Bengkel" dan formulir pemesanan |
+| Akun atas nama Anda | Anda yang membuat, saya mendapat akses admin; tidak ada yang perlu dipindahkan nanti |
 
 ## Fakta kunci (terverifikasi) yang mendasari daftar ini
 
@@ -59,8 +59,9 @@
 - Transit laut Indonesia–AS: FCL 27–39 hari, LCL 30–42 hari (indikatif). — freightos.com (Sep 2026).
 
 **Sisi ekspor Indonesia**
-- Dokumen V-Legal (SVLK) wajib untuk kepabeanan ekspor furnitur kayu; apakah produk rotan murni dikecualikan belum terkonfirmasi. — mongabay.com (2020-05-27), timbertradeportal.com (2020-06-09). **Belum diverifikasi ulang secara independen.**
+- Dokumen V-Legal (SVLK) wajib untuk kepabeanan ekspor furnitur kayu; apakah produk rotan murni dikecualikan belum terkonfirmasi. SVLK badan usaha mana yang menaungi pengiriman yang diatur agen adalah urusan agen dan pabrik, bukan urusan situs web. — mongabay.com (2020-05-27), timbertradeportal.com (2020-06-09). **Belum diverifikasi ulang secara independen.**
 
-**Dari dokumen perusahaan sendiri**
-- Lemongrass Homecraft (Lemongrass Group, Yogyakarta) beroperasi sejak 1999; badan ekspor baru PT Lemongrass Archipelagocraft Ekspor; penjualan sebelumnya ke AS, Inggris, Kanada, dan Australia; bengkel di Bantul, Ngawi, Ambarawa, Cirebon, dan Lombok. — profil perusahaan.
-- Empat daftar harga diterbitkan atas nama PT Lemongrass Archipelagocraft Ekspor dengan tanda V-Legal Wood (VLHH-32-07-10), 130 SKU: LD luar ruangan (16, Exwork US$194–2.075), CH kursi dalam ruangan (71, Exwork US$33–258), LI ruang keluarga (29, Exwork US$91–244), TBI meja (14, FOB US$33–132); setiap baris memuat dimensi, CBM, dan jumlah per 40HC; kantor di Bogor, bengkel di Plumbon, Cirebon. — daftar harga 1–4.
+**Dari dokumen yang sudah diterima**
+- Lemongrass Homecraft (Lemongrass Group, Yogyakarta) beroperasi sejak 1999; badan ekspor PT Lemongrass Archipelagocraft Ekspor dengan tanda V-Legal Wood (VLHH-32-07-10); penjualan sebelumnya ke AS, Inggris, Kanada, dan Australia; bengkel di Bantul, Ngawi, Ambarawa, Cirebon, dan Lombok. — profil perusahaan.
+- Empat daftar harga Lemongrass, 130 SKU: LD luar ruangan (16, Exwork US$194–2.075), CH kursi dalam ruangan (71, Exwork US$33–258), LI ruang keluarga (29, Exwork US$91–244), TBI meja (14, FOB US$33–132); setiap baris memuat dimensi, CBM, dan jumlah per 40HC; kantor Bogor, bengkel Plumbon, Cirebon. — daftar harga 1–4.
+- Situs ini untuk Buitenzorg Lemongrass Homecraft (Bogor), yang bertindak sebagai perantara ekspor bagi produsen Indonesia dan akan menjalankan situs webnya sendiri, bukan situs produsen; pembeli mengurus impor di negaranya sendiri. — pesan 20 Sep 2026.

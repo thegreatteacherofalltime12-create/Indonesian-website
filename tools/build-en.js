@@ -44,16 +44,16 @@ const tocHtml = toc.map(x => `<li><a href="#${x.id}">${inline(x.t)}</a><span>${c
 const total = Object.values(counts).reduce((a, b) => a + b, 0);
 const body = out.join('\n').replace(/^<\/section>/, '');
 const css = fs.readFileSync('style.css', 'utf8');
-const html = `<title>Lemongrass US Site Intake</title>
+const html = `<title>Buitenzorg Lemongrass Site Intake</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>${css}</style>
 <div class="wrap">
 <header>
 <span class="eyebrow">Pre-build questionnaire</span>
-<h1>Lemongrass US Site Intake</h1>
-<p class="lede">What the website builder needs from PT Lemongrass Archipelagocraft Ekspor to build a wholesale catalog site for US trade buyers. Answer by number; a document, a name, or a yes/no is the expected reply for most.</p>
-<div class="meta"><span>${total} questions in 4 groups</span><span>Research as of 15–20 Sep 2026; wholesale export model</span><span>US tariff rules change often; buyers should re-check before ordering</span></div>
+<h1>Buitenzorg Lemongrass Site Intake</h1>
+<p class="lede">What the website builder needs from Buitenzorg Lemongrass Homecraft to build an export-sourcing catalog site for US trade buyers. Answer by number; a document, a name, or a yes/no is the expected reply for most.</p>
+<div class="meta"><span>${total} questions in 4 groups</span><span>Research as of 15–20 Sep 2026; export-agent model</span><span>US tariff rules change often; buyers should re-check before ordering</span></div>
 </header>
 <nav class="toc" aria-label="Question groups"><span class="eyebrow">Question groups</span><ol>${tocHtml}</ol></nav>
 ${body}</section>

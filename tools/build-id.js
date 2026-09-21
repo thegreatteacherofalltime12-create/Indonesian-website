@@ -45,16 +45,16 @@ const tocHtml = toc.map(x => `<li><a href="#${x.id}">${inline(x.t)}</a><span>${c
 const total = Object.values(counts).reduce((a, b) => a + b, 0);
 const body = out.join('\n').replace(/^<\/section>/, '');
 const css = fs.readFileSync('style.css', 'utf8');
-const html = `<title>Kebutuhan Situs AS Lemongrass</title>
+const html = `<title>Kebutuhan Situs Buitenzorg Lemongrass</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>${css}</style>
 <div class="wrap">
 <header>
 <span class="eyebrow">Kuesioner sebelum situs dibangun</span>
-<h1>Kebutuhan Situs AS Lemongrass</h1>
-<p class="lede">Hal-hal yang dibutuhkan pembuat situs dari PT Lemongrass Archipelagocraft Ekspor untuk membangun situs katalog grosir bagi pembeli bisnis di Amerika Serikat. Jawab sesuai nomor; untuk sebagian besar pertanyaan, jawaban yang diharapkan berupa dokumen, nama, atau ya/tidak. Nomor pertanyaan sama dengan versi bahasa Inggris.</p>
-<div class="meta"><span>${total} pertanyaan dalam 4 kelompok</span><span>Riset per 15–20 Sep 2026; model ekspor grosir</span><span>Aturan tarif AS sering berubah; pembeli sebaiknya cek ulang sebelum memesan</span></div>
+<h1>Kebutuhan Situs Buitenzorg Lemongrass</h1>
+<p class="lede">Hal-hal yang dibutuhkan pembuat situs dari Buitenzorg Lemongrass Homecraft untuk membangun situs katalog ekspor bagi pembeli bisnis di Amerika Serikat. Jawab sesuai nomor; untuk sebagian besar pertanyaan, jawaban yang diharapkan berupa dokumen, nama, atau ya/tidak. Nomor pertanyaan sama dengan versi bahasa Inggris.</p>
+<div class="meta"><span>${total} pertanyaan dalam 4 kelompok</span><span>Riset per 15–20 Sep 2026; model agen ekspor</span><span>Aturan tarif AS sering berubah; pembeli sebaiknya cek ulang sebelum memesan</span></div>
 </header>
 <nav class="toc" aria-label="Kelompok pertanyaan"><span class="eyebrow">Kelompok pertanyaan</span><ol>${tocHtml}</ol></nav>
 ${body}</section>

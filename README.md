@@ -1,6 +1,6 @@
 # Lemongrass US Site
 
-Website project for PT Lemongrass Archipelagocraft Ekspor (Lemongrass Homecraft, Yogyakarta) — a wholesale catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture.
+Website project for **Buitenzorg Lemongrass Homecraft** (Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
 
 Status: **discovery**. The intake questionnaire has been sent to the company; the site build starts once the scope answers come back (product lines, buyer type, price basis).
 
@@ -26,7 +26,7 @@ Both scripts read the `.md` file, render it into a styled single-file HTML page,
 
 ## Decisions so far
 
-- **Model:** wholesale export to US businesses (Exwork/FOB), not consumer sales. Confirmed by the company's own price lists, which are quoted per container load.
+- **Model:** export agent / sourcing intermediary selling FOB to US businesses, not consumer sales. The buyer handles import. Product data so far comes from Lemongrass price lists quoted per container load.
 - **Platform:** not decided. A catalog + quote site needs no checkout, so Shopify is optional; a static site or WordPress behind Cloudflare is a candidate.
 - **Analytics:** GA4 + Google Tag Manager + Search Console. Ads (if any) via Google Search on wholesale terms and LinkedIn, owned by the company's accounts.
 - **Scope:** to be confirmed by the company — outdoor line (LD) only, indoor rattan (CH/LI/TBI) too, or full catalog.
