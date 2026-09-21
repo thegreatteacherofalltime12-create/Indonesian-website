@@ -1,0 +1,19 @@
+{
+  "name": "buitenzorg-lemongrass-site",
+  "version": "1.0.0",
+  "description": "Static wholesale catalog site for Buitenzorg Lemongrass Homecraft",
+  "scripts": {
+    "build": "node build.js",
+    "images": "node tools/images.js",
+    "dev": "node build.js && npx wrangler pages dev dist",
+    "deploy": "node build.js && npx wrangler pages deploy dist --project-name buitenzorg-lemongrass"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "sharp": "^0.35.4"
+  },
+  "private": true
+}

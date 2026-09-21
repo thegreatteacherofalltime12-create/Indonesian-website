@@ -1,0 +1,36 @@
+{
+  "brand": "Buitenzorg Lemongrass Homecraft",
+  "shortBrand": "Buitenzorg Lemongrass",
+  "tagline": "Indonesian outdoor and rattan furniture, sourced and shipped for trade buyers",
+  "legalEntity": "CV. Handaya Arga Taraka",
+  "legalEntityConfirmed": false,
+  "address": {
+    "lines": ["Jl. Cipinang Gading, Gg. Madrasah 002/012", "Rangga Mekar, Bogor Selatan", "Kota Bogor 16136, West Java, Indonesia"],
+    "city": "Bogor",
+    "country": "Indonesia"
+  },
+  "contact": {
+    "email": "PLACEHOLDER@example.com",
+    "emailConfirmed": false,
+    "whatsapp": "+62 815 1147 9652",
+    "instagram": "https://www.instagram.com/buitenzorg_lemongrass",
+    "instagramHandle": "@buitenzorg_lemongrass"
+  },
+  "commerce": {
+    "showPrices": false,
+    "priceBasis": "FOB Indonesian port (to be confirmed)",
+    "currency": "USD",
+    "moq": "One 40HC container or mixed LCL — to be confirmed",
+    "paymentTerms": "Deposit against proforma invoice, balance before shipment — to be confirmed",
+    "leadTime": "Typically 6–12 weeks production plus 4–6 weeks sea freight — to be confirmed",
+    "container": { "cbm20": 26, "cbm40": 53, "cbm40hc": 60 }
+  },
+  "markets": ["United States", "Canada", "United Kingdom", "Australia"],
+  "credentials": [
+    { "label": "Indonesian Legal Wood (SVLK) V-Legal", "detail": "VLHH-32-07-10 — manufacturing partner Lemongrass Archipelagocraft Ekspor", "image": "v-legal.png" },
+    { "label": "amfori BSCI member", "detail": "ID 360-000323-000 — manufacturing partner", "image": null },
+    { "label": "Third-party inspection welcome", "detail": "SGS, QIMA, Intertek or your own agent before loading", "image": null }
+  ],
+  "analytics": { "ga4": "" },
+  "url": "https://buitenzorg-lemongrass.pages.dev"
+}
