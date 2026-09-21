@@ -2,6 +2,12 @@
 (function () {
   'use strict';
   var KEY = 'blh_quote_v1';
+  var LANG = (document.documentElement.lang || 'en').slice(0, 2) === 'id' ? 'id' : 'en';
+  var BASE = document.body.getAttribute('data-base') || '';
+  var STR = {
+    en: { added: 'Added ✓', nested: 'm³ nested', onRequest: function (n) { return ' + ' + n + ' item' + (n > 1 ? 's' : '') + ' on request'; }, summary: function (n, v, p) { return n + ' item' + (n > 1 ? 's' : '') + ' · ' + v + ' m³ · ' + p + '% of a 40HC'; }, planPrefix: 'Load plan: ', planEmpty: 'Load plan is empty', estLoad: function (v, p) { return 'Estimated load ' + v + ' m³ nested (' + p + '% of a 40HC)'; }, qtyOf: 'Quantity of ', remove: 'Remove ', errName: 'Please enter your name.', errCompany: 'Please enter your company.', errEmail: 'Please enter a valid email address.', errCountry: 'Please tell us the destination country or port.', errCheck: function (n) { return 'Please check the highlighted field' + (n > 1 ? 's' : '') + '.'; }, sent: 'Thank you — your request has been sent. We reply within one business day.', preview: 'Received. This is a preview build: email delivery is not connected yet, so please also send your request by WhatsApp or email for now.', failed: 'Could not send just now. Please try again or contact us on WhatsApp.', cancelled: 'Form and load plan cleared.', serverErrors: { 'Invalid email': 'Please check your email address.', 'Missing required fields': 'Please fill in every required field.' } },
+    id: { added: 'Ditambahkan ✓', nested: 'm³ bersarang', onRequest: function (n) { return ' + ' + n + ' produk berdasarkan permintaan'; }, summary: function (n, v, p) { return n + ' produk · ' + v + ' m³ · ' + p + '% dari 40HC'; }, planPrefix: 'Rencana muatan: ', planEmpty: 'Rencana muatan kosong', estLoad: function (v, p) { return 'Perkiraan muatan ' + v + ' m³ bersarang (' + p + '% dari 40HC)'; }, qtyOf: 'Jumlah ', remove: 'Hapus ', errName: 'Masukkan nama Anda.', errCompany: 'Masukkan nama perusahaan.', errEmail: 'Masukkan alamat email yang valid.', errCountry: 'Sebutkan negara atau pelabuhan tujuan.', errCheck: function (n) { return 'Periksa kolom yang ditandai.'; }, sent: 'Terima kasih — permintaan Anda sudah terkirim. Kami membalas dalam satu hari kerja.', preview: 'Diterima. Ini versi pratinjau: pengiriman email belum terhubung, jadi untuk sementara kirim juga permintaan Anda lewat WhatsApp atau email.', failed: 'Tidak bisa mengirim saat ini. Coba lagi atau hubungi kami lewat WhatsApp.', cancelled: 'Formulir dan rencana muatan dikosongkan.', serverErrors: { 'Invalid email': 'Periksa alamat email Anda.', 'Missing required fields': 'Isi semua kolom wajib.' } }
+  }[LANG];
   var products = null; // loaded from /products.json on demand
   var caps = { cbm20: 26, cbm40: 53, cbm40hc: 60 };
 
@@ -43,26 +49,26 @@
       lists.forEach(function (list) {
         list.innerHTML = skus.map(function (s) {
           var p = P[s] || { name: s, sku: s };
-          return '<li><span><span class="sku">' + esc(p.sku) + '</span><br>' + esc(p.name) + ((p.per40hc || p.cbm) ? '<br><span class="sku">' + fmt(vol(p, q[s]), 1) + ' m³ nested</span>' : '') + '</span>' +
-            '<input type="number" min="0" step="1" value="' + q[s] + '" aria-label="Quantity of ' + esc(p.name) + '" data-qty="' + esc(s) + '">' +
-            '<button type="button" aria-label="Remove ' + esc(p.name) + '" data-remove="' + esc(s) + '">×</button></li>';
+          return '<li><span><span class="sku">' + esc(p.sku) + '</span><br>' + esc(p.name) + ((p.per40hc || p.cbm) ? '<br><span class="sku">' + fmt(vol(p, q[s]), 1) + ' ' + STR.nested + '</span>' : '') + '</span>' +
+            '<input type="number" min="0" step="1" value="' + q[s] + '" aria-label="' + STR.qtyOf + esc(p.name) + '" data-qty="' + esc(s) + '">' +
+            '<button type="button" aria-label="' + STR.remove + esc(p.name) + '" data-remove="' + esc(s) + '">×</button></li>';
         }).join('');
       });
       document.querySelectorAll('[data-quote-empty]').forEach(function (el) { el.style.display = skus.length ? 'none' : ''; });
-      document.querySelectorAll('[data-total-cbm]').forEach(function (el) { el.textContent = fmt(total, 1) + ' m³' + (unknown ? ' + ' + unknown + ' item' + (unknown > 1 ? 's' : '') + ' on request' : ''); });
+      document.querySelectorAll('[data-total-cbm]').forEach(function (el) { el.textContent = fmt(total, 1) + ' m³' + (unknown ? STR.onRequest(unknown) : ''); });
       Object.keys(caps).forEach(function (k) {
         var pct = caps[k] ? total / caps[k] * 100 : 0;
         document.querySelectorAll('[data-bar="' + k + '"]').forEach(function (b) { b.style.width = Math.min(100, pct) + '%'; b.classList.toggle('over', pct > 103); b.classList.toggle('full', pct >= 97 && pct <= 103); });
         document.querySelectorAll('[data-pct="' + k + '"]').forEach(function (b) { b.textContent = Math.round(pct) + '%'; });
       });
       var n40 = Math.round(total / caps.cbm40hc * 100);
-      var summary = skus.length ? skus.length + ' item' + (skus.length > 1 ? 's' : '') + ' · ' + fmt(total, 1) + ' m³ · ' + n40 + '% of a 40HC' : '';
-      document.querySelectorAll('[data-plan-announce]').forEach(function (el) { el.textContent = summary ? 'Load plan: ' + summary : 'Load plan is empty'; });
+      var summary = skus.length ? STR.summary(skus.length, fmt(total, 1), n40) : '';
+      document.querySelectorAll('[data-plan-announce]').forEach(function (el) { el.textContent = summary ? STR.planPrefix + summary : STR.planEmpty; });
       var bar = document.querySelector('[data-plan-bar]');
       if (bar) { bar.hidden = !skus.length; document.body.classList.toggle('has-plan-bar', !!skus.length); var sm = bar.querySelector('[data-plan-summary]'); if (sm) sm.textContent = summary; }
       var ta = document.getElementById('f-items');
       if (ta && !ta.dataset.userEdited) {
-        ta.value = skus.map(function (s) { var p = P[s] || { name: s }; return (P[s] ? p.sku + ' — ' : '') + p.name + ' × ' + q[s]; }).join('\n') + (total ? '\n\nEstimated load ' + fmt(total, 1) + ' m³ nested (' + n40 + '% of a 40HC)' : '');
+        ta.value = skus.map(function (s) { var p = P[s] || { name: s }; return (P[s] ? p.sku + ' — ' : '') + p.name + ' × ' + q[s]; }).join('\n') + (total ? '\n\n' + STR.estLoad(fmt(total, 1), n40) : '');
       }
     });
   }
@@ -75,7 +81,7 @@
       var qty = 1; var from = t.getAttribute('data-qty-from');
       if (from) { var inp = document.getElementById(from); if (inp) qty = parseInt(inp.value, 10) || 1; }
       add(t.getAttribute('data-add'), qty);
-      var old = t.textContent; t.textContent = 'Added ✓'; t.disabled = true;
+      var old = t.textContent; t.textContent = STR.added; t.disabled = true;
       setTimeout(function () { t.textContent = old; t.disabled = false; }, 1200);
       return;
     }
@@ -91,9 +97,22 @@
     var nt = e.target.closest('.nav-toggle');
     if (nt) { var links = document.getElementById('nav-links'); var open = links.classList.toggle('open'); nt.setAttribute('aria-expanded', open ? 'true' : 'false'); }
   });
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('details.lang-menu[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.querySelectorAll('details.lang-menu[open]').forEach(function (d) { d.removeAttribute('open'); }); });
   document.addEventListener('change', function (e) {
     var i = e.target.closest('[data-qty]');
     if (i) setQty(i.getAttribute('data-qty'), parseInt(i.value, 10) || 0);
+  });
+  var cancelBtn = document.querySelector('[data-cancel]');
+  if (cancelBtn) cancelBtn.addEventListener('click', function () {
+    var f = cancelBtn.closest('form'); f.reset();
+    f.querySelectorAll('[aria-invalid]').forEach(function (el) { el.removeAttribute('aria-invalid'); });
+    f.querySelectorAll('.field-error').forEach(function (el) { el.remove(); });
+    var ta = document.getElementById('f-items'); if (ta) { delete ta.dataset.userEdited; ta.value = ''; }
+    writeQuote({}); updateCount(); renderPanels();
+    var st = f.querySelector('[data-status]'); if (st) { st.className = 'status ok'; st.textContent = STR.cancelled; }
   });
   var itemsTa = document.getElementById('f-items');
   if (itemsTa) itemsTa.addEventListener('input', function () { itemsTa.dataset.userEdited = '1'; });
@@ -110,11 +129,11 @@
       form.querySelectorAll('[aria-invalid]').forEach(function (el) { el.removeAttribute('aria-invalid'); });
       form.querySelectorAll('.field-error').forEach(function (el) { el.remove(); });
       function bad(id, msg) { var el = document.getElementById(id); if (!el) return; el.setAttribute('aria-invalid', 'true'); var p = document.createElement('p'); p.className = 'field-error'; p.id = id + '-error'; p.textContent = msg; el.insertAdjacentElement('afterend', p); el.setAttribute('aria-describedby', p.id); problems.push(el); }
-      if (!String(data.name || '').trim()) bad('f-name', 'Please enter your name.');
-      if (!String(data.company || '').trim()) bad('f-company', 'Please enter your company.');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email || '').trim())) bad('f-email', 'Please enter a valid email address.');
-      if (!String(data.country || '').trim()) bad('f-country', 'Please tell us the destination country or port.');
-      if (problems.length) { status.className = 'status err'; status.textContent = 'Please check the highlighted field' + (problems.length > 1 ? 's' : '') + '.'; problems[0].focus(); return; }
+      if (!String(data.name || '').trim()) bad('f-name', STR.errName);
+      if (!String(data.company || '').trim()) bad('f-company', STR.errCompany);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email || '').trim())) bad('f-email', STR.errEmail);
+      if (!String(data.country || '').trim()) bad('f-country', STR.errCountry);
+      if (problems.length) { status.className = 'status err'; status.textContent = STR.errCheck(problems.length); problems[0].focus(); return; }
       if (data.website) { status.className = 'status ok'; status.textContent = 'Thanks — received.'; return; } // honeypot
       var q = quote(); data.quote = Object.keys(q).map(function (s) { return { sku: s, qty: q[s] }; });
       data.page = location.href;
@@ -122,13 +141,13 @@
       fetch('/api/inquiry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); })
         .then(function (res) {
-          if (res.ok && res.j.delivered) { status.className = 'status ok'; status.textContent = 'Thank you — your request has been sent. We reply within one business day.'; form.reset(); writeQuote({}); updateCount(); renderPanels(); }
-          else if (res.ok) { status.className = 'status ok'; status.textContent = 'Received. This is a preview build: email delivery is not connected yet, so please also send your request by WhatsApp or email for now.'; }
+          if (res.ok && res.j.delivered) { status.className = 'status ok'; status.textContent = STR.sent; form.reset(); writeQuote({}); updateCount(); renderPanels(); }
+          else if (res.ok) { status.className = 'status ok'; status.textContent = STR.preview; }
           else { var e = new Error(res.j.error || 'failed'); e.client = res.status >= 400 && res.status < 500; throw e; }
         })
         .catch(function (err) {
           status.className = 'status err';
-          status.textContent = err && err.client ? ({ 'Invalid email': 'Please check your email address.', 'Missing required fields': 'Please fill in every required field.' }[err.message] || err.message) : 'Could not send just now. Please try again or contact us on WhatsApp.';
+          status.textContent = err && err.client ? (STR.serverErrors[err.message] || err.message) : STR.failed;
         })
         .then(function () { btn.disabled = false; });
     });
@@ -138,7 +157,7 @@
   renderPanels();
   // Deep link hash → filter chip (also on same-document hash changes)
   function applyHash() {
-    if (location.pathname.indexOf('/products') !== 0) return;
+    if (location.pathname.indexOf(BASE + '/products') !== 0) return;
     var chip = document.querySelector('[data-filter="' + (location.hash ? location.hash.slice(1) : 'all') + '"]');
     if (chip) { chip.click(); var sec = location.hash && document.getElementById(location.hash.slice(1)); if (sec) sec.scrollIntoView(); }
   }

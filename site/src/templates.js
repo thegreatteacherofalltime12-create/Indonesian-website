@@ -1,13 +1,16 @@
 // Page templates. Plain functions returning HTML strings; no framework.
+// Every page is rendered once per locale: ctx.L is the language file (i18n/en.js or id.js), ctx.base is '' or '/id'.
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const fmtDims = p => (p.w && p.d && p.h) ? `${p.w} × ${p.d} × ${p.h} cm` : null;
 const inch = cm => Math.round(cm / 2.54 * 10) / 10;
 const fmtDimsIn = p => (p.w && p.d && p.h) ? `${inch(p.w)} × ${inch(p.d)} × ${inch(p.h)} in` : null;
 const money = n => n == null ? null : `US$${n.toLocaleString('en-US')}`;
+// Translate a data value (from site.json / catalog.json) if the locale has it; otherwise pass through.
+const tv = (L, s) => (s == null ? s : (L.values[s] ?? s));
 
 function picture(manifest, name, alt, { sizes = '100vw', className = '', loading = 'lazy', fetchpriority } = {}) {
   const m = manifest[name];
-  if (!m) return `<div class="placeholder">Photo to come</div>`;
+  if (!m) return `<div class="placeholder">${esc(alt)}</div>`;
   const webp = m.fallbackW ? m.widths.map(w => `/images/${name}-${w}.webp ${w}w`).join(', ') : `/images/${name}.webp`;
   const src = `/images/${name}.jpg`;
   const attrs = `alt="${esc(alt)}" loading="${loading}" decoding="async" width="${m.fallbackW ? m.fallbackW : m.w}" height="${m.fallbackW ? Math.round(m.h * (m.fallbackW / m.w)) : m.h}"${fetchpriority ? ` fetchpriority="${fetchpriority}"` : ''}${className ? ` class="${className}"` : ''}`;
@@ -19,36 +22,46 @@ const icons = {
   container: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="11" rx="1"/><path d="M6 7v11M10 7v11M14 7v11M18 7v11M2 12h20"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>',
   docs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg>',
-  ship: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0M4 14l1.5-5h13L20 14M8 9V5h8v4"/></svg>',
   visit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>',
-  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.4 11.4 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.5-.3z"/></svg>',
 };
-
+const serviceIcons = [icons.source, icons.container, icons.check, icons.docs];
 const mark = `<svg class="brand-mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="6" fill="#4C6A1D"/><path d="M8 26c3-9 7-14 18-18-2 8-7 14-18 18zm0 0c5-3 9-7 12-12" fill="none" stroke="#F5F3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-function layout({ site, manifest, title, description, path, body, extraHead = '', ogImage }) {
+// Mark "to be confirmed" values with the locale's label.
+const tbcFor = L => s => {
+  const v = tv(L, s);
+  return /to be confirmed|belum dikonfirmasi/i.test(v) ? `${esc(v.replace(L.tbcPattern, '').trim())} <span class="tbc">${L.tbcLabel}</span>` : esc(v);
+};
+
+function gallery(manifest, items, cls = '') {
+  return `<div class="gallery"${cls ? ` style="${cls}"` : ''}>${items.map(([name, alt, cap, tall]) => `<figure${tall ? ' class="tall"' : ''}>${picture(manifest, name, alt, { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>${esc(cap)}</figcaption></figure>`).join('')}</div>`;
+}
+
+function layout({ site, manifest, L, base, title, description, path, body, extraHead = '', ogImage }) {
   const preview = site.preview !== false;
-  const nav = [
-    ['/products/', 'Products'],
-    ['/how-to-order/', 'How to order'],
-    ['/workshops/', 'Workshops'],
-    ['/contact/', 'Contact'],
-  ];
-  const fullTitle = path === '/' ? `${site.shortBrand} — Indonesian furniture for trade buyers` : `${title} — ${site.shortBrand}`;
+  const nav = [['/products/', L.nav.products], ['/how-to-order/', L.nav.howToOrder], ['/workshops/', L.nav.workshops], ['/contact/', L.nav.contact]];
+  const fullTitle = path === '/' ? `${site.shortBrand} — ${L.homeTitle}` : `${title} — ${site.shortBrand}`;
+  const here = base + path, other = L.otherDir + path;
+  const langs = [['en', 'English', path], ['id', 'Bahasa Indonesia', '/id' + path]];
+  const langMenu = `<li class="lang-item"><details class="lang-menu"><summary aria-label="${L.nav.langSwitch}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg><span>${L.lang === 'id' ? 'ID' : 'EN'}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><ul>${langs.map(([code, label, href]) => `<li><a href="${href}" lang="${code}" hreflang="${code}"${code === L.lang ? ' aria-current="true"' : ''}>${label}</a></li>`).join('')}</ul></details></li>`;
   return `<!doctype html>
-<html lang="en">
+<html lang="${L.lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description)}">
-<link rel="canonical" href="${esc(site.url + path)}">
+<link rel="canonical" href="${esc(site.url + here)}">
+<link rel="alternate" hreflang="en" href="${esc(site.url + path)}">
+<link rel="alternate" hreflang="id" href="${esc(site.url + '/id' + path)}">
+<link rel="alternate" hreflang="x-default" href="${esc(site.url + path)}">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
-<meta property="og:url" content="${esc(site.url + path)}">
+<meta property="og:url" content="${esc(site.url + here)}">
 <meta property="og:image" content="${esc(site.url)}${ogImage || '/images/hero.jpg'}">
 <meta property="og:site_name" content="${esc(site.brand)}">
+<meta property="og:locale" content="${L.lang === 'id' ? 'id_ID' : 'en_US'}">
 <meta name="twitter:card" content="summary_large_image">${preview ? '\n<meta name="robots" content="noindex,nofollow">' : ''}
 <meta name="theme-color" content="#1F2A18">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -58,18 +71,18 @@ function layout({ site, manifest, title, description, path, body, extraHead = ''
 <link rel="stylesheet" href="/styles.css">
 ${extraHead}
 </head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-${preview ? `<div class="preview-banner">Preview build — items marked “to be confirmed” are awaiting confirmation from ${esc(site.brand)}.</div>` : ''}
+<body data-base="${base}">
+<a class="skip" href="#main">${L.nav.skip}</a>
+${preview ? `<div class="preview-banner">${L.previewBanner(esc(site.brand))}</div>` : ''}
 <header class="site-header">
   <div class="wrap nav">
-    <a class="brand" href="/" aria-label="${esc(site.brand)} home">${mark}<span>${esc(site.shortBrand)}<small>Furniture export · Bogor, Indonesia</small></span></a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <nav aria-label="Primary"><ul class="nav-links" id="nav-links">
-      ${nav.map(([href, label]) => `<li><a href="${href}"${path.startsWith(href) ? ' aria-current="page"' : ''}>${label}</a></li>`).join('')}
+    <a class="brand" href="${base}/" aria-label="${esc(site.brand)}">${mark}<span>${esc(site.shortBrand)}<small>${esc(L.brandSub)}</small></span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="${L.nav.menu}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <nav aria-label="${L.nav.primary}"><ul class="nav-links" id="nav-links">
+      ${nav.map(([href, label], i) => `<li><a href="${base}${href}"${path.startsWith(href) ? ' aria-current="page"' : ''}>${label}</a></li>${i === 0 ? langMenu : ''}`).join('')}
     </ul></nav>
     <div class="nav-cta">
-      <a class="btn btn-primary btn-sm quote-pill" href="/contact/"><span class="long">Request a quote</span><span class="short">Quote</span> <span class="count" data-n="0" data-quote-count>0</span></a>
+      <a class="btn btn-primary btn-sm quote-pill" href="${base}/contact/"><span class="long">${L.nav.quote}</span><span class="short">${L.nav.quoteShort}</span> <span class="count" data-n="0" data-quote-count>0</span></a>
     </div>
   </div>
 </header>
@@ -78,109 +91,119 @@ ${body}
 </main>
 <footer class="site-footer">
   <div class="wrap">
-    <nav class="footer-grid" aria-label="Footer">
+    <nav class="footer-grid" aria-label="${L.nav.footer}">
       <div>
         <h4>${esc(site.brand)}</h4>
-        <p>Export sourcing for Indonesian outdoor furniture, rattan and natural-fibre craft, FOB Jakarta. Based in Bogor, West Java; workshops in Cirebon, Yogyakarta and Ngawi.</p>
+        <p>${esc(L.footer.about)}</p>
         <p style="margin-top:10px">${site.address.lines.map(esc).join('<br>')}</p>
-        <p style="margin-top:10px">${site.showLegalEntity && site.legalEntity ? esc(site.legalEntity) : 'A registered Indonesian company (CV). Company details appear on every proforma invoice and are available on request.'}</p>
+        <p style="margin-top:10px">${site.showLegalEntity && site.legalEntity ? esc(site.legalEntity) : esc(L.footer.entity)}</p>
       </div>
       <div>
-        <h4>Browse</h4>
+        <h4>${L.footer.browse}</h4>
         <ul>
-          <li><a href="/products/">All products</a></li>
-          <li><a href="/products/#outdoor">Outdoor furniture</a></li>
-          <li><a href="/products/#lighting">Lighting</a></li>
-          <li><a href="/products/#wall-decor">Wall decor</a></li>
-          <li><a href="/workshops/">Workshops</a></li>
+          <li><a href="${base}/products/">${L.footer.all}</a></li>
+          <li><a href="${base}/products/#outdoor">${L.footer.outdoor}</a></li>
+          <li><a href="${base}/products/#lighting">${L.footer.lighting}</a></li>
+          <li><a href="${base}/products/#wall-decor">${L.footer.wallDecor}</a></li>
+          <li><a href="${base}/workshops/">${L.footer.workshops}</a></li>
         </ul>
       </div>
       <div>
-        <h4>Buying</h4>
+        <h4>${L.footer.buying}</h4>
         <ul>
-          <li><a href="/how-to-order/">How to order</a></li>
-          <li><a href="/how-to-order/#documents">Export documents</a></li>
-          <li><a href="/how-to-order/#packing">Packing &amp; loading</a></li>
-          <li><a href="/contact/">Request a quote</a></li>
+          <li><a href="${base}/how-to-order/">${L.footer.howToOrder}</a></li>
+          <li><a href="${base}/how-to-order/#documents">${L.footer.documents}</a></li>
+          <li><a href="${base}/how-to-order/#packing">${L.footer.packing}</a></li>
+          <li><a href="${base}/contact/">${L.footer.quote}</a></li>
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h4>${L.footer.contact}</h4>
         <ul>
-          <li>${site.contact.emailConfirmed ? `<a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>` : '<span class="muted">Email address to be confirmed</span>'}</li>
-          <li><a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">WhatsApp ${esc(site.contact.whatsapp)}</a></li>
-          <li><a href="${esc(site.contact.instagram)}" rel="noopener">Instagram ${esc(site.contact.instagramHandle)}</a></li>
-          <li class="muted">${esc(site.contact.hours)}</li>
+          <li>${site.contact.emailConfirmed ? `<a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>` : `<span class="muted">${L.footer.emailTbc}</span>`}</li>
+          <li><a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">${L.footer.whatsapp} ${esc(site.contact.whatsapp)}</a></li>
+          <li><a href="${esc(site.contact.instagram)}" rel="noopener">${L.footer.instagram} ${esc(site.contact.instagramHandle)}</a></li>
+          <li class="muted">${esc(tv(L, site.contact.hours))}</li>
+          <li><a class="lang" href="${other}" lang="${L.otherLang}" hreflang="${L.otherLang}">${L.otherLabel}</a></li>
         </ul>
       </div>
     </nav>
     <div class="footer-bottom">
-      <span>© ${new Date().getFullYear()} ${esc(site.brand)}. Prices quoted ${esc(site.commerce.priceBasis)}; the buyer is the importer of record. Export documents may be issued by the manufacturing partner as exporter of record.</span>
-      <span><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms of sale</a></span>
+      <span>${L.footer.legal(esc(site.brand), esc(tv(L, site.commerce.priceBasis)))}</span>
+      <span><a href="${base}/privacy/">${L.footer.privacy}</a> · <a href="${base}/terms/">${L.footer.terms}</a></span>
     </div>
   </div>
 </footer>
-<div class="plan-bar" data-plan-bar hidden><span data-plan-summary></span><a class="btn btn-primary btn-sm" href="/contact/">Request quote</a></div>
+<div class="plan-bar" data-plan-bar hidden><span data-plan-summary></span><a class="btn btn-primary btn-sm" href="${base}/contact/">${L.planBar.cta}</a></div>
 <script src="/app.js" defer></script>
 </body>
 </html>`;
 }
 
-function productCard(p, { site, manifest, categories }) {
+function productCard(p, { site, manifest, catalog, L, base }) {
   const isThumb = /^ld-/.test(p.image || '');
-  const cat = categories.find(c => c.slug === p.category);
+  const cat = catalog.categories.find(c => c.slug === p.category);
   const dims = fmtDims(p);
-  const spec = [p.frame, p.weave].filter(Boolean).join(' · ') || cat?.name;
-  const price = site.commerce.showPrices && p.price ? `<span class="price">${money(p.price)}</span>` : `<span class="price-note">Price on request</span>`;
+  const spec = [tv(L, p.frame), tv(L, p.weave)].filter(Boolean).join(' · ') || tv(L, cat?.name);
+  const price = site.commerce.showPrices && p.price ? `<span class="price">${money(p.price)}</span>` : `<span class="price-note">${L.card.priceOnRequest}</span>`;
+  const href = `${base}/products/${p.sku.toLowerCase()}/`;
   return `<article class="card" data-sku="${esc(p.sku)}" data-category="${esc(p.category)}">
-  <a class="media${isThumb ? ' thumb' : ''}" href="/products/${p.sku.toLowerCase()}/" aria-label="${esc(p.name)}">
-    ${p.image ? picture(manifest, p.image.replace(/\.jpg$/, ''), p.name, { sizes: '(max-width:600px) 100vw, (max-width:980px) 50vw, 300px' }) : '<div class="placeholder">Photo to come</div>'}
-    ${isThumb ? '<span class="tag">Price-list photo</span>' : ''}
+  <a class="media${isThumb ? ' thumb' : ''}" href="${href}" aria-label="${esc(p.name)}">
+    ${p.image ? picture(manifest, p.image.replace(/\.jpg$/, ''), p.name, { sizes: '(max-width:600px) 100vw, (max-width:980px) 50vw, 300px' }) : `<div class="placeholder">${L.card.photoToCome}</div>`}
+    ${isThumb ? `<span class="tag">${L.card.thumbTag}</span>` : ''}
   </a>
   <div class="body">
     <span class="sku">${esc(p.sku)}</span>
-    <h3><a href="/products/${p.sku.toLowerCase()}/">${esc(p.name)}</a></h3>
+    <h3><a href="${href}">${esc(p.name)}</a></h3>
     <p class="spec">${esc(spec)}</p>
-    ${dims ? `<p class="dims">${esc(dims)} · ${p.cbm.toFixed(3)} m³ · ${p.per40hc}/40HC</p>` : ''}
-    <div class="foot">${price}<button class="btn btn-secondary btn-sm" type="button" data-add="${esc(p.sku)}">Add to quote</button></div>
+    ${dims ? `<p class="dims">${esc(dims)} · ${p.cbm.toFixed(3)} m³ · ${p.per40hc}${L.card.per40}</p>` : ''}
+    <div class="foot">${price}<button class="btn btn-secondary btn-sm" type="button" data-add="${esc(p.sku)}">${L.card.add}</button></div>
   </div>
 </article>`;
 }
 
-function home({ site, manifest, catalog }) {
+function loadPlanPanel(L, base, { cta = true, hint = true } = {}) {
+  return `<h3 id="quote-title">${L.catalog.planTitle}</h3>
+      ${hint ? `<p class="hint">${L.catalog.planHint}</p>` : ''}
+      <p class="sr-only" aria-live="polite" data-plan-announce></p>
+      <ul class="quote-items" data-quote-list></ul>
+      <p class="empty" data-quote-empty>${cta ? L.catalog.planEmpty : L.contact.planEmpty(base)}</p>
+      <div class="total-cbm"><span>${L.catalog.loadVolume}</span><b data-total-cbm>0.0 m³</b></div>
+      <div class="fill" data-fill>
+        <div class="row"><span>20 ft</span><div class="bar"><i data-bar="cbm20"></i></div><span class="pct" data-pct="cbm20">0%</span></div>
+        <div class="row"><span>40 ft</span><div class="bar"><i data-bar="cbm40"></i></div><span class="pct" data-pct="cbm40">0%</span></div>
+        <div class="row"><span>40 HC</span><div class="bar"><i data-bar="cbm40hc"></i></div><span class="pct" data-pct="cbm40hc">0%</span></div>
+      </div>
+      ${cta ? `<a class="btn btn-primary" href="${base}/contact/">${L.catalog.planCta}</a>` : ''}`;
+}
+
+function home(ctx) {
+  const { site, manifest, catalog, L, base } = ctx;
+  const H = L.home;
   const featured = catalog.products.filter(p => ['LD-005', 'LD-007', 'LD-016', 'LD-003', 'WD-SET4', 'LT-ONION'].includes(p.sku));
   const body = `
 <section class="hero">
-  ${picture(manifest, 'hero', 'Weavers finishing rattan chair frames in the Cirebon workshop', { sizes: '100vw', loading: 'eager', fetchpriority: 'high' })}
+  ${picture(manifest, 'hero', H.heroAlt, { sizes: '100vw', loading: 'eager', fetchpriority: 'high' })}
   <div class="wrap hero-inner">
-    <span class="eyebrow" style="color:#D9C58E">Bogor, West Java · Export sourcing</span>
-    <h1 style="margin-top:10px">Indonesian outdoor furniture and rattan craft, sourced and shipped for retailers and hotels.</h1>
-    <p class="lede">We source from established workshops in Cirebon, Yogyakarta and Ngawi, arrange inspection before loading, consolidate mixed containers and coordinate the export paperwork. Prices are FOB Jakarta; you place one order and clear one container in the United States or Europe.</p>
+    <span class="eyebrow" style="color:#D9C58E">${esc(H.eyebrow)}</span>
+    <h1 style="margin-top:10px">${esc(H.h1)}</h1>
+    <p class="lede">${esc(H.lede)}</p>
     <div class="actions">
-      <a class="btn btn-primary" href="/products/">Browse the catalog</a>
-      <a class="btn btn-secondary" href="/how-to-order/">How ordering works</a>
+      <a class="btn btn-primary" href="${base}/products/">${H.browse}</a>
+      <a class="btn btn-secondary" href="${base}/how-to-order/">${H.howOrdering}</a>
     </div>
-    <div class="hero-facts">
-      <div><b>3–4 wks</b>Production per shipment</div>
-      <div><b>1999</b>Partner workshops producing since</div>
-      <div><b>US · EU</b>Markets we serve; partner workshops have shipped to US, UK, CA and AU</div>
-      <div><b>SVLK</b>V-Legal certified export partner</div>
-      <div><b>BSCI</b>amfori-audited manufacturing partner</div>
-    </div>
+    <div class="hero-facts">${H.facts.map(([b, t]) => `<div><b>${esc(b)}</b>${esc(t)}</div>`).join('\n      ')}</div>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">What we do</span><h2 style="margin-top:8px">One contact between your buying team and the workshops</h2></div>
-      <p>A retailer or hotel group in the United States or Europe cannot fill a container from one small workshop, inspect it in person or chase export documents across three provinces. That is the work we do.</p>
+      <div><span class="eyebrow">${H.whatEyebrow}</span><h2 style="margin-top:8px">${esc(H.whatH2)}</h2></div>
+      <p>${esc(H.whatP)}</p>
     </div>
     <div class="grid grid-4">
-      <div class="service"><span class="icon">${icons.source}</span><h3>Sourcing</h3><p>Outdoor, indoor rattan, lighting and natural-fibre decor from workshops we have worked with directly, with one price list and one spec-sheet format.</p></div>
-      <div class="service"><span class="icon">${icons.container}</span><h3>Mixed containers</h3><p>Combine loungers from Cirebon with wall decor from Yogyakarta in one 40HC. We plan the load and arrange consolidation and stuffing <span class="tbc">(service scope to be confirmed)</span>.</p></div>
-      <div class="service"><span class="icon">${icons.check}</span><h3>Inspection before loading</h3><p>Pre-shipment checks at the workshop can be arranged, and third-party inspection by SGS, QIMA, Intertek or your own agent is welcome <span class="tbc">(to be confirmed)</span>.</p></div>
-      <div class="service"><span class="icon">${icons.docs}</span><h3>Export documents</h3><p>Commercial invoice, packing list, bill of lading, certificate of origin and V-Legal document, prepared with the exporter of record for your customs broker.</p></div>
+      ${H.services.map(([h, p], i) => `<div class="service"><span class="icon">${serviceIcons[i]}</span><h3>${esc(h)}</h3><p>${p}</p></div>`).join('\n      ')}
     </div>
   </div>
 </section>
@@ -188,21 +211,18 @@ function home({ site, manifest, catalog }) {
 <section class="section alt">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Catalog</span><h2 style="margin-top:8px">Selected pieces</h2></div>
-      <a class="btn btn-ghost" href="/products/">All products →</a>
+      <div><span class="eyebrow">${H.catalogEyebrow}</span><h2 style="margin-top:8px">${esc(H.selected)}</h2></div>
+      <a class="btn btn-ghost" href="${base}/products/">${H.allProducts}</a>
     </div>
-    <div class="products">${featured.map(p => productCard(p, { site, manifest, categories: catalog.categories })).join('')}</div>
+    <div class="products">${featured.map(p => productCard(p, ctx)).join('')}</div>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
-    <div class="section-head"><div><span class="eyebrow">How it works</span><h2 style="margin-top:8px">From inquiry to a container on the water</h2></div></div>
+    <div class="section-head"><div><span class="eyebrow">${H.howEyebrow}</span><h2 style="margin-top:8px">${esc(H.howH2)}</h2></div></div>
     <div class="steps">
-      <div class="step"><h3>Inquiry</h3><p>Send the pieces and quantities you are considering. We aim to reply within one business day with availability, lead time and a proforma invoice.</p></div>
-      <div class="step"><h3>Sample or visit</h3><p>Order samples, ask for production photos, or visit the production facility with us — buyer visits are welcome.</p></div>
-      <div class="step"><h3>Production and inspection</h3><p>Deposit against the proforma; production takes about 3–4 weeks per shipment. Progress photos and a pre-loading check can be arranged.</p></div>
-      <div class="step"><h3>Loading and documents</h3><p>20 ft or 40 ft container loaded and delivered FOB Jakarta, balance paid to our company account, document set sent to your customs broker. You clear the goods in your country.</p></div>
+      ${H.steps.map(([h, p]) => `<div class="step"><h3>${esc(h)}</h3><p>${p}</p></div>`).join('\n      ')}
     </div>
   </div>
 </section>
@@ -210,323 +230,284 @@ function home({ site, manifest, catalog }) {
 <section class="section alt">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Where it is made</span><h2 style="margin-top:8px">Established workshops, not a trading desk</h2></div>
-      <a class="btn btn-ghost" href="/workshops/">About the workshops →</a>
+      <div><span class="eyebrow">${H.whereEyebrow}</span><h2 style="margin-top:8px">${esc(H.whereH2)}</h2></div>
+      <a class="btn btn-ghost" href="${base}/workshops/">${H.aboutWorkshops}</a>
     </div>
-    <div class="gallery">
-      <figure>${picture(manifest, 'ws-weaving', 'Weavers working on rattan chair frames', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Rattan seating, Plumbon, Cirebon</figcaption></figure>
-      <figure>${picture(manifest, 'ws-teak-tops', 'Stacks of teak table tops in the joinery', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Teak joinery, Ngawi</figcaption></figure>
-      <figure>${picture(manifest, 'ws-wrapping', 'Finished chairs being wrapped in paper for export', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Wrapping for export</figcaption></figure>
-    </div>
+    ${gallery(manifest, H.gallery)}
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
-    <div class="section-head"><div><span class="eyebrow">Compliance</span><h2 style="margin-top:8px">Documented timber, audited workshops</h2></div><p>Your customs broker will ask for wood species, legality documents and treated packaging. The certifications below are held by our manufacturing partner, PT Lemongrass Archipelagocraft Ekspor, which acts as exporter of record for its products.</p></div>
+    <div class="section-head"><div><span class="eyebrow">${H.compEyebrow}</span><h2 style="margin-top:8px">${esc(H.compH2)}</h2></div><p>${esc(H.compP)}</p></div>
     <div class="creds">
-      <div class="cred">${picture(manifest, 'v-legal', 'Indonesian Legal Wood V-Legal mark VLHH-32-07-10', { sizes: '64px' })}<div><b>Indonesian Legal Wood (SVLK)</b><span>Held by PT Lemongrass Archipelagocraft Ekspor · VLHH-32-07-10 · V-Legal document with wood-furniture shipments</span></div></div>
-      <div class="cred">${picture(manifest, 'bsci', 'amfori BSCI', { sizes: '64px' })}<div><b>amfori BSCI</b><span>Manufacturing partner's social-audit membership, ID 360-000323-000</span></div></div>
-      <div class="cred"><span class="mark">${icons.check}</span><div><b>Lacey Act data</b><span>Genus, species and country of harvest supplied for the buyer's declaration <span class="tbc">(per item, to be confirmed)</span>; wood packaging ISPM-15 marked</span></div></div>
+      <div class="cred">${picture(manifest, 'v-legal', H.creds[0][2], { sizes: '64px' })}<div><b>${esc(H.creds[0][0])}</b><span>${H.creds[0][1]}</span></div></div>
+      <div class="cred">${picture(manifest, 'bsci', H.creds[1][2], { sizes: '64px' })}<div><b>${esc(H.creds[1][0])}</b><span>${H.creds[1][1]}</span></div></div>
+      <div class="cred"><span class="mark">${icons.check}</span><div><b>${esc(H.creds[2][0])}</b><span>${H.creds[2][1]}</span></div></div>
     </div>
   </div>
 </section>
 
 <section class="section deep">
   <div class="wrap" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px">
-    <div><h2>Planning a container for next season?</h2><p style="margin-top:8px;max-width:56ch">Tell us what you are looking at and where it is going. We will come back with a load plan and an FOB Jakarta proforma.</p></div>
-    <a class="btn btn-primary" href="/contact/">Request a quote</a>
+    <div><h2>${esc(H.ctaH2)}</h2><p style="margin-top:8px;max-width:56ch">${esc(H.ctaP)}</p></div>
+    <a class="btn btn-primary" href="${base}/contact/">${H.cta}</a>
   </div>
 </section>`;
   const ld = {
     '@context': 'https://schema.org', '@type': 'Organization', name: site.brand, url: site.url,
-    address: { '@type': 'PostalAddress', addressLocality: 'Bogor', addressRegion: 'West Java', addressCountry: 'ID' },
+    address: { '@type': 'PostalAddress', streetAddress: site.address.lines[0], addressLocality: 'Bogor', addressRegion: 'West Java', postalCode: '16136', addressCountry: 'ID' },
     sameAs: [site.contact.instagram], description: site.tagline, logo: site.url + '/favicon.svg',
     contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.contact.whatsapp.replace(/\s/g, ''), areaServed: ['United States', 'Europe'], availableLanguage: ['en', 'id'], email: site.contact.email, hoursAvailable: '08:00-17:00 UTC+7' },
   };
-  ld.address = { '@type': 'PostalAddress', streetAddress: site.address.lines[0], addressLocality: 'Bogor', addressRegion: 'West Java', postalCode: '16136', addressCountry: 'ID' };
-  return layout({ site, manifest, title: 'Home', description: `Indonesian outdoor furniture, rattan lighting and natural-fibre decor from established workshops, quoted FOB Jakarta for retailers and hotels in the United States and Europe.`, path: '/', body, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
+  return layout({ ...ctx, title: 'Home', description: H.metaDesc, path: '/', body, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
 }
 
-function catalogPage({ site, manifest, catalog }) {
+function catalogPage(ctx) {
+  const { site, catalog, L, base } = ctx;
+  const C = L.catalog;
   const cats = catalog.categories;
   const body = `
 <section class="section-tight">
   <div class="wrap">
-    <span class="eyebrow">Catalog</span>
-    <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">Products</h1>
-    <p class="measure muted" style="margin-top:10px">Outdoor pieces are listed with dimensions, volume and pieces per 40HC container from the workshop's current price list. Add items to build a load plan; quotations are ${esc(site.commerce.priceBasis)}.</p>
+    <span class="eyebrow">${C.eyebrow}</span>
+    <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">${esc(C.h1)}</h1>
+    <p class="measure muted" style="margin-top:10px">${esc(C.intro(tv(L, site.commerce.priceBasis)))}</p>
   </div>
 </section>
 <section class="section-tight">
   <div class="wrap catalog-layout">
     <div>
-      <div class="filters" role="group" aria-label="Filter by category">
-        <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
-        ${cats.map(c => `<button class="chip" type="button" data-filter="${c.slug}" aria-pressed="false">${esc(c.short)}</button>`).join('')}
+      <div class="filters" role="group" aria-label="${C.filterLabel}">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">${C.all}</button>
+        ${cats.map(c => `<button class="chip" type="button" data-filter="${c.slug}" aria-pressed="false">${esc(tv(L, c.short))}</button>`).join('')}
       </div>
       ${cats.map(c => {
         const items = catalog.products.filter(p => p.category === c.slug);
         return `<section class="cat" id="${c.slug}" data-category-section="${c.slug}" style="margin-bottom:44px">
-          <div class="section-head" style="margin-bottom:16px"><div><h2 style="font-size:24px">${esc(c.name)}</h2></div><p style="font-size:15px">${esc(c.blurb)}</p></div>
-          ${items.length ? `<div class="products">${items.map(p => productCard(p, { site, manifest, categories: cats })).join('')}</div>` : `<p class="muted">Specification sheets available on request.</p>`}
-          ${c.comingSoon ? `<p class="note">Full indoor range (${c.slug === 'indoor-rattan' ? '114 designs across chairs, sofas and tables' : ''}) is being photographed. Ask for the current price list.</p>` : ''}
+          <div class="section-head" style="margin-bottom:16px"><div><h2 style="font-size:24px">${esc(tv(L, c.name))}</h2></div><p style="font-size:15px">${esc(tv(L, c.blurb))}</p></div>
+          ${items.length ? `<div class="products">${items.map(p => productCard(p, ctx)).join('')}</div>` : `<p class="muted">${C.specsOnRequest}</p>`}
+          ${c.comingSoon ? `<p class="note">${C.comingSoon}</p>` : ''}
         </section>`;
       }).join('')}
     </div>
     <aside class="panel" aria-labelledby="quote-title" data-quote-panel>
-      <h3 id="quote-title">Your load plan</h3>
-      <p class="hint">Container fill uses the workshop's loading estimates (nested where pieces stack). Final loading is confirmed on the proforma.</p>
-      <p class="sr-only" aria-live="polite" data-plan-announce></p>
-      <ul class="quote-items" data-quote-list></ul>
-      <p class="empty" data-quote-empty>No items yet. Use “Add to quote” on any product.</p>
-      <div class="total-cbm"><span>Load volume</span><b data-total-cbm>0.0 m³</b></div>
-      <div class="fill" data-fill>
-        <div class="row"><span>20 ft</span><div class="bar"><i data-bar="cbm20"></i></div><span class="pct" data-pct="cbm20">0%</span></div>
-        <div class="row"><span>40 ft</span><div class="bar"><i data-bar="cbm40"></i></div><span class="pct" data-pct="cbm40">0%</span></div>
-        <div class="row"><span>40 HC</span><div class="bar"><i data-bar="cbm40hc"></i></div><span class="pct" data-pct="cbm40hc">0%</span></div>
-      </div>
-      <a class="btn btn-primary" href="/contact/">Request a quote for this load</a>
+      ${loadPlanPanel(L, base)}
     </aside>
   </div>
 </section>`;
-  return layout({ site, manifest, title: 'Products', description: 'Outdoor sun loungers, daybeds and egg chairs, indoor rattan, rattan lighting and wall decor from Indonesian workshops, with dimensions, volume and container loadability.', path: '/products/', body });
+  return layout({ ...ctx, title: C.metaTitle, description: C.metaDesc, path: '/products/', body });
 }
 
-function productPage(p, { site, manifest, catalog }) {
+function productPage(p, ctx) {
+  const { site, manifest, catalog, L, base } = ctx;
+  const P = L.product, R = P.rows;
   const cat = catalog.categories.find(c => c.slug === p.category);
   const ws = catalog.workshops.find(w => w.slug === p.workshop);
   const isThumb = /^ld-/.test(p.image || '');
   const rows = [
-    ['Frame', p.frame], ['Weave / material', p.weave], ['Finish', p.finish], ['Cushion', p.cushion], ['Colour', p.colour],
-    ['Dimensions (W × D × H)', fmtDims(p) ? `<span class="mono">${fmtDims(p)}</span><br><span class="mono muted">${fmtDimsIn(p)}</span>` : null],
-    ['Volume', p.cbm ? `<span class="mono">${p.cbm.toFixed(3)} m³</span>` : null],
-    ['Pieces per 40HC', p.per40hc ? `<span class="mono">${p.per40hc}</span> <span class="muted">(workshop estimate)</span>` : null],
-    ['Packaging', p.packaging], ['Shipped', p.assembly], ['Made in', ws ? `${ws.name}, ${ws.region}` : 'Indonesia'],
+    [R.frame, esc(tv(L, p.frame))], [R.weave, esc(tv(L, p.weave))], [R.finish, esc(tv(L, p.finish))], [R.cushion, esc(tv(L, p.cushion))], [R.colour, esc(tv(L, p.colour))],
+    [R.dims, fmtDims(p) ? `<span class="mono">${fmtDims(p)}</span><br><span class="mono muted">${fmtDimsIn(p)}</span>` : null],
+    [R.volume, p.cbm ? `<span class="mono">${p.cbm.toFixed(3)} m³</span>` : null],
+    [R.per40, p.per40hc ? `<span class="mono">${p.per40hc}</span> <span class="muted">${R.per40Note}</span>` : null],
+    [R.packaging, esc(tv(L, p.packaging))], [R.shipped, esc(tv(L, p.assembly))], [R.madeIn, ws ? `${esc(tv(L, ws.name))}, ${esc(tv(L, ws.region))}` : R.indonesia],
   ].filter(r => r[1]);
-  const price = site.commerce.showPrices && p.price ? `<p class="price" style="font-size:24px;margin-top:12px">${money(p.price)} <span class="price-note">${esc(site.commerce.priceBasis)}</span></p>` : `<p class="muted" style="margin-top:12px">Price on request — quoted ${esc(site.commerce.priceBasis)}.</p>`;
+  const basis = tv(L, site.commerce.priceBasis);
+  const price = site.commerce.showPrices && p.price ? `<p class="price" style="font-size:24px;margin-top:12px">${money(p.price)} <span class="price-note">${esc(basis)}</span></p>` : `<p class="muted" style="margin-top:12px">${esc(P.priceOnRequest(basis))}</p>`;
   const body = `
 <section class="section-tight">
   <div class="wrap">
-    <p class="muted" style="font-size:14px"><a href="/products/">Products</a> / <a href="/products/#${cat.slug}">${esc(cat.name)}</a></p>
+    <p class="muted" style="font-size:14px"><a href="${base}/products/">${L.nav.products}</a> / <a href="${base}/products/#${cat.slug}">${esc(tv(L, cat.name))}</a></p>
     <div class="product" style="margin-top:18px">
-      <div class="media${isThumb ? ' thumb' : ''}">${p.image ? picture(manifest, p.image.replace(/\.jpg$/, ''), p.name, { sizes: '(max-width:860px) 100vw, 600px', loading: 'eager', fetchpriority: 'high' }) : '<div class="placeholder">Photo to come</div>'}</div>
+      <div class="media${isThumb ? ' thumb' : ''}">${p.image ? picture(manifest, p.image.replace(/\.jpg$/, ''), p.name, { sizes: '(max-width:860px) 100vw, 600px', loading: 'eager', fetchpriority: 'high' }) : `<div class="placeholder">${L.card.photoToCome}</div>`}</div>
       <div>
         <span class="sku mono muted">${esc(p.sku)}</span>
         <h1 style="font-size:clamp(28px,3.6vw,40px);margin-top:6px">${esc(p.name)}</h1>
-        <p class="muted" style="margin-top:8px">${esc(cat.name)}${ws ? ` · ${esc(ws.name)}` : ''}</p>
+        <p class="muted" style="margin-top:8px">${esc(tv(L, cat.name))}${ws ? ` · ${esc(tv(L, ws.name))}` : ''}</p>
         ${price}
         <table class="specs"><tbody>${rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>
-        ${p.notes ? `<p class="note">${esc(p.notes)}</p>` : ''}
-        ${isThumb ? `<p class="note">Image is the workshop's price-list photo. High-resolution photography is being prepared; ask for current production photos.</p>` : ''}
+        ${p.notes ? `<p class="note">${esc(tv(L, p.notes))}</p>` : ''}
+        ${isThumb ? `<p class="note">${esc(P.thumbNote)}</p>` : ''}
         <div class="qty-row">
-          <label for="qty" style="margin:0">Quantity</label>
+          <label for="qty" style="margin:0">${P.qty}</label>
           <input id="qty" type="number" min="1" step="1" value="${p.per40hc && p.per40hc < 40 ? p.per40hc : 10}" inputmode="numeric">
-          <button class="btn btn-primary" type="button" data-add="${esc(p.sku)}" data-qty-from="qty">Add to quote</button>
-          <a class="btn btn-ghost" href="/contact/">Go to request →</a>
+          <button class="btn btn-primary" type="button" data-add="${esc(p.sku)}" data-qty-from="qty">${P.add}</button>
+          <a class="btn btn-ghost" href="${base}/contact/">${P.goToRequest}</a>
         </div>
-        ${p.per40hc ? `<p class="form-note" style="margin-top:10px">A full 40HC of this item ≈ ${p.per40hc} pieces (workshop loading estimate).</p>` : ''}
+        ${p.per40hc ? `<p class="form-note" style="margin-top:10px">${esc(P.full40(p.per40hc))}</p>` : ''}
       </div>
     </div>
   </div>
 </section>`;
-  const desc = `${p.name} (${p.sku}): ${[p.frame, p.weave].filter(Boolean).join(', ')}.${fmtDims(p) ? ' ' + fmtDims(p) + ', ' + p.per40hc + ' per 40HC.' : ''} Made in Indonesia; quoted to trade buyers.`.slice(0, 155);
-  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, sku: p.sku, description: desc, manufacturer: { '@type': 'Organization', name: ws ? `Partner workshop, ${ws.name}` : 'Indonesian partner workshop' }, material: [p.frame, p.weave].filter(Boolean).join('; ') || undefined, image: p.image ? `${site.url}/images/${p.image}` : undefined };
-  return layout({ site, manifest, title: p.name, description: desc, path: `/products/${p.sku.toLowerCase()}/`, body, ogImage: p.image ? `/images/${p.image}` : undefined, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
+  const mats = [tv(L, p.frame), tv(L, p.weave)].filter(Boolean).join(', ');
+  const desc = P.metaDesc(p, fmtDims(p), p.per40hc, mats).slice(0, 155);
+  const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, sku: p.sku, description: desc, manufacturer: { '@type': 'Organization', name: P.manufacturer(ws && ws.name) }, material: [p.frame, p.weave].filter(Boolean).join('; ') || undefined, image: p.image ? `${site.url}/images/${p.image}` : undefined };
+  return layout({ ...ctx, title: p.name, description: desc, path: `/products/${p.sku.toLowerCase()}/`, body, ogImage: p.image ? `/images/${p.image}` : undefined, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
 }
 
-function howToOrder({ site, manifest }) {
-  const c = site.commerce;
-  const tbc = s => /to be confirmed/i.test(s) ? `${esc(s.replace(/\s*(—\s*|\()to be confirmed\)?/i, '').trim())} <span class="tbc">(to be confirmed)</span>` : esc(s);
+function howToOrder(ctx) {
+  const { site, manifest, L, base } = ctx;
+  const H = L.how, c = site.commerce, tbc = tbcFor(L);
   const body = `
 <section class="section-tight"><div class="wrap">
-  <span class="eyebrow">Buying</span>
-  <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">How to order</h1>
+  <span class="eyebrow">${H.eyebrow}</span>
+  <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">${esc(H.h1)}</h1>
   <div class="prose" style="margin-top:20px">
-    <p>We sell to businesses — mainly retailers and hotels, also designers, project buyers and importers — in the United States and Europe. Goods are sold ${esc(c.priceBasis)}: you or your freight forwarder arrange ocean freight from Jakarta and customs clearance in your country, and we coordinate the documents your broker needs with the exporter of record. Payment is made to our company account.</p>
-    <div class="callout">Export documents for furniture made by our manufacturing partner are issued in the name of PT Lemongrass Archipelagocraft Ekspor as exporter of record; ${esc(site.brand)} arranges the order. <span class="tbc">(Arrangement to be confirmed.)</span></div>
+    <p>${esc(H.intro(tv(L, c.priceBasis)))}</p>
+    <div class="callout">${H.exporterNote(esc(site.brand))}</div>
 
-    <h2 id="terms">Terms at a glance</h2>
+    <h2 id="terms">${esc(H.termsH2)}</h2>
     <table>
-      <tr><th>Price basis</th><td>${tbc(c.priceBasis)}</td></tr>
-      <tr><th>Currency</th><td>${esc(c.currency)}</td></tr>
-      <tr><th>Minimum order</th><td>${tbc(c.moq)}</td></tr>
-      <tr><th>Payment</th><td>${tbc(c.paymentTerms)}</td></tr>
-      <tr><th>Lead time</th><td>${tbc(c.leadTime)}</td></tr>
-      <tr><th>Container</th><td>20 ft or 40 ft, depending on order volume; mixed loads across workshops <span class="tbc">(to be confirmed)</span></td></tr>
-      <tr><th>Markets served</th><td>${site.markets.map(esc).join(', ')}</td></tr>
-      <tr><th>Communication</th><td>Email or WhatsApp, in English; ${esc(site.contact.hours)}</td></tr>
+      <tr><th>${H.termRows.basis}</th><td>${tbc(c.priceBasis)}</td></tr>
+      <tr><th>${H.termRows.currency}</th><td>${esc(c.currency)}</td></tr>
+      <tr><th>${H.termRows.moq}</th><td>${tbc(c.moq)}</td></tr>
+      <tr><th>${H.termRows.payment}</th><td>${tbc(c.paymentTerms)}</td></tr>
+      <tr><th>${H.termRows.lead}</th><td>${tbc(c.leadTime)}</td></tr>
+      <tr><th>${H.termRows.container}</th><td>${H.termRows.containerVal}</td></tr>
+      <tr><th>${H.termRows.markets}</th><td>${site.markets.map(m => esc(tv(L, m))).join(', ')}</td></tr>
+      <tr><th>${H.termRows.comms}</th><td>${esc(H.termRows.commsVal(tv(L, site.contact.hours)))}</td></tr>
     </table>
 
-    <h2>Step by step</h2>
-    <ol>
-      <li><strong>Inquiry.</strong> Use the <a href="/products/">catalog</a> to build a load plan, or email a list of pieces and quantities. We confirm availability, lead time and a proforma invoice within one business day.</li>
-      <li><strong>Samples and production photos.</strong> Samples can be made and couriered at cost <span class="tbc">(credit against a container order to be confirmed)</span>. Buyer visits to the production facility are welcome — tell us your dates.</li>
-      <li><strong>Deposit and production.</strong> Production starts on receipt of the deposit against the proforma and takes about 3–4 weeks per shipment. Progress photos and the loading date are confirmed during production.</li>
-      <li><strong>Inspection.</strong> A pre-shipment check at the workshop can be arranged <span class="tbc">(to be confirmed)</span>. Third-party inspection (SGS, QIMA, Intertek) or your own agent is welcome; book it for the week before loading.</li>
-      <li><strong>Loading and documents.</strong> The container is loaded with photos and delivered to the port of Jakarta (Tanjung Priok). On receipt of the balance, the document set is released to your customs broker.</li>
-    </ol>
+    <h2>${esc(H.stepsH2)}</h2>
+    <ol>${H.steps(base).map(s => `<li>${s}</li>`).join('\n      ')}</ol>
 
-    <h2 id="documents">Export documents supplied</h2>
-    <ul>
-      <li>Commercial invoice with HS code and material per line</li>
-      <li>Packing list with carton dimensions, volume and gross weight</li>
-      <li>Bill of lading</li>
-      <li>Certificate of origin</li>
-      <li>V-Legal document (SVLK) for wood furniture <span class="tbc">(coverage of rattan-only items to be confirmed)</span></li>
-      <li>Fumigation certificate on request <span class="tbc">(to be confirmed)</span>; any wood packaging is ISPM-15 marked</li>
-      <li>Wood and rattan species by scientific name and country of harvest, for the buyer's Lacey Act declaration (United States) or EUDR due diligence (European Union) <span class="tbc">(per item, to be confirmed)</span></li>
-    </ul>
-    <div class="callout">The buyer is the importer of record. Import duties, taxes and clearance in the destination country are the buyer's responsibility; your freight forwarder or customs broker can quote these from the documents above.</div>
+    <h2 id="documents">${esc(H.docsH2)}</h2>
+    <ul>${H.docs.map(d => `<li>${d}</li>`).join('\n      ')}</ul>
+    <div class="callout">${esc(H.importerNote)}</div>
 
-    <h2 id="packing">Packing and loading</h2>
-    <p>Goods ship fully assembled. Rattan and aluminium pieces are wrapped in paper and stacked to the container profile, as shown below; small items ship in cartons. Any wood pallets or crates used are ISPM-15 heat-treated and marked, as required by the US, Canada, UK and Australia. <span class="tbc">Packing specification and consolidation point to be confirmed.</span></p>
-    <div class="gallery" style="margin-top:14px">
-      <figure>${picture(manifest, 'ws-wrapping', 'Chairs being wrapped in kraft paper', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Wrapping at the workshop</figcaption></figure>
-      <figure class="tall">${picture(manifest, 'ws-packed', 'Wrapped chairs stacked ready for loading', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Stacked for loading</figcaption></figure>
-      <figure>${picture(manifest, 'ws-packed-2', 'Wrapped seating stacked in the warehouse', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Ready for the container</figcaption></figure>
-    </div>
+    <h2 id="packing">${esc(H.packingH2)}</h2>
+    <p>${H.packingP}</p>
+    ${gallery(manifest, H.packGallery, 'margin-top:14px')}
 
-    <h2>Claims</h2>
-    <p>Report transit damage with photos promptly after container devanning; we work with you and the carrier on the claim, and manufacturing defects are replaced or credited on the next shipment. <span class="tbc">Claim window and terms to be confirmed.</span></p>
+    <h2>${esc(H.claimsH2)}</h2>
+    <p>${H.claimsP}</p>
   </div>
 </div></section>`;
-  return layout({ site, manifest, title: 'How to order', description: `Terms, ordering steps, export documents and packing standards for buying Indonesian furniture FOB Jakarta through ${site.brand}.`, path: '/how-to-order/', body });
+  return layout({ ...ctx, title: H.metaTitle, description: H.metaDesc(site.brand), path: '/how-to-order/', body });
 }
 
-function workshops({ site, manifest, catalog }) {
+function workshops(ctx) {
+  const { site, manifest, catalog, L, base } = ctx;
+  const W = L.ws;
   const body = `
 <section class="section-tight"><div class="wrap">
-  <span class="eyebrow">About</span>
-  <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">The workshops behind the catalog</h1>
+  <span class="eyebrow">${W.eyebrow}</span>
+  <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">${esc(W.h1)}</h1>
   <div class="prose" style="margin-top:20px">
-    <p>${esc(site.brand)} is an export sourcing business in Bogor, West Java. We work directly with a small number of established Indonesian workshops, put their products into one catalog with one specification format, and coordinate inspection, consolidation and export with the workshops for overseas trade buyers.</p>
-    <p>Our principal manufacturing partner is the Lemongrass Homecraft group, producing natural-material furniture and craft since 1999 and exporting to the United States, United Kingdom, Canada and Australia. Their export entity holds Indonesian Legal Wood (SVLK) certification and amfori BSCI membership.</p>
+    <p>${esc(W.p1(site.brand))}</p>
+    <p>${esc(W.p2)}</p>
   </div>
 </div></section>
 <section class="section-tight"><div class="wrap">
-  <div class="gallery">
-    <figure>${picture(manifest, 'ws-weaving', 'Weavers finishing rattan chair frames', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Natural rattan seating, Plumbon, Cirebon</figcaption></figure>
-    <figure class="tall">${picture(manifest, 'ws-assembly', 'Craftsman assembling a rattan chair frame', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Frame assembly</figcaption></figure>
-    <figure class="tall">${picture(manifest, 'ws-qc-papasan', 'Checking papasan chair frames before finishing', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Checking papasan frames</figcaption></figure>
-    <figure>${picture(manifest, 'ws-teak-tops', 'Stacks of round teak table tops in the joinery yard', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Teak table tops, Ngawi</figcaption></figure>
-    <figure class="tall">${picture(manifest, 'ws-lamp-frames', 'Rattan lamp shade frames in progress', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Lamp shades, Yogyakarta</figcaption></figure>
-    <figure>${picture(manifest, 'ws-wrapping', 'Chairs wrapped in paper for export', { sizes: '(max-width:700px) 50vw, 380px' })}<figcaption>Wrapped for export</figcaption></figure>
-  </div>
+  ${gallery(manifest, W.gallery)}
 </div></section>
 <section class="section"><div class="wrap">
   <div class="grid grid-3">
-    ${catalog.workshops.map(w => `<div class="service"><span class="icon">${icons.visit}</span><h3>${esc(w.name)}</h3><p>${esc(w.region)}<br>${esc(w.makes)}</p></div>`).join('')}
+    ${catalog.workshops.map(w => `<div class="service"><span class="icon">${icons.visit}</span><h3>${esc(tv(L, w.name))}</h3><p>${esc(tv(L, w.region))}<br>${esc(tv(L, w.makes))}</p></div>`).join('')}
   </div>
   <div class="prose" style="margin-top:36px">
-    <h2>Visiting</h2>
-    <p>Buyer visits to the production facility are welcome. Cirebon is three hours from Jakarta by train; Yogyakarta is an hour's flight. Tell us your dates and we will arrange the visits. <a href="/contact/">Contact us</a>.</p>
+    <h2>${esc(W.visitingH2)}</h2>
+    <p>${W.visitingP(base)}</p>
   </div>
 </div></section>`;
-  return layout({ site, manifest, title: 'Workshops', description: `The Indonesian workshops in Cirebon, Yogyakarta and Ngawi behind the ${site.brand} catalog, and how to visit them.`, path: '/workshops/', body });
+  return layout({ ...ctx, title: W.metaTitle, description: W.metaDesc(site.brand), path: '/workshops/', body });
 }
 
-function contact({ site, manifest }) {
+function contact(ctx) {
+  const { site, L, base } = ctx;
+  const C = L.contact;
   const body = `
 <section class="section-tight"><div class="wrap">
-  <span class="eyebrow">Contact</span>
-  <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">Request a quote</h1>
-  <p class="measure muted" style="margin-top:10px">Tell us what you are looking at, roughly how many, and where it ships to. Items you added from the catalog are attached below. We aim to reply within one business day; office hours ${esc(site.contact.hours)}. We work in English.</p>
+  <span class="eyebrow">${C.eyebrow}</span>
+  <h1 style="margin-top:8px;font-size:clamp(30px,4vw,44px)">${esc(C.h1)}</h1>
+  <p class="measure muted" style="margin-top:10px">${esc(C.intro(tv(L, site.contact.hours)))}</p>
   <div class="grid grid-2" style="margin-top:28px;align-items:start">
     <form class="form" data-inquiry novalidate>
-      <p class="form-note">Fields marked * are required.</p>
+      <p class="form-note">${esc(C.required)}</p>
       <div class="two">
-        <div><label for="f-name">Your name *</label><input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true"></div>
-        <div><label for="f-company">Company *</label><input id="f-company" name="company" type="text" autocomplete="organization" required aria-required="true"></div>
+        <div><label for="f-name">${esc(C.name)}</label><input id="f-name" name="name" type="text" autocomplete="name" required aria-required="true"></div>
+        <div><label for="f-company">${esc(C.company)}</label><input id="f-company" name="company" type="text" autocomplete="organization" required aria-required="true"></div>
       </div>
       <div class="two">
-        <div><label for="f-email">Email *</label><input id="f-email" name="email" type="email" autocomplete="email" required aria-required="true"></div>
-        <div><label for="f-country">Destination country / port *</label><input id="f-country" name="country" type="text" placeholder="e.g. United States — Los Angeles" required aria-required="true"></div>
+        <div><label for="f-email">${esc(C.email)}</label><input id="f-email" name="email" type="email" autocomplete="email" required aria-required="true"></div>
+        <div><label for="f-country">${esc(C.country)}</label><input id="f-country" name="country" type="text" placeholder="${esc(C.countryPh)}" required aria-required="true"></div>
       </div>
       <div>
-        <label for="f-type">You are</label>
-        <select id="f-type" name="buyerType">
-          <option>Retailer</option><option>Interior designer / architect</option><option>Hospitality or project buyer</option><option>Importer / distributor</option><option>Other</option>
-        </select>
+        <label for="f-type">${esc(C.youAre)}</label>
+        <select id="f-type" name="buyerType">${C.types.map(t => `<option>${esc(t)}</option>`).join('')}</select>
       </div>
       <div>
-        <label for="f-items">Items and quantities</label>
-        <textarea id="f-items" name="items" placeholder="Added from the catalog automatically, or type your own list"></textarea>
+        <label for="f-items">${esc(C.items)}</label>
+        <textarea id="f-items" name="items" placeholder="${esc(C.itemsPh)}"></textarea>
       </div>
       <div>
-        <label for="f-message">Anything else</label>
-        <textarea id="f-message" name="message" style="min-height:100px" placeholder="Target ship date, custom colours or sizes, sample needs, forwarder details"></textarea>
+        <label for="f-message">${esc(C.message)}</label>
+        <textarea id="f-message" name="message" style="min-height:100px" placeholder="${esc(C.messagePh)}"></textarea>
       </div>
-      <div class="hp" aria-hidden="true"><label for="f-web">Website</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-      <div><button class="btn btn-primary" type="submit">Send request</button></div>
-      <p class="form-note">By sending, you agree to our <a href="/privacy/">privacy policy</a>. We use your details only to answer this request.</p>
+      <div class="hp" aria-hidden="true"><label for="f-web">${esc(C.website)}</label><input id="f-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="form-actions"><button class="btn btn-primary" type="submit">${esc(C.send)}</button><button class="btn btn-secondary" type="button" data-cancel>${esc(C.cancel)}</button></div>
+      <p class="form-note">${C.consent(base)}</p>
       <div class="status" role="status" aria-live="polite" data-status></div>
     </form>
     <aside>
       <div class="panel" style="position:static">
-        <h3>Or reach us directly</h3>
+        <h3>${esc(C.direct)}</h3>
         <ul style="list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:10px;font-size:15px">
-          <li>Email: ${site.contact.emailConfirmed ? `<a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>` : '<span class="tbc">to be confirmed</span>'}</li>
-          <li>Hours: ${esc(site.contact.hours)}</li>
-          <li>WhatsApp: <a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">${esc(site.contact.whatsapp)}</a></li>
-          <li>Instagram: <a href="${esc(site.contact.instagram)}" rel="noopener">${esc(site.contact.instagramHandle)}</a></li>
+          <li>${C.emailL}: ${site.contact.emailConfirmed ? `<a href="mailto:${esc(site.contact.email)}">${esc(site.contact.email)}</a>` : `<span class="tbc">${C.tbc}</span>`}</li>
+          <li>${C.hoursL}: ${esc(tv(L, site.contact.hours))}</li>
+          <li>${C.whatsapp}: <a href="https://wa.me/${site.contact.whatsapp.replace(/\D/g, '')}" rel="noopener">${esc(site.contact.whatsapp)}</a></li>
+          <li>${C.instagram}: <a href="${esc(site.contact.instagram)}" rel="noopener">${esc(site.contact.instagramHandle)}</a></li>
           <li style="margin-top:6px" class="muted">${site.address.lines.map(esc).join('<br>')}</li>
         </ul>
       </div>
       <div class="panel" style="position:static;margin-top:16px">
-        <h3>Your load plan</h3>
-        <p class="sr-only" aria-live="polite" data-plan-announce></p>
-        <ul class="quote-items" data-quote-list></ul>
-        <p class="empty" data-quote-empty>Nothing added yet. <a href="/products/">Browse products</a>.</p>
-        <div class="total-cbm"><span>Load volume</span><b data-total-cbm>0.0 m³</b></div>
-        <div class="fill" data-fill>
-          <div class="row"><span>20 ft</span><div class="bar"><i data-bar="cbm20"></i></div><span class="pct" data-pct="cbm20">0%</span></div>
-          <div class="row"><span>40 ft</span><div class="bar"><i data-bar="cbm40"></i></div><span class="pct" data-pct="cbm40">0%</span></div>
-          <div class="row"><span>40 HC</span><div class="bar"><i data-bar="cbm40hc"></i></div><span class="pct" data-pct="cbm40hc">0%</span></div>
-        </div>
+        ${loadPlanPanel(L, base, { cta: false, hint: false })}
       </div>
     </aside>
   </div>
 </div></section>`;
-  return layout({ site, manifest, title: 'Request a quote', description: `Request a quote or load plan for Indonesian outdoor furniture, rattan lighting and decor from ${site.brand}.`, path: '/contact/', body });
+  return layout({ ...ctx, title: C.metaTitle, description: C.metaDesc(site.brand), path: '/contact/', body });
 }
 
-function privacy({ site, manifest }) {
+function privacy(ctx) {
+  const { site, L } = ctx;
+  const P = L.privacy;
   const body = `<section class="section-tight"><div class="wrap prose">
-  <h1 style="font-size:clamp(28px,3.6vw,40px)">Privacy policy</h1>
-  <p class="muted">Last updated ${new Date().toISOString().slice(0, 10)}</p>
-  <h2>Who we are</h2><p>${esc(site.brand)}, a registered Indonesian company (CV), ${site.address.lines.map(esc).join(', ')}.</p>
-  <h2>What we collect</h2><p>When you send an inquiry we receive the details you type: name, company, email, destination and the items you are interested in. Our web host records standard server logs (IP address, browser, pages requested) for security and reliability.</p>
-  <h2>Analytics</h2><p>${site.analytics.ga4 ? 'We use Google Analytics 4 to understand how the site is used. It sets cookies; you can decline them in the banner or block them in your browser.' : 'This site does not currently run analytics cookies. If that changes, this policy and a consent banner will be updated first.'}</p>
-  <h2>How we use it</h2><p>To answer your inquiry, prepare quotations and ship orders. We do not sell or share your details with third parties other than freight forwarders, inspection agencies and banks involved in fulfilling an order you place.</p>
-  <h2>Retention and your rights</h2><p>Inquiry details are kept for as long as needed to respond and for a reasonable period afterwards for follow-up, then deleted. You can ask us to correct or delete your information by emailing us.</p>
-  <h2>Contact</h2><p>${esc(site.contact.email)} · WhatsApp ${esc(site.contact.whatsapp)}</p>
+  <h1 style="font-size:clamp(28px,3.6vw,40px)">${esc(P.h1)}</h1>
+  <p class="muted">${P.updated} ${new Date().toISOString().slice(0, 10)}</p>
+  <h2>${P.who}</h2><p>${esc(P.whoP(site.brand, site.address.lines.join(', ')))}</p>
+  <h2>${P.collect}</h2><p>${esc(P.collectP)}</p>
+  <h2>${P.analytics}</h2><p>${esc(site.analytics.ga4 ? P.analyticsOn : P.analyticsOff)}</p>
+  <h2>${P.use}</h2><p>${esc(P.useP)}</p>
+  <h2>${P.retention}</h2><p>${esc(P.retentionP)}</p>
+  <h2>${P.contact}</h2><p>${esc(site.contact.email)} · WhatsApp ${esc(site.contact.whatsapp)}</p>
 </div></section>`;
-  return layout({ site, manifest, title: 'Privacy policy', description: `Privacy policy for ${site.brand}.`, path: '/privacy/', body });
+  return layout({ ...ctx, title: P.metaTitle, description: P.metaDesc(site.brand), path: '/privacy/', body });
 }
 
-function terms({ site, manifest }) {
-  const c = site.commerce;
-  const tbc = s => /to be confirmed/i.test(s) ? `${esc(s.replace(/\s*(—\s*|\()to be confirmed\)?/i, '').trim())} <span class="tbc">(to be confirmed)</span>` : esc(s);
+function terms(ctx) {
+  const { site, L } = ctx;
+  const T = L.terms, c = site.commerce, tbc = tbcFor(L);
   const body = `<section class="section-tight"><div class="wrap prose">
-  <h1 style="font-size:clamp(28px,3.6vw,40px)">Terms of sale</h1>
-  <p class="muted">Draft — commercial terms marked <span class="tbc">(to be confirmed)</span> are placeholders pending confirmation by ${esc(site.brand)}.</p>
-  <h2>Parties and scope</h2><p>These terms apply to sales of goods by ${esc(site.brand)}, a registered Indonesian company (CV) whose full legal name, registration and bank details appear on every proforma invoice (“Seller”), to business buyers (“Buyer”). Where goods are manufactured and exported by a partner workshop, that workshop is the exporter of record and is named on the export documents <span class="tbc">(to be confirmed)</span>. Sales are to businesses only; consumer-protection rules for retail purchases do not apply.</p>
-  <h2>Quotations and orders</h2><p>Quotations are valid for 30 days <span class="tbc">(to be confirmed)</span> and are subject to material and exchange-rate movements after that. An order is confirmed when the Buyer accepts a proforma invoice and the deposit is received.</p>
-  <h2>Prices and delivery terms</h2><p>Prices are in ${esc(c.currency)} and quoted ${esc(c.priceBasis)} under Incoterms® 2020. Risk passes to the Buyer when the goods are loaded on board the vessel at Tanjung Priok, Jakarta. Ocean freight, insurance, import duties, taxes and customs clearance in the destination country are the Buyer's responsibility.</p>
-  <h2>Payment</h2><p>${tbc(c.paymentTerms)}. Payments are made to the Seller's company bank account only, as stated on the proforma invoice; the Seller will never ask for payment to a personal account. Goods and documents are released on receipt of cleared funds. Bank charges outside Indonesia are for the Buyer's account.</p>
-  <h2>Lead time</h2><p>${esc(c.leadTime)}. Dates are estimates; the Seller will notify the Buyer of any material delay.</p>
-  <h2>Quality and inspection</h2><p>Goods are handmade from natural materials; variation in colour, grain and weave is normal and not a defect. The Buyer may inspect or appoint an inspection agency before loading at the Buyer's cost. Claims for manufacturing defects must be notified with photographs within 7 days of devanning <span class="tbc">(to be confirmed)</span>; the Seller's liability is limited to replacement or credit of the affected pieces.</p>
-  <h2>Compliance documents</h2><p>The Seller will arrange commercial invoice, packing list, bill of lading, certificate of origin, V-Legal document where applicable and material/species information, issued by the exporter of record. Regulatory compliance in the destination country is the Buyer's responsibility.</p>
-  <h2>Intellectual property</h2><p>Designs and photographs in the catalog belong to the Seller or its manufacturing partners. Buyer-supplied designs remain the Buyer's; the Buyer warrants it has the right to have them produced.</p>
-  <h2>Law</h2><p>These terms are governed by the laws of the Republic of Indonesia. Disputes will first be addressed by negotiation in good faith.</p>
+  <h1 style="font-size:clamp(28px,3.6vw,40px)">${esc(T.h1)}</h1>
+  <p class="muted">${T.draft(esc(site.brand))}</p>
+  <h2>${T.parties}</h2><p>${T.partiesP(esc(site.brand))}</p>
+  <h2>${T.quotes}</h2><p>${T.quotesP}</p>
+  <h2>${T.prices}</h2><p>${esc(T.pricesP(c.currency, tv(L, c.priceBasis)))}</p>
+  <h2>${T.payment}</h2><p>${T.paymentP(tbc(c.paymentTerms))}</p>
+  <h2>${T.lead}</h2><p>${esc(T.leadP(tv(L, c.leadTime)))}</p>
+  <h2>${T.quality}</h2><p>${T.qualityP}</p>
+  <h2>${T.docs}</h2><p>${esc(T.docsP)}</p>
+  <h2>${T.ip}</h2><p>${esc(T.ipP)}</p>
+  <h2>${T.law}</h2><p>${esc(T.lawP)}</p>
 </div></section>`;
-  return layout({ site, manifest, title: 'Terms of sale', description: `Terms of sale for ${site.brand}.`, path: '/terms/', body });
+  return layout({ ...ctx, title: T.metaTitle, description: T.metaDesc(site.brand), path: '/terms/', body });
 }
 
-function notFound({ site, manifest }) {
-  const body = `<section class="section"><div class="wrap prose"><h1>Page not found</h1><p style="margin-top:10px">The page may have moved. Try the <a href="/products/">catalog</a> or <a href="/">home</a>.</p></div></section>`;
-  return layout({ site, manifest, title: 'Not found', description: 'Page not found', path: '/404.html', body });
+function notFound(ctx) {
+  const { L, base } = ctx;
+  const body = `<section class="section"><div class="wrap prose"><h1>${esc(L.notFound.h1)}</h1><p style="margin-top:10px">${L.notFound.p(base)}</p></div></section>`;
+  return layout({ ...ctx, title: L.notFound.title, description: L.notFound.title, path: '/404.html', body });
 }
 
 module.exports = { home, catalogPage, productPage, howToOrder, workshops, contact, privacy, terms, notFound };
