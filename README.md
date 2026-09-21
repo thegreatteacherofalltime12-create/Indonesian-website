@@ -1,6 +1,6 @@
 # Lemongrass US Site
 
-Website project for **Buitenzorg Lemongrass Homecraft** (Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
+Website project for **ArgaMatt_Buitenzorg furniture** (formerly Buitenzorg Lemongrass Homecraft, Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
 
 Preview: **https://buitenzorg-lemongrass.pages.dev** (Cloudflare Pages, account "Arga and Matt"; deploy with `npm run deploy` in `site/` after `npx wrangler login`).
 

@@ -1,4 +1,4 @@
-/* Buitenzorg Lemongrass — client script: nav toggle, quote list (load plan), container fill, inquiry form. */
+/* ArgaMatt_Buitenzorg furniture — client script: nav toggle, quote list (load plan), container fill, inquiry form. */
 (function () {
   'use strict';
   var KEY = 'blh_quote_v1';

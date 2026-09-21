@@ -63,7 +63,7 @@ ${extraHead}
 ${preview ? `<div class="preview-banner">Preview build — items marked “to be confirmed” are awaiting confirmation from ${esc(site.brand)}.</div>` : ''}
 <header class="site-header">
   <div class="wrap nav">
-    <a class="brand" href="/" aria-label="${esc(site.brand)} home">${mark}<span>${esc(site.shortBrand)}<small>Homecraft · Bogor, Indonesia</small></span></a>
+    <a class="brand" href="/" aria-label="${esc(site.brand)} home">${mark}<span>${esc(site.shortBrand)}<small>Furniture export · Bogor, Indonesia</small></span></a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <nav aria-label="Primary"><ul class="nav-links" id="nav-links">
       ${nav.map(([href, label]) => `<li><a href="${href}"${path.startsWith(href) ? ' aria-current="page"' : ''}>${label}</a></li>`).join('')}
@@ -391,7 +391,7 @@ function howToOrder({ site, manifest }) {
     <p>Report transit damage with photos promptly after container devanning; we work with you and the carrier on the claim, and manufacturing defects are replaced or credited on the next shipment. <span class="tbc">Claim window and terms to be confirmed.</span></p>
   </div>
 </div></section>`;
-  return layout({ site, manifest, title: 'How to order', description: 'Terms, ordering steps, export documents and packing standards for buying Indonesian furniture FOB through Buitenzorg Lemongrass Homecraft.', path: '/how-to-order/', body });
+  return layout({ site, manifest, title: 'How to order', description: `Terms, ordering steps, export documents and packing standards for buying Indonesian furniture FOB Jakarta through ${site.brand}.`, path: '/how-to-order/', body });
 }
 
 function workshops({ site, manifest, catalog }) {
@@ -423,7 +423,7 @@ function workshops({ site, manifest, catalog }) {
     <p>Buyer visits to the production facility are welcome. Cirebon is three hours from Jakarta by train; Yogyakarta is an hour's flight. Tell us your dates and we will arrange the visits. <a href="/contact/">Contact us</a>.</p>
   </div>
 </div></section>`;
-  return layout({ site, manifest, title: 'Workshops', description: 'The Indonesian workshops in Cirebon, Yogyakarta and Ngawi behind the Buitenzorg Lemongrass Homecraft catalog, and how to visit them.', path: '/workshops/', body });
+  return layout({ site, manifest, title: 'Workshops', description: `The Indonesian workshops in Cirebon, Yogyakarta and Ngawi behind the ${site.brand} catalog, and how to visit them.`, path: '/workshops/', body });
 }
 
 function contact({ site, manifest }) {
@@ -488,7 +488,7 @@ function contact({ site, manifest }) {
     </aside>
   </div>
 </div></section>`;
-  return layout({ site, manifest, title: 'Request a quote', description: 'Request a quote or load plan for Indonesian outdoor furniture, rattan lighting and decor from Buitenzorg Lemongrass Homecraft.', path: '/contact/', body });
+  return layout({ site, manifest, title: 'Request a quote', description: `Request a quote or load plan for Indonesian outdoor furniture, rattan lighting and decor from ${site.brand}.`, path: '/contact/', body });
 }
 
 function privacy({ site, manifest }) {
