@@ -64,6 +64,10 @@ const paths = ['/', '/products/', '/how-to-order/', '/workshops/', '/contact/', 
 const urls = [...paths, ...paths.map(p => '/id' + p)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${site.url}${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 write('robots.txt', preview ? 'User-agent: *\nDisallow: /\n' : `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\n`);
+// www -> apex, so the site has one canonical address. Pages applies this before serving.
+const apexHost = site.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+if (!apexHost.startsWith('www.')) write('_redirects', `https://www.${apexHost}/* ${site.url}/:splat 301\n`);
+
 write('_headers', `/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY${preview ? '\n  X-Robots-Tag: noindex' : ''}\n/images/*\n  Cache-Control: public, max-age=86400, stale-while-revalidate=604800\n`);
 
 console.log(`built ${urls.length} pages -> dist/`);
