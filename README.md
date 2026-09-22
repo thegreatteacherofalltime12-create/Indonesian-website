@@ -33,6 +33,12 @@ Both scripts read the `.md` file, render it into a styled single-file HTML page,
 - **Analytics:** GA4 + Google Tag Manager + Search Console. Ads (if any) via Google Search on wholesale terms and LinkedIn, owned by the company's accounts.
 - **Scope:** to be confirmed by the company — outdoor line (LD) only, indoor rattan (CH/LI/TBI) too, or full catalog.
 
+## Email delivery
+
+Quote requests are emailed through [Resend](https://resend.com). Three secrets are set on the Pages project (`npx wrangler pages secret put <NAME> --project-name buitenzorg-lemongrass`): `RESEND_API_KEY`, `INQUIRY_TO`, `INQUIRY_FROM`. Without them the API still accepts and stores the request, but answers `delivered: false` — no lead is lost when mail breaks.
+
+Currently sending from `onboarding@resend.dev`, Resend’s shared test sender: it only delivers to the address the Resend account was registered with, and Gmail is likely to treat it as spam. **Before launch:** verify the company domain in Resend, send from an address on it (e.g. `quotes@`), and set `INQUIRY_TO` to both owners.
+
 ## Order book (admin)
 
 Every quote request is saved to Cloudflare D1 (`buitenzorg-orders`, schema in `site/db/schema.sql`) before the notification email is attempted. The admin page at `/admin/` (bilingual) lists inquiries, tracks them through the pipeline (new → quoted → proforma sent → deposit → in production → inspected → loaded → documents → balance → shipped) with a history, and lets you add inquiries that arrived by email or WhatsApp. It is protected by Cloudflare Access: the API verifies the Access JWT and needs `ACCESS_TEAM` and `ACCESS_AUD` set on the Pages project; until then it refuses with 503. Locally, `site/.dev.vars` sets `DEV_ADMIN_EMAIL` to bypass Access.
