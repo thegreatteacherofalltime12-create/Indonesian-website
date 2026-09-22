@@ -1,7 +1,7 @@
 {
   "brand": "ArgaMatt_Buitenzorg furniture",
   "shortBrand": "ArgaMatt_Buitenzorg",
-  "tagline": "Indonesian outdoor and rattan furniture, sourced and shipped FOB Jakarta for retailers and hotels in the United States and Europe",
+  "tagline": "Indonesian outdoor and rattan furniture, sourced and shipped FOB Jakarta for retailers and hotels across Asia-Pacific, Europe and North America",
   "legalEntity": "CV. Handaya Arga Taraka",
   "legalEntityConfirmed": false,
   "address": {
@@ -28,7 +28,7 @@
     "currency": "USD",
     "moq": "Orders ship in 20 ft or 40 ft containers, depending on volume",
     "paymentTerms": "Bank transfer to our company account against a proforma invoice; deposit and balance schedule stated on the proforma — to be confirmed",
-    "leadTime": "Production about 3–4 weeks per shipment, plus ocean transit (roughly 4–6 weeks to US ports)",
+    "leadTime": "Production about 3–4 weeks per shipment, plus ocean transit — about 1–2 weeks within Asia-Pacific, 4–6 weeks to Europe and North America",
     "container": {
       "cbm20": 26,
       "cbm40": 53,
@@ -37,8 +37,9 @@
     "priceBasisConfirmed": true
   },
   "markets": [
-    "United States",
-    "Europe"
+    "Asia-Pacific",
+    "Europe",
+    "North America"
   ],
   "credentials": [
     {

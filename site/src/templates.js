@@ -260,7 +260,7 @@ function home(ctx) {
     '@context': 'https://schema.org', '@type': 'Organization', name: site.brand, url: site.url,
     address: { '@type': 'PostalAddress', streetAddress: site.address.lines[0], addressLocality: 'Bogor', addressRegion: 'West Java', postalCode: '16136', addressCountry: 'ID' },
     sameAs: [site.contact.instagram], description: site.tagline, logo: site.url + '/favicon.svg',
-    contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.contact.whatsapp.replace(/\s/g, ''), areaServed: ['United States', 'Europe'], availableLanguage: ['en', 'id'], email: site.contact.email, hoursAvailable: '08:00-17:00 UTC+7' },
+    contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.contact.whatsapp.replace(/\s/g, ''), areaServed: site.markets, availableLanguage: ['en', 'id'], email: site.contact.email, hoursAvailable: '08:00-17:00 UTC+7' },
   };
   return layout({ ...ctx, title: 'Home', description: H.metaDesc, path: '/', body, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
 }
