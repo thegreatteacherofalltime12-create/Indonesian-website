@@ -2,7 +2,7 @@
 
 Website project for **ArgaMatt_Buitenzorg furniture** (formerly Buitenzorg Lemongrass Homecraft, Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
 
-Preview: **https://buitenzorg-lemongrass.pages.dev** (Cloudflare Pages, account "Arga and Matt"; deploy with `npm run deploy` in `site/` after `npx wrangler login`).
+Live at **https://argamattbuitenzorg.com** (also `www.`; the Cloudflare Pages project is `buitenzorg-lemongrass` in the account "Arga and Matt", still reachable at `buitenzorg-lemongrass.pages.dev`). Deploy with `npm run deploy` in `site/` after `npx wrangler login`.
 
 Status: **preview build**. The site is built from the Lemongrass outdoor price list and the photos received so far; commercial facts are placeholders labelled "to be confirmed" until the company answers the intake questionnaire. Preview builds carry noindex; set `"preview": false` in `site/data/site.json` at launch. Prices stay hidden (`showPrices`) and the build refuses to publish them while the catalog list basis (EXW) differs from the quoted basis (FOB).
 
@@ -37,11 +37,13 @@ Both scripts read the `.md` file, render it into a styled single-file HTML page,
 
 Quote requests are emailed through [Resend](https://resend.com). Three secrets are set on the Pages project (`npx wrangler pages secret put <NAME> --project-name buitenzorg-lemongrass`): `RESEND_API_KEY`, `INQUIRY_TO`, `INQUIRY_FROM`. Without them the API still accepts and stores the request, but answers `delivered: false` — no lead is lost when mail breaks.
 
-Currently sending from `onboarding@resend.dev`, Resend’s shared test sender: it only delivers to the address the Resend account was registered with, and Gmail is likely to treat it as spam. **Before launch:** verify the company domain in Resend, send from an address on it (e.g. `quotes@`), and set `INQUIRY_TO` to both owners.
+Sending is from `quotes@argamattbuitenzorg.com` (domain verified in Resend; DKIM, two SPF CNAMEs and a DMARC record live in the zone). `INQUIRY_TO` holds both owners’ addresses.
+
+Inbound mail uses Cloudflare Email Routing on the same zone — `arga@argamattbuitenzorg.com` forwards to Arga’s Gmail. A forwarding rule cannot be created until the destination address is verified by clicking the link Cloudflare emails to it.
 
 ## Order book (admin)
 
-Every quote request is saved to Cloudflare D1 (`buitenzorg-orders`, schema in `site/db/schema.sql`) before the notification email is attempted. The admin page at `/admin/` (bilingual) lists inquiries, tracks them through the pipeline (new → quoted → proforma sent → deposit → in production → inspected → loaded → documents → balance → shipped) with a history, and lets you add inquiries that arrived by email or WhatsApp. It is protected by Cloudflare Access: the API verifies the Access JWT and needs `ACCESS_TEAM` and `ACCESS_AUD` set on the Pages project; until then it refuses with 503. Locally, `site/.dev.vars` sets `DEV_ADMIN_EMAIL` to bypass Access.
+Every quote request is saved to Cloudflare D1 (`buitenzorg-orders`, schema in `site/db/schema.sql`) before the notification email is attempted. The admin page at `/admin/` (bilingual) lists inquiries, tracks them through the pipeline (new → quoted → proforma sent → deposit → in production → inspected → loaded → documents → balance → shipped) with a history, and lets you add inquiries that arrived by email or WhatsApp. It is protected by Cloudflare Access on all three hostnames (`argamattbuitenzorg.com`, `www.`, `buitenzorg-lemongrass.pages.dev`), for both `/admin` and `/api/admin`. The API independently verifies the Access JWT and needs `ACCESS_TEAM` and `ACCESS_AUD` set on the Pages project; until then it refuses with 503. Sign-in is by one-time PIN to an address listed in the "Owners" policy. Locally, `site/.dev.vars` sets `DEV_ADMIN_EMAIL` to bypass Access.
 
 ## Answers received from the company (20 Sep 2026)
 
