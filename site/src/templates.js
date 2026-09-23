@@ -27,7 +27,7 @@ const icons = {
   visit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>',
 };
 const serviceIcons = [icons.source, icons.container, icons.check, icons.docs];
-const mark = `<svg class="brand-mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="6" fill="#4C6A1D"/><path d="M8 26c3-9 7-14 18-18-2 8-7 14-18 18zm0 0c5-3 9-7 12-12" fill="none" stroke="#F5F3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const mark = `<img class="brand-mark" src="/images/logo-mark.png" width="113" height="160" alt="" decoding="async">`;
 
 // Mark "to be confirmed" values with the locale's label.
 const tbcFor = L => s => {
@@ -66,7 +66,9 @@ function layout({ site, manifest, L, base, title, description, path, body, extra
 <meta property="og:locale" content="${L.lang === 'id' ? 'id_ID' : 'en_US'}">
 <meta name="twitter:card" content="summary_large_image">${preview ? '\n<meta name="robots" content="noindex,nofollow">' : ''}
 <meta name="theme-color" content="#1F2A18">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/images/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/images/icon-512.png" sizes="512x512" type="image/png">
+<link rel="apple-touch-icon" href="/images/icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -95,7 +97,8 @@ ${body}
   <div class="wrap">
     <nav class="footer-grid" aria-label="${L.nav.footer}">
       <div>
-        <h4>${esc(site.brand)}</h4>
+        <img class="footer-logo" src="/images/logo-lockup-light.png" width="640" height="756" alt="${esc(site.brand)}" loading="lazy" decoding="async">
+        <h4 class="visually-hidden">${esc(site.brand)}</h4>
         <p>${esc(L.footer.about)}</p>
         <p style="margin-top:10px">${site.address.lines.map(l => esc(tv(L, l))).join('<br>')}</p>
         <p style="margin-top:10px">${site.showLegalEntity && site.legalEntity ? esc(site.legalEntity) : esc(L.footer.entity)}</p>
@@ -259,7 +262,7 @@ function home(ctx) {
   const ld = {
     '@context': 'https://schema.org', '@type': 'Organization', name: site.brand, url: site.url,
     address: { '@type': 'PostalAddress', streetAddress: site.address.lines[0], addressLocality: 'Bogor', addressRegion: 'West Java', postalCode: '16136', addressCountry: 'ID' },
-    sameAs: [site.contact.instagram], description: site.tagline, logo: site.url + '/favicon.svg',
+    sameAs: [site.contact.instagram], description: site.tagline, logo: site.url + '/images/icon-512.png',
     contactPoint: { '@type': 'ContactPoint', contactType: 'sales', telephone: site.contact.whatsapp.replace(/\s/g, ''), areaServed: site.markets, availableLanguage: ['en', 'id'], email: site.contact.email, hoursAvailable: '08:00-17:00 UTC+7' },
   };
   return layout({ ...ctx, title: 'Home', description: H.metaDesc, path: '/', body, extraHead: `<script type="application/ld+json">${JSON.stringify(ld)}</script>` });
