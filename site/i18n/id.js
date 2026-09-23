@@ -74,9 +74,9 @@ module.exports = {
     whereEyebrow: 'Tempat produksi', whereH2: 'Workshop yang sudah mapan, bukan sekadar trader', aboutWorkshops: 'Tentang workshop →',
     gallery: [['ws-weaving', 'Penganyam mengerjakan rangka kursi rotan', 'Kursi rotan, Plumbon, Cirebon'], ['ws-teak-tops', 'Tumpukan daun meja jati di workshop kayu', 'Pengerjaan jati, Ngawi'], ['ws-wrapping', 'Kursi jadi dibungkus kertas untuk ekspor', 'Pembungkusan untuk ekspor']],
     compEyebrow: 'Kepatuhan', compH2: 'Kayu berdokumen, workshop teraudit',
-    compP: 'Customs broker pembeli akan menanyakan jenis kayu, dokumen legalitas, dan kemasan yang diberi perlakuan. Sertifikasi di bawah ini dipegang oleh mitra produsen kami, PT Lemongrass Archipelagocraft Ekspor, yang bertindak sebagai eksportir tercatat untuk produknya.',
+    compP: 'Customs broker pembeli akan menanyakan jenis kayu, dokumen legalitas, dan kemasan yang diberi perlakuan. Sertifikasi di bawah ini dipegang oleh mitra produsen kami.',
     creds: [
-      ['Indonesian Legal Wood (SVLK)', 'Dipegang oleh PT Lemongrass Archipelagocraft Ekspor · VLHH-32-07-10 · Dokumen V-Legal menyertai pengiriman furnitur kayu', 'Tanda Indonesian Legal Wood V-Legal VLHH-32-07-10'],
+      ['Indonesian Legal Wood (SVLK)', 'Dipegang oleh mitra produsen kami · VLHH-32-07-10 · Dokumen V-Legal menyertai pengiriman furnitur kayu', 'Tanda Indonesian Legal Wood V-Legal VLHH-32-07-10'],
       ['amfori BSCI', 'Keanggotaan audit sosial mitra produsen, ID 360-000323-000', 'amfori BSCI'],
       ['Data Lacey Act', 'Genus, spesies, dan negara asal panen disediakan untuk deklarasi pembeli <span class="tbc">(per produk, belum dikonfirmasi)</span>; kemasan kayu bertanda ISPM-15', null],
     ],
@@ -104,7 +104,7 @@ module.exports = {
   how: {
     eyebrow: 'Pembelian', h1: 'Cara memesan',
     intro: basis => `Kami menjual kepada bisnis — terutama peritel dan hotel, juga desainer, pembeli proyek, dan importir — di Asia-Pasifik, Eropa, dan Amerika Utara. Barang dijual ${basis}: pembeli atau freight forwarder-nya mengatur angkutan laut dari Jakarta dan pengurusan bea cukai di negara tujuan, dan kami mengoordinasikan dokumen yang dibutuhkan broker pembeli bersama eksportir tercatat. Pembayaran dilakukan ke rekening perusahaan kami.`,
-    exporterNote: b => `Dokumen ekspor untuk furnitur buatan mitra produsen kami diterbitkan atas nama PT Lemongrass Archipelagocraft Ekspor sebagai eksportir tercatat; ${b} yang mengatur pesanan. <span class="tbc">(Pengaturan ini belum dikonfirmasi.)</span>`,
+    exporterNote: b => `${b} yang menerbitkan invoice kepada Anda dan bertindak sebagai eksportir tercatat; dokumen ekspor diterbitkan atas nama kami. <span class="tbc">(Pengaturan ini belum dikonfirmasi.)</span>`,
     termsH2: 'Ringkasan syarat',
     termRows: { basis: 'Dasar harga', currency: 'Mata uang', moq: 'Pesanan minimum', payment: 'Pembayaran', lead: 'Lead time', container: 'Kontainer', containerVal: '20 ft atau 40 ft, tergantung volume pesanan; muatan campur lintas workshop <span class="tbc">(belum dikonfirmasi)</span>', markets: 'Pasar yang dilayani', comms: 'Komunikasi', commsVal: hours => `Email atau WhatsApp, dalam bahasa Inggris; ${hours}` },
     stepsH2: 'Langkah demi langkah',
@@ -133,7 +133,7 @@ module.exports = {
   ws: {
     eyebrow: 'Tentang', h1: 'Workshop di balik katalog',
     p1: b => `${b} adalah usaha sourcing ekspor di Bogor, Jawa Barat. Kami bekerja langsung dengan sejumlah kecil workshop Indonesia yang mapan, menyatukan produk mereka dalam satu katalog dengan satu format spesifikasi, dan mengoordinasikan inspeksi, konsolidasi, dan ekspor bersama workshop untuk pembeli bisnis di luar negeri.`,
-    p2: 'Mitra produsen utama kami adalah grup Lemongrass Homecraft, yang memproduksi furnitur dan kerajinan bahan alami sejak 1999 dan mengekspor ke Amerika Serikat, Inggris, Kanada, dan Australia. Badan ekspornya memegang sertifikasi Indonesian Legal Wood (SVLK) dan keanggotaan amfori BSCI.',
+    p2: 'Mitra produsen utama kami memproduksi furnitur dan kerajinan bahan alami sejak 1999 dan mengekspor ke Amerika Serikat, Inggris, Kanada, dan Australia. Badan ekspornya memegang sertifikasi Indonesian Legal Wood (SVLK) dan keanggotaan amfori BSCI.',
     gallery: [['ws-weaving', 'Penganyam menyelesaikan rangka kursi rotan', 'Kursi rotan alam, Plumbon, Cirebon', false], ['ws-assembly', 'Perajin merakit rangka kursi rotan', 'Perakitan rangka', true], ['ws-qc-papasan', 'Pengecekan rangka kursi papasan sebelum finishing', 'Pengecekan rangka papasan', true], ['ws-teak-tops', 'Tumpukan daun meja jati bulat di halaman workshop', 'Daun meja jati, Ngawi', false], ['ws-lamp-frames', 'Rangka kap lampu rotan dalam pengerjaan', 'Kap lampu, Yogyakarta', true], ['ws-wrapping', 'Kursi dibungkus kertas untuk ekspor', 'Dibungkus untuk ekspor', false]],
     visitingH2: 'Kunjungan',
     visitingP: base => `Kunjungan pembeli ke fasilitas produksi dipersilakan. Cirebon tiga jam dari Jakarta dengan kereta; Yogyakarta satu jam penerbangan. Beri tahu tanggal Anda dan kami atur kunjungannya. <a href="${base}/contact/">Hubungi kami</a>.`,

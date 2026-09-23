@@ -45,9 +45,9 @@ module.exports = {
     whereEyebrow: 'Where it is made', whereH2: 'Established workshops, not a trading desk', aboutWorkshops: 'About the workshops →',
     gallery: [['ws-weaving', 'Weavers working on rattan chair frames', 'Rattan seating, Plumbon, Cirebon'], ['ws-teak-tops', 'Stacks of teak table tops in the joinery', 'Teak joinery, Ngawi'], ['ws-wrapping', 'Finished chairs being wrapped in paper for export', 'Wrapping for export']],
     compEyebrow: 'Compliance', compH2: 'Documented timber, audited workshops',
-    compP: 'Your customs broker will ask for wood species, legality documents and treated packaging. The certifications below are held by our manufacturing partner, PT Lemongrass Archipelagocraft Ekspor, which acts as exporter of record for its products.',
+    compP: 'Your customs broker will ask for wood species, legality documents and treated packaging. The certifications below are held by our manufacturing partner.',
     creds: [
-      ['Indonesian Legal Wood (SVLK)', 'Held by PT Lemongrass Archipelagocraft Ekspor · VLHH-32-07-10 · V-Legal document with wood-furniture shipments', 'Indonesian Legal Wood V-Legal mark VLHH-32-07-10'],
+      ['Indonesian Legal Wood (SVLK)', 'Held by our manufacturing partner · VLHH-32-07-10 · V-Legal document with wood-furniture shipments', 'Indonesian Legal Wood V-Legal mark VLHH-32-07-10'],
       ['amfori BSCI', "Manufacturing partner's social-audit membership, ID 360-000323-000", 'amfori BSCI'],
       ['Lacey Act data', 'Genus, species and country of harvest supplied for the buyer\'s declaration <span class="tbc">(per item, to be confirmed)</span>; wood packaging ISPM-15 marked', null],
     ],
@@ -75,7 +75,7 @@ module.exports = {
   how: {
     eyebrow: 'Buying', h1: 'How to order',
     intro: basis => `We sell to businesses — mainly retailers and hotels, also designers, project buyers and importers — across Asia-Pacific, Europe and North America. Goods are sold ${basis}: you or your freight forwarder arrange ocean freight from Jakarta and customs clearance in your country, and we coordinate the documents your broker needs with the exporter of record. Payment is made to our company account.`,
-    exporterNote: b => `Export documents for furniture made by our manufacturing partner are issued in the name of PT Lemongrass Archipelagocraft Ekspor as exporter of record; ${b} arranges the order. <span class="tbc">(Arrangement to be confirmed.)</span>`,
+    exporterNote: b => `${b} invoices you and is the exporter of record; export documents are issued in our name. <span class="tbc">(Arrangement to be confirmed.)</span>`,
     termsH2: 'Terms at a glance',
     termRows: { basis: 'Price basis', currency: 'Currency', moq: 'Minimum order', payment: 'Payment', lead: 'Lead time', container: 'Container', containerVal: '20 ft or 40 ft, depending on order volume; mixed loads across workshops <span class="tbc">(to be confirmed)</span>', markets: 'Markets served', comms: 'Communication', commsVal: hours => `Email or WhatsApp, in English; ${hours}` },
     stepsH2: 'Step by step',
@@ -104,7 +104,7 @@ module.exports = {
   ws: {
     eyebrow: 'About', h1: 'The workshops behind the catalog',
     p1: b => `${b} is an export sourcing business in Bogor, West Java. We work directly with a small number of established Indonesian workshops, put their products into one catalog with one specification format, and coordinate inspection, consolidation and export with the workshops for overseas trade buyers.`,
-    p2: 'Our principal manufacturing partner is the Lemongrass Homecraft group, producing natural-material furniture and craft since 1999 and exporting to the United States, United Kingdom, Canada and Australia. Their export entity holds Indonesian Legal Wood (SVLK) certification and amfori BSCI membership.',
+    p2: 'Our principal manufacturing partner has produced natural-material furniture and craft since 1999 and exports to the United States, United Kingdom, Canada and Australia. Their export entity holds Indonesian Legal Wood (SVLK) certification and amfori BSCI membership.',
     gallery: [['ws-weaving', 'Weavers finishing rattan chair frames', 'Natural rattan seating, Plumbon, Cirebon', false], ['ws-assembly', 'Craftsman assembling a rattan chair frame', 'Frame assembly', true], ['ws-qc-papasan', 'Checking papasan chair frames before finishing', 'Checking papasan frames', true], ['ws-teak-tops', 'Stacks of round teak table tops in the joinery yard', 'Teak table tops, Ngawi', false], ['ws-lamp-frames', 'Rattan lamp shade frames in progress', 'Lamp shades, Yogyakarta', true], ['ws-wrapping', 'Chairs wrapped in paper for export', 'Wrapped for export', false]],
     visitingH2: 'Visiting',
     visitingP: base => `Buyer visits to the production facility are welcome. Cirebon is three hours from Jakarta by train; Yogyakarta is an hour's flight. Tell us your dates and we will arrange the visits. <a href="${base}/contact/">Contact us</a>.`,
