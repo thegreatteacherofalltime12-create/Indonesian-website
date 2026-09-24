@@ -89,7 +89,7 @@ module.exports = {
     docsH2: 'Export documents supplied',
     docs: [
       'Commercial invoice with HS code and material per line', 'Packing list with carton dimensions, volume and gross weight', 'Bill of lading', 'Certificate of origin',
-      'V-Legal document (SVLK) for wood furniture <span class="tbc">(coverage of rattan-only items to be confirmed)</span>',
+      'V-Legal document (SVLK) for any item containing wood; pieces made entirely of rattan or other non-timber material fall outside SVLK <span class="tbc">(confirmed per item)</span>',
       'Fumigation certificate on request <span class="tbc">(to be confirmed)</span>; any wood packaging is ISPM-15 marked',
       'Wood and rattan species by scientific name and country of harvest, for the buyer\'s Lacey Act declaration (United States) or EUDR due diligence (European Union) <span class="tbc">(per item, to be confirmed)</span>',
     ],

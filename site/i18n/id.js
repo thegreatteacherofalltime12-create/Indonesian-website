@@ -118,7 +118,7 @@ module.exports = {
     docsH2: 'Dokumen ekspor yang disediakan',
     docs: [
       'Commercial invoice dengan kode HS dan bahan per baris', 'Packing list dengan dimensi karton, volume, dan berat kotor', 'Bill of lading', 'Certificate of origin',
-      'Dokumen V-Legal (SVLK) untuk furnitur kayu <span class="tbc">(cakupan produk rotan murni belum dikonfirmasi)</span>',
+      'Dokumen V-Legal (SVLK) untuk setiap produk yang mengandung kayu; produk yang seluruhnya dari rotan atau bahan non-kayu berada di luar cakupan SVLK <span class="tbc">(dipastikan per produk)</span>',
       'Sertifikat fumigasi atas permintaan <span class="tbc">(belum dikonfirmasi)</span>; kemasan kayu bertanda ISPM-15',
       'Spesies kayu dan rotan dengan nama ilmiah dan negara asal panen, untuk deklarasi Lacey Act pembeli (Amerika Serikat) atau uji tuntas EUDR (Uni Eropa) <span class="tbc">(per produk, belum dikonfirmasi)</span>',
     ],
