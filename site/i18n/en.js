@@ -30,7 +30,7 @@ module.exports = {
     whatP: 'A retailer or hotel group importing from Indonesia cannot fill a container from one small workshop, inspect it in person or chase export documents across three provinces. That is the work we do.',
     services: [
       ['Sourcing', 'Outdoor, indoor rattan, lighting and natural-fibre decor from workshops we have worked with directly, with one price list and one spec-sheet format.'],
-      ['Mixed containers', 'Combine loungers from Cirebon with wall decor from Yogyakarta in one 40HC. We plan the load and arrange consolidation and stuffing <span class="tbc">(service scope to be confirmed)</span>.'],
+      ['Mixed containers', 'Combine loungers from Cirebon with wall decor from Yogyakarta in one 40HC. We plan the load and arrange consolidation and stuffing; that handling is charged on the cubic volume of your load and quoted on your proforma.'],
       ['Inspection before loading', 'Pre-shipment checks at the workshop can be arranged, and third-party inspection by SGS, QIMA, Intertek or your own agent is welcome <span class="tbc">(to be confirmed)</span>.'],
       ['Export documents', 'Commercial invoice, packing list, bill of lading, certificate of origin and V-Legal document, issued in our name for your customs broker.'],
     ],
@@ -77,7 +77,7 @@ module.exports = {
     intro: basis => `We sell to businesses — mainly retailers and hotels, also designers, project buyers and importers — across Asia-Pacific, Europe and North America. Goods are sold ${basis}: you or your freight forwarder arrange ocean freight from Jakarta and customs clearance in your country, and we prepare the export documents your broker needs. Payment is made to our company account.`,
     exporterNote: b => `${b} invoices you and is the exporter of record; every export document is issued in our name.`,
     termsH2: 'Terms at a glance',
-    termRows: { basis: 'Price basis', currency: 'Currency', moq: 'Minimum order', payment: 'Payment', lead: 'Lead time', container: 'Container', containerVal: '20 ft or 40 ft, depending on order volume; mixed loads across workshops <span class="tbc">(to be confirmed)</span>', markets: 'Markets served', comms: 'Communication', commsVal: hours => `Email or WhatsApp, in English; ${hours}` },
+    termRows: { basis: 'Price basis', currency: 'Currency', moq: 'Minimum order', payment: 'Payment', lead: 'Lead time', container: 'Container', containerVal: '20 ft or 40 ft, depending on order volume; mixed loads across workshops, consolidation charged by volume', markets: 'Markets served', comms: 'Communication', commsVal: hours => `Email or WhatsApp, in English; ${hours}` },
     stepsH2: 'Step by step',
     steps: base => [
       `<strong>Inquiry.</strong> Use the <a href="${base}/products/">catalog</a> to build a load plan, or email a list of pieces and quantities. We confirm availability, lead time and a proforma invoice within one business day.`,
@@ -95,7 +95,7 @@ module.exports = {
     ],
     importerNote: 'The buyer is the importer of record. Import duties, taxes and clearance in the destination country are the buyer\'s responsibility; your freight forwarder or customs broker can quote these from the documents above.',
     packingH2: 'Packing and loading',
-    packingP: 'Goods ship fully assembled. Rattan and aluminium pieces are wrapped in paper and stacked to the container profile, as shown below; small items ship in cartons. Any wood pallets or crates used are ISPM-15 heat-treated and marked, as required by most importing countries, including the US, Canada, UK, Australia and Japan. <span class="tbc">Packing specification and consolidation point to be confirmed.</span>',
+    packingP: 'Goods ship fully assembled. Rattan and aluminium pieces are wrapped and stacked to the container profile, as shown below; small items ship in cartons. Where a piece is protected just as well by single-face corrugated board, we use that instead of a full carton, which keeps the cubic volume — and your freight cost — down. Volume is measured as length × width × height in centimetres divided by 1,000,000, giving cubic metres; consolidation and handling are charged on that volume. Any wood pallets or crates used are ISPM-15 heat-treated and marked, as required by most importing countries, including the US, Canada, UK, Australia and Japan. <span class="tbc">Consolidation point to be confirmed.</span>',
     packGallery: [['ws-wrapping', 'Chairs being wrapped in kraft paper', 'Wrapping at the workshop', false], ['ws-packed', 'Wrapped chairs stacked ready for loading', 'Stacked for loading', true], ['ws-packed-2', 'Wrapped seating stacked in the warehouse', 'Ready for the container', false]],
     claimsH2: 'Claims',
     claimsP: 'Report transit damage with photos promptly after container devanning; we work with you and the carrier on the claim, and manufacturing defects are replaced or credited on the next shipment. <span class="tbc">Claim window and terms to be confirmed.</span>',
