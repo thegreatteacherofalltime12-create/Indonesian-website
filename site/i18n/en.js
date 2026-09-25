@@ -69,7 +69,7 @@ module.exports = {
     thumbNote: "Image is the workshop's price-list photo. High-resolution photography is being prepared; ask for current production photos.",
     qty: 'Quantity', add: 'Add to quote', goToRequest: 'Go to request →',
     full40: n => `A full 40HC of this item ≈ ${n} pieces (workshop loading estimate).`,
-    metaDesc: (p, dims, per40, mats) => `${p.name} (${p.sku}): ${mats}.${dims ? ' ' + dims + ', ' + per40 + ' per 40HC.' : ''} Made in Indonesia; quoted to trade buyers.`,
+    metaDesc: (p, dims, per40, mats) => `${p.name} (${p.sku}): ${mats}.${dims ? ' ' + dims + (per40 ? ', ' + per40 + ' per 40HC' : '') + '.' : ''} Made in Indonesia; quoted to trade buyers.`,
     manufacturer: name => name ? `Partner workshop, ${name}` : 'Indonesian partner workshop',
   },
   how: {

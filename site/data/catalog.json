@@ -32,6 +32,13 @@
    "hasSpecs": false
   },
   {
+   "slug": "baskets",
+   "name": "Baskets & natural-fibre homeware",
+   "short": "Baskets",
+   "blurb": "Hand-woven baskets and homeware in water hyacinth, mendong and other natural fibres. Packed nested in cartons, they fill the corners a furniture load leaves free.",
+   "hasSpecs": true
+  },
+  {
    "slug": "small-wood",
    "name": "Small teak pieces",
    "short": "Small teak",
@@ -525,8 +532,8 @@
    "category": "indoor-rattan",
    "workshop": "cirebon",
    "colour": "Natural",
-   "frame": "Rattan cane",
-   "weave": "Rattan cane binding",
+   "frame": "Rattan cane (Calamus manan)",
+   "weave": "Rattan cane binding (Calamus caesius)",
    "finish": "Melamine lacquer",
    "cushion": "Round cushion, indoor fabric",
    "packaging": "Wrapped paper",
@@ -538,6 +545,46 @@
    "per40hc": null,
    "image": "papasan.jpg",
    "notes": "Sample shown during workshop QC."
+  },
+  {
+   "sku": "BK-EG-SET3",
+   "name": "Water Hyacinth Basket, Set of Three",
+   "category": "baskets",
+   "workshop": null,
+   "colour": "Natural",
+   "frame": "Hand-woven water hyacinth (Eichhornia crassipes)",
+   "weave": null,
+   "finish": "Natural",
+   "cushion": null,
+   "packaging": "Carton",
+   "w": 40,
+   "d": 40,
+   "h": 34,
+   "cbm": 0.054,
+   "price": null,
+   "per40hc": null,
+   "image": null,
+   "notes": "Sizes: L ⌀40 × H34 cm, M ⌀37 × H31 cm, S ⌀28 × H27 cm; supplied nested as a set of three. Two-tone woven patterns available."
+  },
+  {
+   "sku": "WD-MIR70",
+   "name": "Round Woven Mirror, Mendong Grass",
+   "category": "wall-decor",
+   "workshop": null,
+   "colour": "Five weave patterns",
+   "frame": "Woven mendong grass (Fimbristylis globulosa) on a mirror core",
+   "weave": null,
+   "finish": "Natural and dyed fibre",
+   "cushion": null,
+   "packaging": "Carton",
+   "w": 70,
+   "d": null,
+   "h": 70,
+   "cbm": null,
+   "price": null,
+   "per40hc": null,
+   "image": null,
+   "notes": "Diameter about 70 cm. Five patterns: terracotta, turquoise, black zigzag, natural sunburst, dark twist. Packing included in the workshop price."
   }
  ]
 }
