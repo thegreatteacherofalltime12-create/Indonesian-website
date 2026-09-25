@@ -50,6 +50,7 @@
   .msg { padding: 10px 12px; border-radius: var(--radius); font-size: 14px; margin-top: 12px; display: none; }
   .msg.ok { display: block; background: var(--accent-soft); color: var(--accent-hover); }
   .msg.err { display: block; background: #F6E3DF; color: var(--danger); }
+  .btn-danger { background: var(--danger); color: #fff; margin-left: auto; }
   .empty-state { padding: 40px 0; color: var(--muted); text-align: center; }
   .lang-toggle button { font: inherit; background: none; border: 1px solid var(--rule); padding: 6px 10px; border-radius: 999px; cursor: pointer; color: var(--ink-2); }
   .lang-toggle button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
@@ -106,6 +107,7 @@
     <div class="actions">
       <button class="btn btn-primary" type="button" data-save data-t="save">Save</button>
       <a class="btn btn-secondary" data-d-mail href="#" data-t="reply">Reply by email</a>
+      <button class="btn btn-danger" type="button" data-del data-t="del">Delete</button>
     </div>
     <div class="msg" data-d-msg></div>
     <label data-t="history">History</label>
@@ -132,10 +134,10 @@
 (function () {
   'use strict';
   var T = {
-    en: { eyebrow: 'Order book', addManual: '+ Add inquiry', refresh: 'Refresh', search: 'Search name, company, email, country, ref', close: 'Close', items: 'Items and quantities', message: 'Message', status: 'Status', notes: 'Internal notes', note: 'Add a note to the history (optional)', save: 'Save', reply: 'Reply by email', history: 'History', source: 'Source', other: 'Other', name: 'Name *', company: 'Company *', email: 'Email', country: 'Destination *', cancel: 'Cancel', all: 'All', empty: 'No inquiries yet. Website quote requests appear here automatically.', saved: 'Saved.', failed: 'Could not save. Try again.', notConfigured: 'Sign-in (Cloudflare Access) is not configured yet, so the order book cannot be opened. Ask Matt.', signin: 'Sign in required.', loading: 'Loading…', created: 'Received', by: 'by', from: 'from', to: 'to', website: 'Website', whatsapp: 'WhatsApp', emailSrc: 'Email', manual: 'Manual', delivered: 'Email sent', notDelivered: 'Email not sent', loadPlan: 'Load plan', pcs: 'pcs', added: 'Added.',
+    en: { eyebrow: 'Order book', addManual: '+ Add inquiry', refresh: 'Refresh', search: 'Search name, company, email, country, ref', close: 'Close', items: 'Items and quantities', message: 'Message', status: 'Status', notes: 'Internal notes', note: 'Add a note to the history (optional)', save: 'Save', reply: 'Reply by email', history: 'History', source: 'Source', other: 'Other', name: 'Name *', company: 'Company *', email: 'Email', country: 'Destination *', cancel: 'Cancel', all: 'All', empty: 'No inquiries yet. Website quote requests appear here automatically.', saved: 'Saved.', failed: 'Could not save. Try again.', notConfigured: 'Sign-in (Cloudflare Access) is not configured yet, so the order book cannot be opened. Ask Matt.', signin: 'Sign in required.', loading: 'Loading…', created: 'Received', by: 'by', from: 'from', to: 'to', website: 'Website', whatsapp: 'WhatsApp', emailSrc: 'Email', manual: 'Manual', delivered: 'Email sent', notDelivered: 'Email not sent', loadPlan: 'Load plan', pcs: 'pcs', added: 'Added.', del: 'Delete', delConfirm: 'Delete this inquiry permanently? This cannot be undone.', deleted: 'Deleted.',
       stages: { new: 'New', quoted: 'Quoted', proforma_sent: 'Proforma sent', deposit_received: 'Deposit received', in_production: 'In production', inspected: 'Inspected', loaded: 'Loaded', documents_sent: 'Documents sent', balance_received: 'Balance received', shipped: 'Shipped', closed: 'Closed', lost: 'Lost' },
       kv: { company: 'Company', email: 'Email', country: 'Destination', buyerType: 'Buyer type', source: 'Source', lang: 'Language', received: 'Received', updated: 'Updated', page: 'Page' } },
-    id: { eyebrow: 'Buku pesanan', addManual: '+ Tambah permintaan', refresh: 'Muat ulang', search: 'Cari nama, perusahaan, email, negara, ref', close: 'Tutup', items: 'Produk dan jumlah', message: 'Pesan', status: 'Status', notes: 'Catatan internal', note: 'Tambahkan catatan ke riwayat (opsional)', save: 'Simpan', reply: 'Balas lewat email', history: 'Riwayat', source: 'Sumber', other: 'Lainnya', name: 'Nama *', company: 'Perusahaan *', email: 'Email', country: 'Tujuan *', cancel: 'Batal', all: 'Semua', empty: 'Belum ada permintaan. Permintaan penawaran dari situs akan muncul di sini otomatis.', saved: 'Tersimpan.', failed: 'Gagal menyimpan. Coba lagi.', notConfigured: 'Login (Cloudflare Access) belum dikonfigurasi, jadi buku pesanan belum bisa dibuka. Hubungi Matt.', signin: 'Perlu login.', loading: 'Memuat…', created: 'Diterima', by: 'oleh', from: 'dari', to: 'ke', website: 'Situs web', whatsapp: 'WhatsApp', emailSrc: 'Email', manual: 'Manual', delivered: 'Email terkirim', notDelivered: 'Email belum terkirim', loadPlan: 'Rencana muatan', pcs: 'pcs', added: 'Ditambahkan.',
+    id: { eyebrow: 'Buku pesanan', addManual: '+ Tambah permintaan', refresh: 'Muat ulang', search: 'Cari nama, perusahaan, email, negara, ref', close: 'Tutup', items: 'Produk dan jumlah', message: 'Pesan', status: 'Status', notes: 'Catatan internal', note: 'Tambahkan catatan ke riwayat (opsional)', save: 'Simpan', reply: 'Balas lewat email', history: 'Riwayat', source: 'Sumber', other: 'Lainnya', name: 'Nama *', company: 'Perusahaan *', email: 'Email', country: 'Tujuan *', cancel: 'Batal', all: 'Semua', empty: 'Belum ada permintaan. Permintaan penawaran dari situs akan muncul di sini otomatis.', saved: 'Tersimpan.', failed: 'Gagal menyimpan. Coba lagi.', notConfigured: 'Login (Cloudflare Access) belum dikonfigurasi, jadi buku pesanan belum bisa dibuka. Hubungi Matt.', signin: 'Perlu login.', loading: 'Memuat…', created: 'Diterima', by: 'oleh', from: 'dari', to: 'ke', website: 'Situs web', whatsapp: 'WhatsApp', emailSrc: 'Email', manual: 'Manual', delivered: 'Email terkirim', notDelivered: 'Email belum terkirim', loadPlan: 'Rencana muatan', pcs: 'pcs', added: 'Ditambahkan.', del: 'Hapus', delConfirm: 'Hapus permintaan ini secara permanen? Tidak bisa dibatalkan.', deleted: 'Terhapus.',
       stages: { new: 'Baru', quoted: 'Sudah ditawar', proforma_sent: 'Proforma dikirim', deposit_received: 'DP diterima', in_production: 'Dalam produksi', inspected: 'Sudah diinspeksi', loaded: 'Sudah dimuat', documents_sent: 'Dokumen dikirim', balance_received: 'Pelunasan diterima', shipped: 'Sudah dikirim', closed: 'Selesai', lost: 'Batal' },
       kv: { company: 'Perusahaan', email: 'Email', country: 'Tujuan', buyerType: 'Jenis pembeli', source: 'Sumber', lang: 'Bahasa', received: 'Diterima', updated: 'Diperbarui', page: 'Halaman' } }
   };
@@ -225,6 +227,13 @@
     api('/inquiries/' + current.inquiry.id, { method: 'PATCH', body: JSON.stringify(body) }).then(function () {
       showMsg($('[data-d-msg]'), 'ok', t('saved')); return api('/inquiries/' + current.inquiry.id);
     }).then(function (j) { current = j; renderDrawer(j); showMsg($('[data-d-msg]'), 'ok', t('saved')); load(); }).catch(function (e) { showMsg($('[data-d-msg]'), 'err', e.message || t('failed')); });
+  });
+  $('[data-del]').addEventListener('click', function () {
+    if (!current) return;
+    if (!confirm(t('delConfirm') + ' (' + current.inquiry.ref + ')')) return;
+    api('/inquiries/' + current.inquiry.id, { method: 'DELETE' }).then(function () {
+      closeDrawer(); showMsg($('[data-msg]'), 'ok', t('deleted')); load();
+    }).catch(function (e) { showMsg($('[data-d-msg]'), 'err', e.message || t('failed')); });
   });
   $('[data-refresh]').addEventListener('click', load);
   var st; $('[data-search]').addEventListener('input', function () { clearTimeout(st); st = setTimeout(load, 350); });

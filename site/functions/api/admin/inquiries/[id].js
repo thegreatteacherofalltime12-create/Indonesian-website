@@ -42,3 +42,19 @@ export async function onRequestPatch({ request, env, params }) {
   const inquiry = await env.DB.prepare('SELECT * FROM inquiries WHERE id = ?').bind(id).first();
   return json({ ok: true, inquiry });
 }
+
+export async function onRequestDelete({ request, env, params }) {
+  const admin = await requireAdmin({ request, env });
+  if (!admin) return unauthorized(env);
+  const id = Number(params.id);
+  if (!id) return json({ error: 'Bad id' }, 400);
+  const cur = await env.DB.prepare('SELECT id, ref FROM inquiries WHERE id = ?').bind(id).first();
+  if (!cur) return json({ error: 'Not found' }, 404);
+  // Permanent removal, history included. The confirm dialog in the admin UI is
+  // the only gate besides Access itself, so keep this endpoint boring and exact.
+  await env.DB.batch([
+    env.DB.prepare('DELETE FROM events WHERE inquiry_id = ?').bind(id),
+    env.DB.prepare('DELETE FROM inquiries WHERE id = ?').bind(id),
+  ]);
+  return json({ ok: true, deleted: cur.ref });
+}
