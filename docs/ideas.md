@@ -51,7 +51,7 @@ public file; Arga has it.
 - Dressed ducks (Santa): H27 185k · H35 195k · H42 215k · H48 235k
 - White duck figures (bulk rows): H22 150k · H27 160k · H32 170k · H38 180k · H43 190k
 - "Bebek apel" duck H15 185k; penguin H18 165k · H22 175k · H27 185k
-- Wooden ducks, natural: H25 130k · H33 140k · H40 150k
+- Carved wooden deer (not ducks — corrected from photo): H25 130k · H33 140k · H40 150k
 - Pinecone trees on wood base, 20×10×15 cm: 125k
 - Pinecone gnome ornaments: 45k/pc
 - Pinecone trees, small ⌀10×15: 38k/pc
