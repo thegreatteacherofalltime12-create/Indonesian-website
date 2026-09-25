@@ -24,3 +24,9 @@ Christmas theme, seen so far (photos to be saved to `client-docs/ideas/christmas
 Open before this goes on the site: which items are their own production vs
 inspiration, prices, sizes, materials (wood species for Lacey/EUDR), lead time
 for seasonal ordering (buyers order Christmas stock around March–June).
+
+### Prices received 2026-09-25 (workshop, IDR)
+
+- Driftwood tree, teak: H150 cm Rp 2.250.000 · H120 cm Rp 1.850.000 · H100 cm Rp 1.350.000
+- Candle holder + candle, teak, ⌀15×10 cm: Rp 325.000; candles Rp 15.000/pcs
+  (read as: refill candles sold separately per piece — to be confirmed)
