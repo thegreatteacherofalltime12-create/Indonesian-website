@@ -49,7 +49,7 @@ module.exports = {
     creds: [
       ['V-Legal document (SVLK)', 'Accompanies any item containing wood, issued under our certified supplier’s SVLK <span class="tbc">(own registration in process)</span>; pieces entirely of rattan or other non-timber material fall outside SVLK', null],
       ['Container checked before stuffing', 'Shell inspected for holes and treated against insects such as cockroaches and ants before loading', null],
-      ['Lacey Act data', 'Genus, species and country of harvest supplied for the buyer\'s declaration <span class="tbc">(per item, to be confirmed)</span>; wood packaging ISPM-15 marked', null],
+      ['Lacey Act & EUDR data', 'Teak is plantation wood from Blora and Ngawi, Java (Perhutani and other legal sources); natural rattan — sega, tohiti, lesio, manau — comes from Sumatra, Kalimantan, Sulawesi and Papua; outdoor weaves are synthetic. Genus, species and origin are supplied per item; wood packaging is ISPM-15 marked', null],
     ],
     ctaH2: 'Planning a container for next season?', ctaP: 'Tell us what you are looking at and where it is going. We will come back with a load plan and an FOB Jakarta proforma.', cta: 'Request a quote',
     metaDesc: 'Indonesian outdoor furniture, rattan lighting and natural-fibre decor from established workshops, quoted FOB Jakarta for retailers and hotels across Asia-Pacific, Europe and North America.',
@@ -91,7 +91,7 @@ module.exports = {
       'Commercial invoice with HS code and material per line', 'Packing list with carton dimensions, volume and gross weight', 'Bill of lading', 'Certificate of origin',
       'V-Legal document (SVLK) for any item containing wood; pieces made entirely of rattan or other non-timber material fall outside SVLK <span class="tbc">(confirmed per item)</span>',
       'Fumigation certificate on request <span class="tbc">(to be confirmed)</span>; any wood packaging is ISPM-15 marked',
-      'Wood and rattan species by scientific name and country of harvest, for the buyer\'s Lacey Act declaration (United States) or EUDR due diligence (European Union) <span class="tbc">(per item, to be confirmed)</span>',
+      'Wood and rattan species by scientific name and origin — teak from Blora and Ngawi; rattan from Sumatra, Kalimantan, Sulawesi and Papua — for the buyer\'s Lacey Act declaration (United States) or EUDR due diligence (European Union), supplied with each proforma',
     ],
     importerNote: 'The buyer is the importer of record. Import duties, taxes and clearance in the destination country are the buyer\'s responsibility; your freight forwarder or customs broker can quote these from the documents above.',
     packingH2: 'Packing and loading',

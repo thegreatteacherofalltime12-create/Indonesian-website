@@ -78,7 +78,7 @@ module.exports = {
     creds: [
       ['Dokumen V-Legal (SVLK)', 'Menyertai setiap produk yang mengandung kayu, diterbitkan dengan SVLK pemasok bersertifikat kami <span class="tbc">(registrasi sendiri sedang diproses)</span>; produk yang seluruhnya rotan atau bahan non-kayu di luar cakupan SVLK', null],
       ['Kontainer diperiksa sebelum stuffing', 'Dinding kontainer dipastikan tidak berlubang dan disterilkan dari serangga seperti kecoa dan semut sebelum muat', null],
-      ['Data Lacey Act', 'Genus, spesies, dan negara asal panen disediakan untuk deklarasi pembeli <span class="tbc">(per produk, belum dikonfirmasi)</span>; kemasan kayu bertanda ISPM-15', null],
+      ['Data Lacey Act & EUDR', 'Kayu jati kami kayu perkebunan dari Blora dan Ngawi, Jawa (Perhutani dan sumber legal lain); rotan alami — sega, tohiti, lesio, manau — berasal dari Sumatera, Kalimantan, Sulawesi, dan Papua; anyaman outdoor memakai rotan sintetis. Genus, spesies, dan asal disediakan per produk; kemasan kayu bertanda ISPM-15', null],
     ],
     ctaH2: 'Merencanakan kontainer untuk musim depan?', ctaP: 'Beri tahu kami produk yang Anda lihat dan tujuan kirimnya. Kami akan kembali dengan rencana muatan dan proforma FOB Jakarta.', cta: 'Minta penawaran',
     metaDesc: 'Furnitur outdoor, lampu rotan, dan dekorasi serat alam Indonesia dari workshop mapan, ditawarkan FOB Jakarta untuk peritel dan hotel di Asia-Pasifik, Eropa, dan Amerika Utara.',
@@ -120,7 +120,7 @@ module.exports = {
       'Commercial invoice dengan kode HS dan bahan per baris', 'Packing list dengan dimensi karton, volume, dan berat kotor', 'Bill of lading', 'Certificate of origin',
       'Dokumen V-Legal (SVLK) untuk setiap produk yang mengandung kayu; produk yang seluruhnya dari rotan atau bahan non-kayu berada di luar cakupan SVLK <span class="tbc">(dipastikan per produk)</span>',
       'Sertifikat fumigasi atas permintaan <span class="tbc">(belum dikonfirmasi)</span>; kemasan kayu bertanda ISPM-15',
-      'Spesies kayu dan rotan dengan nama ilmiah dan negara asal panen, untuk deklarasi Lacey Act pembeli (Amerika Serikat) atau uji tuntas EUDR (Uni Eropa) <span class="tbc">(per produk, belum dikonfirmasi)</span>',
+      'Spesies kayu dan rotan dengan nama ilmiah dan asalnya — jati dari Blora dan Ngawi; rotan dari Sumatera, Kalimantan, Sulawesi, dan Papua — untuk deklarasi Lacey Act pembeli (Amerika Serikat) atau uji tuntas EUDR (Uni Eropa), disertakan pada setiap proforma',
     ],
     importerNote: 'Pembeli adalah importir tercatat. Bea masuk, pajak, dan pengurusan bea cukai di negara tujuan menjadi tanggung jawab pembeli; freight forwarder atau customs broker pembeli dapat menghitungnya dari dokumen di atas.',
     packingH2: 'Pengepakan dan pemuatan',

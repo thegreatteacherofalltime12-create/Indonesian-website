@@ -32,3 +32,4 @@ for seasonal ordering (buyers order Christmas stock around March–June).
   (read as: refill candles sold separately per piece — to be confirmed)
 - Reindeer figures, turned wood with cut antlers: 25 cm Rp 72.500 · 20 cm Rp 68.500 · 15 cm Rp 64.500
 - Reindeer figures, brass antlers: 25 cm Rp 65.000 · 20 cm Rp 60.000 · 15 cm Rp 55.000
+- Yin-yang tea-light holder, teak (light) + suar/rain tree (dark), natural oil finish: Rp 165.500/set
