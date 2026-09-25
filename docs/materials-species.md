@@ -30,3 +30,13 @@ publish per item yet.
 - Daemonorops longipes (Griff.) Mart. — Sumatera, 6–12 mm, furniture/craft/weaving
 - Rotan Manau — Calamus manan Miq. — Kalimantan & Sumatera, furniture
 - Rotan Aurense — Calamus aruensis Becc. — Aru Islands/New Guinea, furniture components
+
+### Additions 25 Sep 2026 (evening)
+
+- Teak origin: Blora & Ngawi, Java — Perhutani / legal sources (Arga).
+- Natural rattan for furniture: sega (Calamus caesius), manau (Calamus manan),
+  tohiti (Calamus inops — verify), lesio (binomial TBC).
+- Rattan origins: Sumatra, Kalimantan, Sulawesi, Papua (Irian Jaya).
+- Outdoor furniture weave: synthetic rattan (no plant declaration for the weave).
+- Baskets: kubu rattan (binomial still TBC).
+- Suar / rain tree (dark wood in candle holders): Samanea saman.
