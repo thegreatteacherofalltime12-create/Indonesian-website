@@ -25,7 +25,7 @@ module.exports = {
     h1: 'Indonesian outdoor furniture and rattan craft, sourced and shipped for retailers and hotels.',
     lede: 'We source from established workshops in Cirebon, Yogyakarta and Ngawi, arrange inspection before loading, consolidate mixed containers and coordinate the export paperwork. Prices are FOB Jakarta; you place one order and clear one container at your own port.',
     browse: 'Browse the catalog', howOrdering: 'How ordering works',
-    facts: [['3–4 wks', 'Production per shipment'], ['ASIA · EU · US', 'Markets we serve'], ['FOB', 'Jakarta (Tanjung Priok) · Incoterms® 2020'], ['20/40 ft', 'Full containers; mixed loads consolidated in Cirebon']],
+    facts: [['3–4 wks', 'Production per shipment'], ['ASIA · EU · US', 'Markets we serve'], ['FOB', 'Jakarta (Tanjung Priok) · Incoterms® 2020'], ['20/40 ft · LCL', 'Full containers, or LCL from about 1 m³, consolidated in Cirebon']],
     whatEyebrow: 'What we do', whatH2: 'One contact between your buying team and the workshops',
     whatP: 'A retailer or hotel group importing from Indonesia cannot fill a container from one small workshop, inspect it in person or chase export documents across three provinces. That is the work we do.',
     services: [
@@ -74,10 +74,10 @@ module.exports = {
   },
   how: {
     eyebrow: 'Buying', h1: 'How to order',
-    intro: basis => `We sell to businesses — mainly retailers and hotels, also designers, project buyers and importers — across Asia-Pacific, Europe and North America. Goods are sold ${basis}: you or your freight forwarder arrange ocean freight from Jakarta and customs clearance in your country, and we prepare the export documents your broker needs. Payment is made to our company account.`,
+    intro: basis => `We sell to businesses — mainly retailers and hotels, also designers, project buyers and importers — across Asia-Pacific, Europe and North America. Goods are sold ${basis}: you or your freight forwarder arrange ocean freight from Jakarta and customs clearance in your country, and we prepare the export documents your broker needs. Payment is made to our company account. Orders below a full container ship LCL (shared container) from about one cubic metre; we quote that routing per shipment.`,
     exporterNote: b => `${b} invoices you and arranges the shipment. For items containing wood, the V-Legal document is issued under our certified supplier’s SVLK while our own registration is completed.`,
     termsH2: 'Terms at a glance',
-    termRows: { basis: 'Price basis', currency: 'Currency', moq: 'Minimum order', payment: 'Payment', lead: 'Lead time', container: 'Container', containerVal: '20 ft or 40 ft, depending on order volume; mixed loads across workshops, consolidation charged by volume', markets: 'Markets served', comms: 'Communication', commsVal: hours => `Email or WhatsApp, in English; ${hours}` },
+    termRows: { basis: 'Price basis', currency: 'Currency', moq: 'Minimum order', payment: 'Payment', lead: 'Lead time', container: 'Container', containerVal: '20 ft or 40 ft full containers, or LCL (shared container) from about 1 m³; mixed loads across workshops, consolidation charged by volume', markets: 'Markets served', comms: 'Communication', commsVal: hours => `Email or WhatsApp, in English; ${hours}` },
     stepsH2: 'Step by step',
     steps: base => [
       `<strong>Inquiry.</strong> Use the <a href="${base}/products/">catalog</a> to build a load plan, or email a list of pieces and quantities. We confirm availability, lead time and a proforma invoice within one business day.`,
@@ -133,7 +133,7 @@ module.exports = {
     contact: 'Contact', metaTitle: 'Privacy policy', metaDesc: b => `Privacy policy for ${b}.`,
   },
   terms: {
-    h1: 'Terms of sale', draft: b => `Draft — commercial terms marked <span class="tbc">(to be confirmed)</span> are placeholders pending confirmation by ${b}.`,
+    h1: 'Terms of sale', draft: b => `Where a term is marked <span class="tbc">(to be confirmed)</span>, the figure stated on your proforma invoice from ${b} prevails.`,
     parties: 'Parties and scope', partiesP: b => `These terms apply to sales of goods by ${b}, a registered Indonesian company (CV) whose full legal name, registration and bank details appear on every proforma invoice (“Seller”), to business buyers (“Buyer”). The Seller invoices the Buyer; where goods contain wood, export documents are issued with the SVLK-certified exporter of record. Sales are to businesses only; consumer-protection rules for retail purchases do not apply.`,
     quotes: 'Quotations and orders', quotesP: 'Quotations are valid for 30 days <span class="tbc">(to be confirmed)</span> and are subject to material and exchange-rate movements after that. An order is confirmed when the Buyer accepts a proforma invoice and the deposit is received.',
     prices: 'Prices and delivery terms', pricesP: (cur, basis) => `Prices are in ${cur} and quoted ${basis} under Incoterms® 2020. Risk passes to the Buyer when the goods are loaded on board the vessel at Tanjung Priok, Jakarta. Ocean freight, insurance, import duties, taxes and customs clearance in the destination country are the Buyer's responsibility.`,
