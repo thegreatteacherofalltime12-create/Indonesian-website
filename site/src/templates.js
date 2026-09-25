@@ -246,8 +246,8 @@ function home(ctx) {
   <div class="wrap">
     <div class="section-head"><div><span class="eyebrow">${H.compEyebrow}</span><h2 style="margin-top:8px">${esc(H.compH2)}</h2></div><p>${esc(H.compP)}</p></div>
     <div class="creds">
-      <div class="cred">${picture(manifest, 'v-legal', H.creds[0][2], { sizes: '64px' })}<div><b>${esc(H.creds[0][0])}</b><span>${H.creds[0][1]}</span></div></div>
-      <div class="cred">${picture(manifest, 'bsci', H.creds[1][2], { sizes: '64px' })}<div><b>${esc(H.creds[1][0])}</b><span>${H.creds[1][1]}</span></div></div>
+      <div class="cred"><span class="mark">${icons.check}</span><div><b>${esc(H.creds[0][0])}</b><span>${H.creds[0][1]}</span></div></div>
+      <div class="cred"><span class="mark">${icons.check}</span><div><b>${esc(H.creds[1][0])}</b><span>${H.creds[1][1]}</span></div></div>
       <div class="cred"><span class="mark">${icons.check}</span><div><b>${esc(H.creds[2][0])}</b><span>${H.creds[2][1]}</span></div></div>
     </div>
   </div>

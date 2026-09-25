@@ -43,16 +43,6 @@
   ],
   "credentials": [
     {
-      "label": "Indonesian Legal Wood (SVLK) V-Legal",
-      "detail": "VLHH-32-07-10 — held by our manufacturing partner",
-      "image": "v-legal.png"
-    },
-    {
-      "label": "amfori BSCI member",
-      "detail": "ID 360-000323-000 — manufacturing partner",
-      "image": null
-    },
-    {
       "label": "Third-party inspection welcome",
       "detail": "SGS, QIMA, Intertek or your own agent before loading",
       "image": null

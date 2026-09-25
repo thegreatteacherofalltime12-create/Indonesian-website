@@ -54,7 +54,7 @@ module.exports = {
     h1: 'Furnitur outdoor dan kerajinan rotan Indonesia, disiapkan dan dikirim untuk peritel dan hotel.',
     lede: 'Produk kami bersumber dari workshop-workshop mapan di Cirebon, Yogyakarta, dan Ngawi. Kami mengatur inspeksi sebelum muat, mengonsolidasikan muatan campur dalam satu kontainer, dan mengoordinasikan dokumen ekspor. Harga FOB Jakarta; pembeli cukup memesan sekali dan mengurus bea cukai untuk satu kontainer di pelabuhannya sendiri.',
     browse: 'Lihat katalog', howOrdering: 'Cara pemesanan',
-    facts: [['3–4 mgg', 'Produksi per pengiriman'], ['1999', 'Workshop mitra berproduksi sejak'], ['ASIA · UE · AS', 'Pasar yang kami layani; workshop mitra pernah mengirim ke AS, Inggris, Kanada, dan Australia'], ['SVLK', 'Mitra ekspor bersertifikat V-Legal'], ['BSCI', 'Mitra produsen teraudit amfori']],
+    facts: [['3–4 mgg', 'Produksi per pengiriman'], ['ASIA · UE · AS', 'Pasar yang kami layani'], ['FOB', 'Jakarta (Tanjung Priok) · Incoterms® 2020'], ['20/40 ft', 'Kontainer penuh; muatan campur dikonsolidasikan di Cirebon']],
     whatEyebrow: 'Yang kami kerjakan', whatH2: 'Satu kontak antara tim pembelian Anda dan workshop',
     whatP: 'Peritel atau grup hotel yang mengimpor dari Indonesia tidak bisa mengisi satu kontainer dari satu workshop kecil, memeriksanya langsung, atau mengejar dokumen ekspor di tiga provinsi. Itulah pekerjaan kami.',
     services: [
@@ -74,10 +74,10 @@ module.exports = {
     whereEyebrow: 'Tempat produksi', whereH2: 'Workshop yang sudah mapan, bukan sekadar trader', aboutWorkshops: 'Tentang workshop →',
     gallery: [['ws-weaving', 'Penganyam mengerjakan rangka kursi rotan', 'Kursi rotan, Plumbon, Cirebon'], ['ws-teak-tops', 'Tumpukan daun meja jati di workshop kayu', 'Pengerjaan jati, Ngawi'], ['ws-wrapping', 'Kursi jadi dibungkus kertas untuk ekspor', 'Pembungkusan untuk ekspor']],
     compEyebrow: 'Kepatuhan', compH2: 'Kayu berdokumen, workshop teraudit',
-    compP: 'Customs broker pembeli akan menanyakan jenis kayu, dokumen legalitas, dan kemasan yang diberi perlakuan. Sertifikasi di bawah ini dipegang oleh mitra produsen kami.',
+    compP: 'Customs broker pembeli akan menanyakan jenis kayu, dokumen legalitas, dan kemasan yang diberi perlakuan. Berikut cara masing-masing kami tangani.',
     creds: [
-      ['Indonesian Legal Wood (SVLK)', 'Mitra produsen kami memegang SVLK · VLHH-32-07-10; Dokumen V-Legal menyertai pengiriman furnitur kayu <span class="tbc">(nomor registrasi kami sendiri belum dikonfirmasi)</span>', 'Tanda Indonesian Legal Wood V-Legal VLHH-32-07-10'],
-      ['amfori BSCI', 'Keanggotaan audit sosial mitra produsen, ID 360-000323-000', 'amfori BSCI'],
+      ['Dokumen V-Legal (SVLK)', 'Menyertai setiap produk yang mengandung kayu <span class="tbc">(nomor registrasi kami belum dikonfirmasi)</span>; produk yang seluruhnya rotan atau bahan non-kayu di luar cakupan SVLK', null],
+      ['Kontainer diperiksa sebelum stuffing', 'Dinding kontainer dipastikan tidak berlubang dan disterilkan dari serangga seperti kecoa dan semut sebelum muat', null],
       ['Data Lacey Act', 'Genus, spesies, dan negara asal panen disediakan untuk deklarasi pembeli <span class="tbc">(per produk, belum dikonfirmasi)</span>; kemasan kayu bertanda ISPM-15', null],
     ],
     ctaH2: 'Merencanakan kontainer untuk musim depan?', ctaP: 'Beri tahu kami produk yang Anda lihat dan tujuan kirimnya. Kami akan kembali dengan rencana muatan dan proforma FOB Jakarta.', cta: 'Minta penawaran',
@@ -133,7 +133,7 @@ module.exports = {
   ws: {
     eyebrow: 'Tentang', h1: 'Workshop di balik katalog',
     p1: b => `${b} adalah usaha sourcing ekspor di Bogor, Jawa Barat. Kami bekerja langsung dengan sejumlah kecil workshop Indonesia yang mapan, menyatukan produk mereka dalam satu katalog dengan satu format spesifikasi, dan mengoordinasikan inspeksi, konsolidasi, dan ekspor bersama workshop untuk pembeli bisnis di luar negeri.`,
-    p2: 'Mitra produsen utama kami memproduksi furnitur dan kerajinan bahan alami sejak 1999 dan mengekspor ke Amerika Serikat, Inggris, Kanada, dan Australia. Badan ekspornya memegang sertifikasi Indonesian Legal Wood (SVLK) dan keanggotaan amfori BSCI.',
+    p2: 'Kami membeli dari workshop yang kami kenal langsung di Cirebon, Yogyakarta, dan Ngawi. Barang dari semuanya dikumpulkan di workshop Cirebon kami; setiap kontainer diperiksa, disterilkan dari serangga, dan dimuat di bawah pengawasan kami.',
     gallery: [['ws-weaving', 'Penganyam menyelesaikan rangka kursi rotan', 'Kursi rotan alam, Plumbon, Cirebon', false], ['ws-assembly', 'Perajin merakit rangka kursi rotan', 'Perakitan rangka', true], ['ws-qc-papasan', 'Pengecekan rangka kursi papasan sebelum finishing', 'Pengecekan rangka papasan', true], ['ws-teak-tops', 'Tumpukan daun meja jati bulat di halaman workshop', 'Daun meja jati, Ngawi', false], ['ws-lamp-frames', 'Rangka kap lampu rotan dalam pengerjaan', 'Kap lampu, Yogyakarta', true], ['ws-wrapping', 'Kursi dibungkus kertas untuk ekspor', 'Dibungkus untuk ekspor', false]],
     visitingH2: 'Kunjungan',
     visitingP: base => `Kunjungan pembeli ke fasilitas produksi dipersilakan. Cirebon tiga jam dari Jakarta dengan kereta; Yogyakarta satu jam penerbangan. Beri tahu tanggal Anda dan kami atur kunjungannya. <a href="${base}/contact/">Hubungi kami</a>.`,

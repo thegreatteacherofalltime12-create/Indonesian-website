@@ -25,7 +25,7 @@ module.exports = {
     h1: 'Indonesian outdoor furniture and rattan craft, sourced and shipped for retailers and hotels.',
     lede: 'We source from established workshops in Cirebon, Yogyakarta and Ngawi, arrange inspection before loading, consolidate mixed containers and coordinate the export paperwork. Prices are FOB Jakarta; you place one order and clear one container at your own port.',
     browse: 'Browse the catalog', howOrdering: 'How ordering works',
-    facts: [['3–4 wks', 'Production per shipment'], ['1999', 'Partner workshops producing since'], ['ASIA · EU · US', 'Markets we serve; partner workshops have shipped to US, UK, CA and AU'], ['SVLK', 'V-Legal certified export partner'], ['BSCI', 'amfori-audited manufacturing partner']],
+    facts: [['3–4 wks', 'Production per shipment'], ['ASIA · EU · US', 'Markets we serve'], ['FOB', 'Jakarta (Tanjung Priok) · Incoterms® 2020'], ['20/40 ft', 'Full containers; mixed loads consolidated in Cirebon']],
     whatEyebrow: 'What we do', whatH2: 'One contact between your buying team and the workshops',
     whatP: 'A retailer or hotel group importing from Indonesia cannot fill a container from one small workshop, inspect it in person or chase export documents across three provinces. That is the work we do.',
     services: [
@@ -45,10 +45,10 @@ module.exports = {
     whereEyebrow: 'Where it is made', whereH2: 'Established workshops, not a trading desk', aboutWorkshops: 'About the workshops →',
     gallery: [['ws-weaving', 'Weavers working on rattan chair frames', 'Rattan seating, Plumbon, Cirebon'], ['ws-teak-tops', 'Stacks of teak table tops in the joinery', 'Teak joinery, Ngawi'], ['ws-wrapping', 'Finished chairs being wrapped in paper for export', 'Wrapping for export']],
     compEyebrow: 'Compliance', compH2: 'Documented timber, audited workshops',
-    compP: 'Your customs broker will ask for wood species, legality documents and treated packaging. The certifications below are held by our manufacturing partner.',
+    compP: 'Your customs broker will ask for wood species, legality documents and treated packaging. Here is how each one is handled.',
     creds: [
-      ['Indonesian Legal Wood (SVLK)', 'Our manufacturing partner holds SVLK · VLHH-32-07-10; a V-Legal document accompanies wood-furniture shipments <span class="tbc">(our own registration number to be confirmed)</span>', 'Indonesian Legal Wood V-Legal mark'],
-      ['amfori BSCI', "Manufacturing partner's social-audit membership, ID 360-000323-000", 'amfori BSCI'],
+      ['V-Legal document (SVLK)', 'Accompanies any item containing wood <span class="tbc">(our registration number to be confirmed)</span>; pieces entirely of rattan or other non-timber material fall outside SVLK', null],
+      ['Container checked before stuffing', 'Shell inspected for holes and treated against insects such as cockroaches and ants before loading', null],
       ['Lacey Act data', 'Genus, species and country of harvest supplied for the buyer\'s declaration <span class="tbc">(per item, to be confirmed)</span>; wood packaging ISPM-15 marked', null],
     ],
     ctaH2: 'Planning a container for next season?', ctaP: 'Tell us what you are looking at and where it is going. We will come back with a load plan and an FOB Jakarta proforma.', cta: 'Request a quote',
@@ -104,7 +104,7 @@ module.exports = {
   ws: {
     eyebrow: 'About', h1: 'The workshops behind the catalog',
     p1: b => `${b} is an export sourcing business in Bogor, West Java. We work directly with a small number of established Indonesian workshops, put their products into one catalog with one specification format, and coordinate inspection, consolidation and export with the workshops for overseas trade buyers.`,
-    p2: 'Our principal manufacturing partner has produced natural-material furniture and craft since 1999 and exports to the United States, United Kingdom, Canada and Australia. Their export entity holds Indonesian Legal Wood (SVLK) certification and amfori BSCI membership.',
+    p2: 'We buy from workshops we work with directly in Cirebon, Yogyakarta and Ngawi. Goods from all of them come together at our Cirebon workshop, where every container is checked, treated against insects and loaded under our eyes.',
     gallery: [['ws-weaving', 'Weavers finishing rattan chair frames', 'Natural rattan seating, Plumbon, Cirebon', false], ['ws-assembly', 'Craftsman assembling a rattan chair frame', 'Frame assembly', true], ['ws-qc-papasan', 'Checking papasan chair frames before finishing', 'Checking papasan frames', true], ['ws-teak-tops', 'Stacks of round teak table tops in the joinery yard', 'Teak table tops, Ngawi', false], ['ws-lamp-frames', 'Rattan lamp shade frames in progress', 'Lamp shades, Yogyakarta', true], ['ws-wrapping', 'Chairs wrapped in paper for export', 'Wrapped for export', false]],
     visitingH2: 'Visiting',
     visitingP: base => `Buyer visits to the production facility are welcome. Cirebon is three hours from Jakarta by train; Yogyakarta is an hour's flight. Tell us your dates and we will arrange the visits. <a href="${base}/contact/">Contact us</a>.`,

@@ -1,6 +1,6 @@
 # Lemongrass US Site
 
-Website project for **ArgaMatt_Buitenzorg furniture** (formerly Buitenzorg Lemongrass Homecraft, Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops (Lemongrass Homecraft among them); buyers import under FOB terms.
+Website project for **ArgaMatt_Buitenzorg furniture** (formerly Buitenzorg Lemongrass Homecraft, Bogor) — an export-sourcing catalog and inquiry site aimed at US trade buyers of Indonesian outdoor and rattan furniture. The owner acts as an export intermediary for Indonesian workshops; buyers import under FOB terms. Workshop price lists are used as a cost reference only.
 
 Live at **https://argamattbuitenzorg.com** (also `www.`; the Cloudflare Pages project is `buitenzorg-lemongrass` in the account "Arga and Matt", still reachable at `buitenzorg-lemongrass.pages.dev`). Deploy with `npm run deploy` in `site/` after `npx wrangler login`.
 
@@ -47,7 +47,7 @@ Every quote request is saved to Cloudflare D1 (`buitenzorg-orders`, schema in `s
 
 ## Answers received from the company (20 Sep 2026)
 
-- Legal entity: a registered CV, used on proforma invoices; not to be displayed on the site (`showLegalEntity: false`).
+- Legal entity: a registered CV (being renamed to CV ArgaMatt_Buitenzorg), used on proforma invoices; not displayed on the site (`showLegalEntity: false`).
 - Buyers: retailers and hotels; markets: United States and Europe.
 - Price basis: **FOB Jakarta (Tanjung Priok)**; a price list per product will be supplied (currently PDF only).
 - Shipments in 20 ft or 40 ft containers by volume; goods fully assembled; payment to the CV's account.
