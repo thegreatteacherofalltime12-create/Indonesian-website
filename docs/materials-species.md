@@ -49,3 +49,11 @@ small-diameter Kalimantan rattan — Calamus caesius (sega) and/or
 Calamus trachycoleus (irit). For declarations, state "Calamus caesius /
 Calamus trachycoleus, Indonesia (Kalimantan)" for kubu items, and have the
 supplier confirm which of the two per batch. Still open: lesio's binomial.
+
+### Lesio resolved (25 Sep 2026)
+
+Like kubu, "lesio" is a trade term, not a species: thin, flexible strips of
+rattan skin/peel (kulit rotan) used for binding and weaving. Botanically it
+comes from various Calamus and Daemonorops species; declare the underlying
+species per batch (supplier confirms — commonly sega/kubu-grade Calamus).
+No open binomials remain; everything else is per-batch supplier confirmation.
