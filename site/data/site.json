@@ -26,7 +26,7 @@
     "showPrices": false,
     "priceBasis": "FOB Jakarta (Tanjung Priok)",
     "currency": "USD",
-    "moq": "Orders ship in 20 ft or 40 ft containers, depending on volume",
+    "moq": "Full 20 ft or 40 ft containers; smaller orders ship LCL (shared container) from about one cubic metre",
     "paymentTerms": "Bank transfer against a proforma invoice: 50% deposit to start production, balance before the container leaves Jakarta. Documents are couriered by air once the vessel has sailed",
     "leadTime": "Production about 3–4 weeks per shipment, plus ocean transit — about 1–2 weeks within Asia-Pacific, 4–6 weeks to Europe and North America",
     "container": {
@@ -52,7 +52,7 @@
     "ga4": ""
   },
   "url": "https://argamattbuitenzorg.com",
-  "preview": true,
+  "preview": false,
   "showLegalEntity": false,
   "buyers": "retailers and hotels",
   "visitsWelcome": true

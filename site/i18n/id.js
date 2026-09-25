@@ -6,7 +6,7 @@ module.exports = {
   // Nilai dari site.json / catalog.json yang tampil di halaman, diterjemahkan per string
   values: {
     'FOB Jakarta (Tanjung Priok)': 'FOB Jakarta (Tanjung Priok)',
-    'Orders ship in 20 ft or 40 ft containers, depending on volume': 'Pesanan dikirim dalam kontainer 20 ft atau 40 ft, tergantung volume',
+    'Full 20 ft or 40 ft containers; smaller orders ship LCL (shared container) from about one cubic metre': 'Kontainer penuh 20 ft atau 40 ft; pesanan lebih kecil dikirim LCL (kontainer berbagi) mulai sekitar satu meter kubik',
     'Bank transfer against a proforma invoice: 50% deposit to start production, balance before the container leaves Jakarta. Documents are couriered by air once the vessel has sailed': 'Transfer bank berdasarkan proforma invoice: DP 50% untuk memulai produksi, pelunasan sebelum kontainer berangkat dari Jakarta. Dokumen dikirim via pesawat setelah kapal berangkat',
     'Production about 3–4 weeks per shipment, plus ocean transit — about 1–2 weeks within Asia-Pacific, 4–6 weeks to Europe and North America': 'Produksi sekitar 3–4 minggu per pengiriman, ditambah transit laut — sekitar 1–2 minggu di Asia-Pasifik, 4–6 minggu ke Eropa dan Amerika Utara',
     '08:00–17:00 Western Indonesia Time (UTC+7)': '08.00–17.00 WIB (UTC+7)',
@@ -54,7 +54,7 @@ module.exports = {
     h1: 'Furnitur outdoor dan kerajinan rotan Indonesia, disiapkan dan dikirim untuk peritel dan hotel.',
     lede: 'Produk kami bersumber dari workshop-workshop mapan di Cirebon, Yogyakarta, dan Ngawi. Kami mengatur inspeksi sebelum muat, mengonsolidasikan muatan campur dalam satu kontainer, dan mengoordinasikan dokumen ekspor. Harga FOB Jakarta; pembeli cukup memesan sekali dan mengurus bea cukai untuk satu kontainer di pelabuhannya sendiri.',
     browse: 'Lihat katalog', howOrdering: 'Cara pemesanan',
-    facts: [['3–4 mgg', 'Produksi per pengiriman'], ['ASIA · UE · AS', 'Pasar yang kami layani'], ['FOB', 'Jakarta (Tanjung Priok) · Incoterms® 2020'], ['20/40 ft', 'Kontainer penuh; muatan campur dikonsolidasikan di Cirebon']],
+    facts: [['3–4 mgg', 'Produksi per pengiriman'], ['ASIA · UE · AS', 'Pasar yang kami layani'], ['FOB', 'Jakarta (Tanjung Priok) · Incoterms® 2020'], ['20/40 ft · LCL', 'Kontainer penuh, atau LCL mulai sekitar 1 m³, dikonsolidasikan di Cirebon']],
     whatEyebrow: 'Yang kami kerjakan', whatH2: 'Satu kontak antara tim pembelian Anda dan workshop',
     whatP: 'Peritel atau grup hotel yang mengimpor dari Indonesia tidak bisa mengisi satu kontainer dari satu workshop kecil, memeriksanya langsung, atau mengejar dokumen ekspor di tiga provinsi. Itulah pekerjaan kami.',
     services: [
@@ -103,10 +103,10 @@ module.exports = {
   },
   how: {
     eyebrow: 'Pembelian', h1: 'Cara memesan',
-    intro: basis => `Kami menjual kepada bisnis — terutama peritel dan hotel, juga desainer, pembeli proyek, dan importir — di Asia-Pasifik, Eropa, dan Amerika Utara. Barang dijual ${basis}: pembeli atau freight forwarder-nya mengatur angkutan laut dari Jakarta dan pengurusan bea cukai di negara tujuan, dan kami menyiapkan dokumen ekspor yang dibutuhkan broker pembeli. Pembayaran dilakukan ke rekening perusahaan kami.`,
+    intro: basis => `Kami menjual kepada bisnis — terutama peritel dan hotel, juga desainer, pembeli proyek, dan importir — di Asia-Pasifik, Eropa, dan Amerika Utara. Barang dijual ${basis}: pembeli atau freight forwarder-nya mengatur angkutan laut dari Jakarta dan pengurusan bea cukai di negara tujuan, dan kami menyiapkan dokumen ekspor yang dibutuhkan broker pembeli. Pembayaran dilakukan ke rekening perusahaan kami. Pesanan di bawah satu kontainer penuh dikirim LCL (kontainer berbagi) mulai sekitar satu meter kubik; rutenya kami tawarkan per pengiriman.`,
     exporterNote: b => `${b} yang menerbitkan invoice kepada Anda dan mengatur pengirimannya. Untuk produk yang mengandung kayu, Dokumen V-Legal diterbitkan dengan SVLK pemasok bersertifikat kami, sementara registrasi kami sendiri diselesaikan.`,
     termsH2: 'Ringkasan syarat',
-    termRows: { basis: 'Dasar harga', currency: 'Mata uang', moq: 'Pesanan minimum', payment: 'Pembayaran', lead: 'Lead time', container: 'Kontainer', containerVal: '20 ft atau 40 ft, tergantung volume pesanan; muatan campur lintas workshop, konsolidasi dihitung per kubikasi', markets: 'Pasar yang dilayani', comms: 'Komunikasi', commsVal: hours => `Email atau WhatsApp, dalam bahasa Inggris; ${hours}` },
+    termRows: { basis: 'Dasar harga', currency: 'Mata uang', moq: 'Pesanan minimum', payment: 'Pembayaran', lead: 'Lead time', container: 'Kontainer', containerVal: 'Kontainer penuh 20 ft atau 40 ft, atau LCL (kontainer berbagi) mulai sekitar 1 m³; muatan campur lintas workshop, konsolidasi dihitung per kubikasi', markets: 'Pasar yang dilayani', comms: 'Komunikasi', commsVal: hours => `Email atau WhatsApp, dalam bahasa Inggris; ${hours}` },
     stepsH2: 'Langkah demi langkah',
     steps: base => [
       `<strong>Permintaan.</strong> Gunakan <a href="${base}/products/">katalog</a> untuk menyusun rencana muatan, atau kirim email berisi daftar produk dan jumlah. Kami mengonfirmasi ketersediaan, lead time, dan proforma invoice dalam satu hari kerja.`,
@@ -162,7 +162,7 @@ module.exports = {
     contact: 'Kontak', metaTitle: 'Kebijakan privasi', metaDesc: b => `Kebijakan privasi ${b}.`,
   },
   terms: {
-    h1: 'Syarat penjualan', draft: b => `Draf — syarat komersial bertanda <span class="tbc">(belum dikonfirmasi)</span> adalah placeholder menunggu konfirmasi dari ${b}.`,
+    h1: 'Syarat penjualan', draft: b => `Bila ada syarat yang bertanda <span class="tbc">(belum dikonfirmasi)</span>, angka yang tercantum pada proforma invoice dari ${b} yang berlaku.`,
     parties: 'Para pihak dan cakupan', partiesP: b => `Syarat ini berlaku untuk penjualan barang oleh ${b}, perusahaan Indonesia terdaftar (CV) yang nama hukum lengkap, pendaftaran, dan detail banknya tercantum di setiap proforma invoice (“Penjual”), kepada pembeli bisnis (“Pembeli”). Penjual menerbitkan invoice kepada Pembeli; untuk barang yang mengandung kayu, dokumen ekspor diterbitkan bersama eksportir tercatat bersertifikat SVLK. Penjualan hanya kepada bisnis; aturan perlindungan konsumen untuk pembelian ritel tidak berlaku.`,
     quotes: 'Penawaran dan pesanan', quotesP: 'Penawaran berlaku 30 hari <span class="tbc">(belum dikonfirmasi)</span> dan setelah itu dapat berubah mengikuti harga bahan dan kurs. Pesanan dianggap sah saat Pembeli menyetujui proforma invoice dan DP diterima.',
     prices: 'Harga dan syarat penyerahan', pricesP: (cur, basis) => `Harga dalam ${cur} dan ditawarkan ${basis} menurut Incoterms® 2020. Risiko beralih ke Pembeli saat barang dimuat ke atas kapal di Tanjung Priok, Jakarta. Angkutan laut, asuransi, bea masuk, pajak, dan pengurusan bea cukai di negara tujuan menjadi tanggung jawab Pembeli.`,
