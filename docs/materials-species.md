@@ -40,3 +40,12 @@ publish per item yet.
 - Outdoor furniture weave: synthetic rattan (no plant declaration for the weave).
 - Baskets: kubu rattan (binomial still TBC).
 - Suar / rain tree (dark wood in candle holders): Samanea saman.
+
+### Kubu resolved (25 Sep 2026)
+
+"Kubu" is a treatment, not a species: rattan water/mud-cured to the grey
+"kubu grey" finish. The material is normally the core (fitrit) of cultivated
+small-diameter Kalimantan rattan — Calamus caesius (sega) and/or
+Calamus trachycoleus (irit). For declarations, state "Calamus caesius /
+Calamus trachycoleus, Indonesia (Kalimantan)" for kubu items, and have the
+supplier confirm which of the two per batch. Still open: lesio's binomial.
