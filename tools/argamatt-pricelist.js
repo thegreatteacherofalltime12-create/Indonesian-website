@@ -1,7 +1,7 @@
 // Render an ArgaMatt-branded price list from a JSON data file.
 // Usage: node tools/argamatt-pricelist.js <data.json> <out.html>
-// Photos are embedded as data URIs so the single HTML file travels (and prints
-// to PDF) with nothing else attached.
+// Photos are embedded as data URIs, downscaled first so the single HTML file
+// stays small enough to email or WhatsApp (and still prints to PDF cleanly).
 const fs = require('fs');
 const path = require('path');
 
@@ -9,25 +9,30 @@ const [, , dataPath, outPath] = process.argv;
 if (!dataPath || !outPath) { console.error('usage: node argamatt-pricelist.js <data.json> <out.html>'); process.exit(1); }
 
 const ROOT = path.resolve(__dirname, '..');
+const sharp = require(path.join(ROOT, 'site/node_modules/sharp'));
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const site = JSON.parse(fs.readFileSync(path.join(ROOT, 'site/data/site.json'), 'utf8'));
 
-const b64 = p => {
+const b64 = async (p, width, asPng) => {
   const full = path.isAbsolute(p) ? p : path.join(ROOT, p);
   if (!fs.existsSync(full)) return null;
-  const ext = path.extname(full).slice(1).toLowerCase().replace('jpg', 'jpeg');
-  return `data:image/${ext};base64,${fs.readFileSync(full).toString('base64')}`;
+  const s = sharp(full).resize({ width, withoutEnlargement: true });
+  const buf = asPng ? await s.png().toBuffer() : await s.jpeg({ quality: 74 }).toBuffer();
+  return `data:image/${asPng ? 'png' : 'jpeg'};base64,${buf.toString('base64')}`;
 };
 
-const logo = b64('client-docs/logo/variant-e-curved-tight.png');
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const rp = n => 'Rp ' + Number(n).toLocaleString('id-ID');
 
-const rows = data.items.map(it => {
-  const img = it.photo ? b64(it.photo) : null;
-  const sizes = it.sizes.map(s =>
-    `<tr><td>${esc(s.label || '')}</td><td class="mono">${esc(s.size)}</td><td class="mono price">${rp(s.price)}</td></tr>`).join('');
-  return `<tr class="item">
+(async () => {
+  const logo = await b64('client-docs/logo/variant-e-curved-tight.png', 260, true);
+
+  const rowList = [];
+  for (const it of data.items) {
+    const img = it.photo ? await b64(it.photo, 480) : null;
+    const sizes = it.sizes.map(s =>
+      `<tr><td>${esc(s.label || '')}</td><td class="mono">${esc(s.size)}</td><td class="mono price">${rp(s.price)}</td></tr>`).join('');
+    rowList.push(`<tr class="item">
     <td class="no">${it.no}</td>
     <td class="photo">${img ? `<img src="${img}" alt="">` : `<div class="ph">Foto menyusul<br><small>photo to follow</small></div>`}</td>
     <td class="detail">
@@ -35,10 +40,11 @@ const rows = data.items.map(it => {
       <table class="sizes"><tbody>${sizes}</tbody></table>
       <div class="material">${esc(it.material)}</div>
     </td>
-  </tr>`;
-}).join('\n');
+  </tr>`);
+  }
+  const rows = rowList.join('\n');
 
-const html = `<!doctype html>
+  const html = `<!doctype html>
 <html lang="id"><head><meta charset="utf-8">
 <title>${esc(data.title)} — ${esc(site.brand)}</title>
 <style>
@@ -82,5 +88,6 @@ ${rows}
 </footer>
 </div></body></html>`;
 
-fs.writeFileSync(outPath, html);
-console.log('wrote', outPath, Math.round(html.length / 1024) + ' KB,', data.items.length, 'items');
+  fs.writeFileSync(outPath, html);
+  console.log('wrote', outPath, Math.round(html.length / 1024) + ' KB,', data.items.length, 'items');
+})();
