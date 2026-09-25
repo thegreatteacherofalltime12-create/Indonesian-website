@@ -30,3 +30,5 @@ for seasonal ordering (buyers order Christmas stock around March–June).
 - Driftwood tree, teak: H150 cm Rp 2.250.000 · H120 cm Rp 1.850.000 · H100 cm Rp 1.350.000
 - Candle holder + candle, teak, ⌀15×10 cm: Rp 325.000; candles Rp 15.000/pcs
   (read as: refill candles sold separately per piece — to be confirmed)
+- Reindeer figures, turned wood with cut antlers: 25 cm Rp 72.500 · 20 cm Rp 68.500 · 15 cm Rp 64.500
+- Reindeer figures, brass antlers: 25 cm Rp 65.000 · 20 cm Rp 60.000 · 15 cm Rp 55.000
