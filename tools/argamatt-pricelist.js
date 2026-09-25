@@ -22,7 +22,7 @@ const b64 = async (p, width, asPng) => {
 };
 
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const rp = n => 'Rp ' + Number(n).toLocaleString('id-ID');
+const rp = n => (data.currency === 'USD' ? 'US$ ' + Number(n).toLocaleString('en-US') : 'Rp ' + Number(n).toLocaleString('id-ID'));
 
 (async () => {
   const logo = await b64('client-docs/logo/variant-e-curved-tight.png', 260, true);
