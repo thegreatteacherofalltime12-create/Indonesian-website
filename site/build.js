@@ -44,7 +44,7 @@ for (const L of locales) {
 }
 
 // Public data for the client script — never includes prices unless showPrices is on
-if (site.commerce.showPrices && catalog.listBasis !== site.commerce.priceBasis) {
+if (site.commerce.showPrices && catalog.listBasis !== site.commerce.priceBasis && !site.commerce.priceNote) {
   throw new Error(`Refusing to publish prices: catalog list basis is "${catalog.listBasis}" but site priceBasis is "${site.commerce.priceBasis}". Re-price the catalog or align the basis first.`);
 }
 const pub = {

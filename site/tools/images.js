@@ -11,6 +11,9 @@ const PDF = (list, n) => path.join(SRC, 'pdf-images', String(list), `p${list}-${
 
 // name -> { src, widths, crop? }
 const photos = {
+  'hd-019': { src: path.join(SRC, 'ideas', 'christmas-2026', 'cropped', 'hd-019.jpeg'), widths: [480, 960] },
+  'hd-020': { src: path.join(SRC, 'ideas', 'christmas-2026', 'cropped', 'hd-020.jpeg'), widths: [480, 960] },
+  'hd-021': { src: path.join(SRC, 'ideas', 'christmas-2026', 'cropped', 'hd-021.jpeg'), widths: [480, 960] },
   // holiday decor (Arga, Sep 2026)
   'hd-004': { src: path.join(SRC, 'ideas', 'christmas-2026', 'cropped', 'hd-004.jpeg'), widths: [480, 960] },
   'hd-005': { src: path.join(SRC, 'ideas', 'christmas-2026', 'cropped', 'hd-005.jpeg'), widths: [480, 960] },

@@ -18,7 +18,7 @@ module.exports = {
     privacy: 'Privacy', terms: 'Terms of sale',
   },
   planBar: { cta: 'Request quote' },
-  card: { priceOnRequest: 'Price on request', add: 'Add to quote', thumbTag: 'Price-list photo', photoToCome: 'Photo to come', per40: '/40HC' },
+  card: { from: 'from ', priceOnRequest: 'Price on request', add: 'Add to quote', thumbTag: 'Price-list photo', photoToCome: 'Photo to come', per40: '/40HC' },
   home: {
     heroAlt: 'Weavers finishing rattan chair frames in the Cirebon workshop',
     eyebrow: 'Bogor, West Java · Export sourcing',

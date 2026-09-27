@@ -6,7 +6,7 @@ const fmtDims = (p, L) => (p.w && p.d && p.h) ? `${num(L, p.w)} × ${num(L, p.d)
 const inch = cm => Math.round(cm / 2.54 * 10) / 10;
 const fmtDimsIn = (p, L) => (p.w && p.d && p.h) ? `${num(L, inch(p.w))} × ${num(L, inch(p.d))} × ${num(L, inch(p.h))} ${L && L.lang === 'id' ? 'inci' : 'in'}` : null;
 const fmtDate = L => { const d = new Date(); return d.toLocaleDateString(L && L.lang === 'id' ? 'id-ID' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
-const money = n => n == null ? null : `US$${n.toLocaleString('en-US')}`;
+const money = n => n == null ? null : `Rp ${n.toLocaleString('id-ID')}`;
 // Translate a data value (from site.json / catalog.json) if the locale has it; otherwise pass through.
 const tv = (L, s) => (s == null ? s : (L.values[s] ?? s));
 
@@ -150,7 +150,7 @@ function productCard(p, { site, manifest, catalog, L, base }) {
   const cat = catalog.categories.find(c => c.slug === p.category);
   const dims = fmtDims(p, L);
   const spec = [tv(L, p.frame), tv(L, p.weave)].filter(Boolean).join(' · ') || tv(L, cat?.name);
-  const price = site.commerce.showPrices && p.price ? `<span class="price">${money(p.price)}</span>` : `<span class="price-note">${L.card.priceOnRequest}</span>`;
+  const price = site.commerce.showPrices && p.price ? `<span class="price">${p.priceFrom ? L.card.from : ''}${money(p.price)}</span>` : `<span class="price-note">${L.card.priceOnRequest}</span>`;
   const href = `${base}/products/${p.sku.toLowerCase()}/`;
   return `<article class="card" data-sku="${esc(p.sku)}" data-category="${esc(p.category)}">
   <a class="media${isThumb ? ' thumb' : ''}" href="${href}" aria-label="${esc(p.name)}">
@@ -318,7 +318,7 @@ function productPage(p, ctx) {
     [R.packaging, esc(tv(L, p.packaging))], [R.shipped, esc(tv(L, p.assembly))], [R.madeIn, ws ? `${esc(tv(L, ws.name))}, ${esc(tv(L, ws.region))}` : R.indonesia],
   ].filter(r => r[1]);
   const basis = tv(L, site.commerce.priceBasis);
-  const price = site.commerce.showPrices && p.price ? `<p class="price" style="font-size:24px;margin-top:12px">${money(p.price)} <span class="price-note">${esc(basis)}</span></p>` : `<p class="muted" style="margin-top:12px">${esc(P.priceOnRequest(basis))}</p>`;
+  const price = site.commerce.showPrices && p.price ? `<p class="price" style="font-size:24px;margin-top:12px">${p.priceFrom ? L.card.from : ''}${money(p.price)} <span class="price-note">${esc(tv(L, site.commerce.priceNote))}</span></p>` : `<p class="muted" style="margin-top:12px">${esc(P.priceOnRequest(basis))}</p>`;
   const body = `
 <section class="section-tight">
   <div class="wrap">
