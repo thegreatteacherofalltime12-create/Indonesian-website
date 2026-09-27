@@ -47,9 +47,6 @@ const photos = {
   'teak-stool': { src: WA('07.49.273333'), widths: [480, 720] },
   'papasan': { src: WA('07.49.272'), widths: [480] },
   // credentials (cropped from the price-list header image)
-  'v-legal': { src: PDF(1, 8), widths: [240, 480] },
-  'bsci': { src: PDF(1, 7), widths: [320, 640], crop: { left: 0, top: 0, width: 640, height: 411 } },
-  'lemongrass-logo': { src: PDF(1, 7), widths: [320, 640], crop: { left: 640, top: 0, width: 423, height: 411 } },
 };
 // LD thumbnails from price list 1: images 1-6 -> LD-001..006, 9-18 -> LD-007..016
 const ldMap = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];

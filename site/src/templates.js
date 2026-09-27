@@ -6,7 +6,12 @@ const fmtDims = (p, L) => (p.w && p.d && p.h) ? `${num(L, p.w)} × ${num(L, p.d)
 const inch = cm => Math.round(cm / 2.54 * 10) / 10;
 const fmtDimsIn = (p, L) => (p.w && p.d && p.h) ? `${num(L, inch(p.w))} × ${num(L, inch(p.d))} × ${num(L, inch(p.h))} ${L && L.lang === 'id' ? 'inci' : 'in'}` : null;
 const fmtDate = L => { const d = new Date(); return d.toLocaleDateString(L && L.lang === 'id' ? 'id-ID' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }); };
-const money = n => n == null ? null : `Rp ${n.toLocaleString('id-ID')}`;
+const money = n => {
+  if (n == null) return null;
+  const v = n / (require('../data/site.json').commerce.usdRate || 17500);
+  if (v >= 20) return `US$ ${Math.round(v).toLocaleString('en-US')}`;
+  return `US$ ${(Math.round(v * 100) / 100).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1')}`;
+};
 // Translate a data value (from site.json / catalog.json) if the locale has it; otherwise pass through.
 const tv = (L, s) => (s == null ? s : (L.values[s] ?? s));
 

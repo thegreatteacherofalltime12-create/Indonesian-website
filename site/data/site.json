@@ -24,9 +24,10 @@
   },
   "commerce": {
     "showPrices": true,
-    "priceNote": "Indicative ex-works (Cirebon) price in IDR; final FOB Jakarta quotation on request",
+    "usdRate": 17500,
+    "priceNote": "Indicative ex-works (Cirebon) price; final FOB Jakarta quotation on request",
     "priceBasis": "FOB Jakarta (Tanjung Priok)",
-    "currency": "IDR",
+    "currency": "USD",
     "moq": "Full 20 ft or 40 ft containers; smaller orders ship LCL (shared container) from about one cubic metre",
     "paymentTerms": "Bank transfer against a proforma invoice: 50% deposit to start production, balance before the container leaves Jakarta. Documents are couriered by air once the vessel has sailed",
     "leadTime": "Production about 3–4 weeks per shipment, plus ocean transit — about 1–2 weeks within Asia-Pacific, 4–6 weeks to Europe and North America",

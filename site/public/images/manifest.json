@@ -292,33 +292,6 @@
   "h": 509,
   "fallbackW": 480
  },
- "v-legal": {
-  "widths": [
-   240,
-   480
-  ],
-  "w": 473,
-  "h": 408,
-  "fallbackW": 480
- },
- "bsci": {
-  "widths": [
-   320,
-   640
-  ],
-  "w": 1064,
-  "h": 413,
-  "fallbackW": 640
- },
- "lemongrass-logo": {
-  "widths": [
-   320,
-   640
-  ],
-  "w": 1064,
-  "h": 413,
-  "fallbackW": 640
- },
  "ld-001": {
   "widths": [
    184
