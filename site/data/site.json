@@ -6,10 +6,12 @@
   "legalEntityConfirmed": false,
   "address": {
     "lines": [
-      "Jl. Cipinang Gading, Gg. Madrasah 002/012",
-      "Rangga Mekar, Bogor Selatan",
-      "Kota Bogor 16136, West Java, Indonesia"
+      "Office: Jl. Madrasah Kp. Rangga Mekar, RT.02/RW.12, Rangga Mekar,",
+      "Bogor Selatan, Kota Bogor 16136, West Java, Indonesia",
+      "Workshop: Jl. Pesantren Blok Blangbong, RT.01/RW.01, Gombang,",
+      "Kec. Plumbon, Kabupaten Cirebon 45155, West Java, Indonesia"
     ],
+    "street": "Jl. Madrasah Kp. Rangga Mekar, RT.02/RW.12, Rangga Mekar",
     "city": "Bogor",
     "country": "Indonesia"
   },
