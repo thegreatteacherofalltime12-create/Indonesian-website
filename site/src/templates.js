@@ -161,7 +161,7 @@ function productCard(p, { site, manifest, catalog, L, base }) {
     <span class="sku">${esc(p.sku)}</span>
     <h3><a href="${href}">${esc(p.name)}</a></h3>
     <p class="spec">${esc(spec)}</p>
-    ${dims ? `<p class="dims">${esc(dims)} · ${num(L, p.cbm, 3)} m³ · ${p.per40hc}${L.card.per40}</p>` : ''}
+    ${dims ? `<p class="dims">${esc(dims)}${p.cbm ? ` · ${num(L, p.cbm, 3)} m³` : ''}${p.per40hc ? ` · ${p.per40hc}${L.card.per40}` : ''}</p>` : ''}
     <div class="foot">${price}<button class="btn btn-secondary btn-sm" type="button" data-add="${esc(p.sku)}">${L.card.add}</button></div>
   </div>
 </article>`;
