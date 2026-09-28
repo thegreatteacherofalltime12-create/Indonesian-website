@@ -52,6 +52,10 @@ const photos = {
 const ldMap = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 ldMap.forEach((n, i) => { photos[`ld-${String(i + 1).padStart(3, '0')}`] = { src: PDF(1, n), widths: [], thumb: true }; });
 
+// Staged entries live in a git-ignored side file (same shape as `photos`).
+const draftPhotos = path.join(__dirname, 'images-draft.js');
+if (fs.existsSync(draftPhotos)) Object.assign(photos, require(draftPhotos)(SRC));
+
 async function run() {
   fs.mkdirSync(OUT, { recursive: true });
   const manifest = {};

@@ -7,6 +7,13 @@ const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 const site = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/site.json'), 'utf8'));
 const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/catalog.json'), 'utf8'));
+// Staged additions live in a git-ignored draft file; nothing merges until its publish flag is on.
+const draftPath = path.join(ROOT, 'data/catalog-draft.json');
+const draft = fs.existsSync(draftPath) ? JSON.parse(fs.readFileSync(draftPath, 'utf8')) : null;
+if (draft && draft.publish === true) {
+  catalog.categories.push(...(draft.categories || []));
+  catalog.products.push(...(draft.products || []));
+}
 const manifestPath = path.join(ROOT, 'public/images/manifest.json');
 const manifest = fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manifestPath, 'utf8')) : {};
 const preview = site.preview !== false;
@@ -29,6 +36,10 @@ function copyDir(src, dest) {
 }
 
 const locales = [require('./i18n/en'), require('./i18n/id')];
+if (draft && draft.publish === true && draft.i18n) {
+  const idL = locales.find(l => l.lang === 'id');
+  if (idL) Object.assign(idL.values, draft.i18n);
+}
 for (const L of locales) {
   const base = L.dir; const d = base ? base.slice(1) + '/' : '';
   const ctx = { site, manifest, catalog, L, base };

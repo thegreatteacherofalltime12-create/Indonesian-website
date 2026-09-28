@@ -11,3 +11,7 @@ node_modules/
 Thumbs.db
 *.log
 .wrangler-dev.log
+
+# Staged-before-launch content (kept out of the public repo)
+site/data/catalog-draft.json
+site/tools/images-draft.js
