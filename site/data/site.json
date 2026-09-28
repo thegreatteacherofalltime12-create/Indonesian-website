@@ -25,7 +25,7 @@
     "languages": "English and Indonesian"
   },
   "commerce": {
-    "showPrices": true,
+    "showPrices": false,
     "usdRate": 17500,
     "priceNote": "Indicative ex-works (Cirebon) price; final FOB Jakarta quotation on request",
     "priceBasis": "FOB Jakarta (Tanjung Priok)",

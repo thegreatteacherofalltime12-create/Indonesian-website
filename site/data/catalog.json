@@ -571,7 +571,7 @@
    "price": 185000,
    "per40hc": null,
    "image": null,
-   "notes": "L ⌀40×H34 US$ 12.86 · M ⌀37×H31 US$ 11.71 · S ⌀28×H27 US$ 10.57; supplied nested as a set of three. Two-tone woven patterns available.",
+   "notes": "Sizes: L ⌀40 × H34 cm, M ⌀37 × H31 cm, S ⌀28 × H27 cm; supplied nested as a set of three. Two-tone woven patterns available.",
    "priceFrom": true
   },
   {
@@ -592,7 +592,7 @@
    "price": 225000,
    "per40hc": null,
    "image": null,
-   "notes": "Patterns No.1–2 US$ 12.86 · No.3 US$ 15.14 · No.4 US$ 15.71 · No.5 US$ 16.29. Diameter about 70 cm; packing included.",
+   "notes": "Diameter about 70 cm. Five patterns: terracotta, turquoise, black zigzag, natural sunburst, dark twist. Packing included in the workshop price.",
    "priceFrom": true
   },
   {
@@ -613,7 +613,7 @@
    "price": 1350000,
    "per40hc": null,
    "image": null,
-   "notes": "H 100 cm US$ 77 · H 120 cm US$ 106 · H 150 cm US$ 129",
+   "notes": "H 100 / 120 / 150 cm",
    "priceFrom": true
   },
   {
@@ -634,7 +634,7 @@
    "price": 64500,
    "per40hc": null,
    "image": null,
-   "notes": "H 15 US$ 3.69 · H 20 US$ 3.91 · H 25 US$ 4.14",
+   "notes": "H 15 / 20 / 25 cm",
    "priceFrom": true
   },
   {
@@ -655,7 +655,7 @@
    "price": 55000,
    "per40hc": null,
    "image": null,
-   "notes": "H 15 US$ 3.14 · H 20 US$ 3.43 · H 25 US$ 3.71",
+   "notes": "H 15 / 20 / 25 cm",
    "priceFrom": true
   },
   {
@@ -676,7 +676,7 @@
    "price": 235000,
    "per40hc": null,
    "image": "hd-004.jpg",
-   "notes": "H 40 US$ 13.43 · H 50 US$ 14.29",
+   "notes": "H 40 / 50 cm",
    "priceFrom": true
   },
   {
@@ -697,7 +697,7 @@
    "price": 210000,
    "per40hc": null,
    "image": "hd-005.jpg",
-   "notes": "L 25 US$ 12 · L 35 US$ 12.57",
+   "notes": "L 25 / 35 cm",
    "priceFrom": true
   },
   {
@@ -718,7 +718,7 @@
    "price": 245000,
    "per40hc": null,
    "image": "hd-006.jpg",
-   "notes": "L 25 US$ 14 · L 35 US$ 15.14",
+   "notes": "L 25 / 35 cm",
    "priceFrom": true
   },
   {
@@ -739,7 +739,7 @@
    "price": 235000,
    "per40hc": null,
    "image": "hd-007.jpg",
-   "notes": "L 25 US$ 13.43 · L 35 US$ 14.57",
+   "notes": "L 25 / 35 cm",
    "priceFrom": true
   },
   {
@@ -760,7 +760,7 @@
    "price": 185000,
    "per40hc": null,
    "image": null,
-   "notes": "H 25 US$ 10.57 · H 35 US$ 11.14",
+   "notes": "H 25 / 35 cm",
    "priceFrom": true
   },
   {
@@ -781,7 +781,7 @@
    "price": 125000,
    "per40hc": null,
    "image": "hd-009.jpg",
-   "notes": "H 22 US$ 7.14 · H 27 US$ 8.29 · H 32 US$ 9.43 · H 38 US$ 10.57",
+   "notes": "H 22 / 27 / 32 / 38 cm",
    "priceFrom": true
   },
   {
@@ -802,7 +802,7 @@
    "price": 195000,
    "per40hc": null,
    "image": "hd-010.jpg",
-   "notes": "L 30 US$ 11.14 · L 35 US$ 11.71 · L 40 US$ 12.86",
+   "notes": "L 30 / 35 / 40 cm",
    "priceFrom": true
   },
   {
@@ -823,7 +823,7 @@
    "price": 185000,
    "per40hc": null,
    "image": "hd-011.jpg",
-   "notes": "H 27 US$ 10.57 · H 35 US$ 11.14 · H 42 US$ 12.29 · H 48 US$ 13.43",
+   "notes": "H 27 / 35 / 42 / 48 cm",
    "priceFrom": true
   },
   {
@@ -844,7 +844,7 @@
    "price": 185000,
    "per40hc": null,
    "image": "hd-012.jpg",
-   "notes": "H 27 US$ 10.57 · H 35 US$ 11.14 · H 42 US$ 12.29 · H 48 US$ 13.43",
+   "notes": "H 27 / 35 / 42 / 48 cm",
    "priceFrom": true
   },
   {
@@ -865,7 +865,7 @@
    "price": 150000,
    "per40hc": null,
    "image": "hd-013.jpg",
-   "notes": "H 22 US$ 8.57 · H 27 US$ 9.14 · H 32 US$ 9.71 · H 38 US$ 10.29 · H 43 US$ 10.86",
+   "notes": "H 22 / 27 / 32 / 38 / 43 cm",
    "priceFrom": true
   },
   {
@@ -886,7 +886,7 @@
    "price": 165000,
    "per40hc": null,
    "image": "hd-014.jpg",
-   "notes": "Duck H 15 US$ 10.57; penguin H 18 US$ 9.43 · H 22 US$ 10 · H 27 US$ 10.57",
+   "notes": "Duck H 15 cm; penguin H 18 / 22 / 27 cm",
    "priceFrom": true
   },
   {
@@ -907,7 +907,7 @@
    "price": 130000,
    "per40hc": null,
    "image": "hd-015.jpg",
-   "notes": "H 25 US$ 7.43 · H 33 US$ 8 · H 40 US$ 8.57",
+   "notes": "H 25 / 33 / 40 cm",
    "priceFrom": true
   },
   {
@@ -928,7 +928,7 @@
    "price": 325000,
    "per40hc": null,
    "image": null,
-   "notes": "Refill candles US$ 0.86/pc"
+   "notes": "Refill candles available"
   },
   {
    "sku": "HD-017",
@@ -968,7 +968,7 @@
    "price": 35000,
    "per40hc": null,
    "image": "hd-018.jpg",
-   "notes": "⌀ 10 US$ 2 · ⌀ 12 US$ 2.4 · ⌀ 15 US$ 3",
+   "notes": "⌀ 10 / 12 / 15 cm",
    "priceFrom": true
   },
   {
