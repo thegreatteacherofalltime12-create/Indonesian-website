@@ -52,9 +52,20 @@ const photos = {
 const ldMap = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 ldMap.forEach((n, i) => { photos[`ld-${String(i + 1).padStart(3, '0')}`] = { src: PDF(1, n), widths: [], thumb: true }; });
 
-// Staged entries live in a git-ignored side file (same shape as `photos`).
+// Teak sets (supplier photos, overlay text removed, Sep 2026)
+for (let i = 1; i <= 12; i++) {
+  const n = `ts-${String(i).padStart(3, '0')}`;
+  photos[n] = { src: path.join(SRC, 'ray-jati', 'cropped', `${n}.jpeg`), widths: [480, 960] };
+}
+
+// Staged entries live in a git-ignored side file (same shape as `photos`),
+// merged only while the draft catalog is flagged to publish.
 const draftPhotos = path.join(__dirname, 'images-draft.js');
-if (fs.existsSync(draftPhotos)) Object.assign(photos, require(draftPhotos)(SRC));
+const draftCat = path.join(__dirname, '..', 'data', 'catalog-draft.json');
+if (fs.existsSync(draftPhotos) && fs.existsSync(draftCat)
+  && JSON.parse(fs.readFileSync(draftCat, 'utf8')).publish === true) {
+  Object.assign(photos, require(draftPhotos)(SRC));
+}
 
 async function run() {
   fs.mkdirSync(OUT, { recursive: true });
