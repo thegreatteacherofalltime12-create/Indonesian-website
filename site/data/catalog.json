@@ -1136,6 +1136,48 @@
    "cushion": null,
    "notes": "Curved three-seat bench, two barrel chairs and a basket-base round table.",
    "image": "ss-006.jpg"
+  },
+  {
+   "category": "outdoor",
+   "workshop": null,
+   "finish": null,
+   "cushion": null,
+   "packaging": null,
+   "w": null,
+   "d": null,
+   "h": null,
+   "cbm": null,
+   "price": null,
+   "per40hc": null,
+   "assembly": null,
+   "sku": "OD-001",
+   "name": "Rope-Woven Teak Pool Lounger",
+   "colour": "Natural teak · cream rope",
+   "frame": "Solid teak",
+   "weave": "Outdoor rope, open diamond weave",
+   "notes": "Low curved lounger for pool decks; shown as a pair with a teak side table and umbrella.",
+   "image": "od-001.jpg"
+  },
+  {
+   "category": "outdoor",
+   "workshop": null,
+   "finish": null,
+   "cushion": null,
+   "packaging": null,
+   "w": null,
+   "d": null,
+   "h": null,
+   "cbm": null,
+   "price": null,
+   "per40hc": null,
+   "assembly": null,
+   "sku": "OD-002",
+   "name": "Wicker Teak Pool Lounger",
+   "colour": "Natural teak · dark brown weave",
+   "frame": "Solid teak",
+   "weave": "Synthetic rattan",
+   "notes": "Low curved lounger for pool decks; shown as a pair with a woven ottoman and umbrella.",
+   "image": "od-002.jpg"
   }
  ]
 }

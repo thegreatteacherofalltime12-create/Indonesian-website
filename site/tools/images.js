@@ -51,6 +51,9 @@ const photos = {
 const ldMap = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 ldMap.forEach((n, i) => { photos[`ld-${String(i + 1).padStart(3, '0')}`] = { src: PDF(1, n), widths: [], thumb: true }; });
 
+// Outdoor pool loungers (Sep 2026)
+for (const n of ['od-001', 'od-002']) photos[n] = { src: path.join(SRC, 'outdoor', 'cropped', `${n}.jpeg`), widths: [480, 960] };
+
 // Satu Set tab: living, tea and terrace sets (Sep 2026)
 for (let i = 1; i <= 6; i++) {
   const n = `ss-${String(i).padStart(3, '0')}`;
