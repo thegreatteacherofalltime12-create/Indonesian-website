@@ -44,13 +44,18 @@ const photos = {
   'wall-plates-star': { src: WA('07.49.285555'), widths: [480, 720] },
   'lamp-onion': { src: WA('07.49.2365565'), widths: [480, 720] },
   'lamp-cone': { src: WA('07.49.24656565'), widths: [480, 960] },
-  'teak-stool': { src: WA('07.49.273333'), widths: [480, 720] },
   'papasan': { src: WA('07.49.272'), widths: [480] },
   // credentials (cropped from the price-list header image)
 };
 // LD thumbnails from price list 1: images 1-6 -> LD-001..006, 9-18 -> LD-007..016
 const ldMap = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 ldMap.forEach((n, i) => { photos[`ld-${String(i + 1).padStart(3, '0')}`] = { src: PDF(1, n), widths: [], thumb: true }; });
+
+// Satu Set tab: living, tea and terrace sets (Sep 2026)
+for (let i = 1; i <= 6; i++) {
+  const n = `ss-${String(i).padStart(3, '0')}`;
+  photos[n] = { src: path.join(SRC, 'satu-set', 'cropped', `${n}.jpeg`), widths: [480, 960] };
+}
 
 // Staged entries live in a git-ignored side file (same shape as `photos`),
 // merged only while the draft catalog is flagged to publish.
