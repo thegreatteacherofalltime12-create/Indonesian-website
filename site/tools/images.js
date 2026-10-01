@@ -51,6 +51,12 @@ const photos = {
 const ldMap = [1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 ldMap.forEach((n, i) => { photos[`ld-${String(i + 1).padStart(3, '0')}`] = { src: PDF(1, n), widths: [], thumb: true }; });
 
+// Outdoor sets (supplier photos, watermark labels removed, Sep 2026)
+for (let i = 1; i <= 11; i++) {
+  const n = `sb-${String(i).padStart(3, '0')}`;
+  photos[n] = { src: path.join(SRC, 'sofa-breeze', 'cropped', `${n}.jpeg`), widths: [480, 960] };
+}
+
 // Outdoor pool loungers (Sep 2026)
 for (const n of ['od-001', 'od-002']) photos[n] = { src: path.join(SRC, 'outdoor', 'cropped', `${n}.jpeg`), widths: [480, 960] };
 
